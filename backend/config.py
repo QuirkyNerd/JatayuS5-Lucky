@@ -51,6 +51,7 @@ class Settings(BaseSettings):
 
     qdrant_url: str = Field(default="", env="QDRANT_URL")
     qdrant_api_key: str = Field(default="", env="QDRANT_API_KEY")
+    vector_db_provider: str = Field(default="chromadb", env="VECTOR_DB_PROVIDER")
 
     chroma_persist_dir: str = Field(
         default="backend/backend/chroma_db",

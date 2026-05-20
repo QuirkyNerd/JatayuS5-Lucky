@@ -37,13 +37,20 @@ async def health_summary(db: AsyncSession = Depends(get_db)):
     except Exception as e:
         logger.warning(f"DB health check failed: {e}")
 
-    # 2. Vector DB (Chroma) Check
+    # 2. Vector DB Check
     try:
-        from services.rag_engine import RAGEngine
-        RAGEngine().client.heartbeat()
-        chroma_status = "connected"
+        from services.rag_engine import get_rag_engine
+        rag = get_rag_engine()
+        if rag.q_client:
+            # Qdrant connectivity probe
+            rag.q_client.get_collections()
+            chroma_status = "connected"
+        else:
+            # ChromaDB heartbeat probe
+            rag.client.heartbeat()
+            chroma_status = "connected"
     except Exception as e:
-        logger.warning(f"ChromaDB health check failed: {e}")
+        logger.warning(f"Vector DB health check failed: {e}")
 
     # 3. Redis Check
     try:

@@ -30,7 +30,8 @@ async def lifespan(app: FastAPI):
     logger.info("Database initialized successfully")
 
     # ── Qdrant Cloud connectivity verification ─────────────────────────────
-    if settings.qdrant_url:
+    is_qdrant = settings.vector_db_provider.lower() == "qdrant"
+    if is_qdrant or settings.qdrant_url:
         try:
             from qdrant_client import QdrantClient
             _q = QdrantClient(
@@ -42,7 +43,12 @@ async def lifespan(app: FastAPI):
             col_names = [c.name for c in collections.collections]
             logger.info(f"QDRANT_CONNECTED_OK | url={settings.qdrant_url} | collections={col_names}")
         except Exception as qe:
+            import traceback
             logger.error(f"CRITICAL_COMPONENT_LOAD_FAILURE | component=QDRANT | error={qe}")
+            traceback.print_exc()
+            logger.exception("FULL_TRACEBACK")
+            if is_qdrant:
+                raise RuntimeError(f"Qdrant connection failed: {qe}")
     else:
         logger.warning("QDRANT_URL not set — using local ChromaDB (not production-ready)")
 
@@ -55,6 +61,21 @@ async def lifespan(app: FastAPI):
     
     counts = rag.collection_counts()
     logger.info(f"COLLECTION_COUNTS: {counts}")
+
+    if is_qdrant:
+        logger.info("══════════════════════════════")
+        logger.info("VECTOR DATABASE STATUS")
+        logger.info("══════════════════════════════")
+        logger.info(f"ICD10_COUNT       = {counts.get('icd10', 0)}")
+        logger.info(f"CPT_COUNT         = {counts.get('cpt', 0)}")
+        logger.info(f"GUIDELINES_COUNT  = {counts.get('guidelines', 0)}")
+        logger.info(f"SYMPTOMS_COUNT    = {counts.get('symptoms', 0)}")
+        logger.info("══════════════════════════════")
+        
+        total_counts = sum(counts.values())
+        if total_counts == 0:
+            logger.error("BOOTSTRAP_FAILURE: All Qdrant collections are empty!")
+            raise RuntimeError("BOOTSTRAP_FAILURE: All Qdrant collections are empty!")
 
     # ── HuggingFace model readiness check ─────────────────────────────────
     if rag.embedding_service and rag.embedding_service.local_model:

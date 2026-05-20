@@ -66,17 +66,18 @@ def _is_hallucination(pred: str, gt: set[str]) -> bool:
     """Completely unrelated code — no 3-char prefix overlap with any GT code."""
     if not pred or len(pred) < 3: return True
     p = pred[:3].upper()
-    return not any(c[:3].upper() == p for c in gt)
+    return not any(c[:3].upper() == p for c in gt if c and len(c) >= 3)
 
 
 def _is_anatomy_mismatch(pred: str, gt: set[str]) -> bool:
     """Same letter class but different numeric prefix family than any GT code."""
-    if not pred: return False
+    if not pred or len(pred) < 3: return False
     p_pfx = pred[:3].upper()
-    if any(c[:3].upper() == p_pfx for c in gt):
+    if any(c[:3].upper() == p_pfx for c in gt if c and len(c) >= 3):
         return False
+    if not p_pfx: return False
     p_cls = p_pfx[0]
-    gt_cls = {c[0].upper() for c in gt}
+    gt_cls = {c[0].upper() for c in gt if c}
     return p_cls not in gt_cls
 
 
@@ -84,7 +85,7 @@ def _is_specificity_downgrade(pred: str, gt: set[str]) -> bool:
     """Predicted a more generic version of a code that appears in GT."""
     if not pred or len(pred) < 3: return False
     for g in gt:
-        if g.startswith(pred[:3]) and len(g) > len(pred):
+        if g and g.startswith(pred[:3]) and len(g) > len(pred):
             return True
     return False
 
@@ -93,18 +94,18 @@ def _is_hierarchy_match(pred: str, gt: set[str]) -> bool:
     """Task 5: Check if predicted code shares the same clinical family (3-char prefix)."""
     if not pred or len(pred) < 3: return False
     p3 = pred[:3].upper()
-    return any(g[:3].upper() == p3 for g in gt)
+    return any(g[:3].upper() == p3 for g in gt if g and len(g) >= 3)
 
 
 def _calculate_partial_credit(pred: str, gt: set[str]) -> float:
     """Task 5: Award partial credit for clinically adjacent matches."""
-    if not pred: return 0.0
+    if not pred or len(pred) < 1: return 0.0
     if pred in gt:
         return 1.0
     if _is_hierarchy_match(pred, gt):
         return 0.5
     p_cls = pred[0].upper()
-    if any(g[0].upper() == p_cls for g in gt):
+    if any(g[0].upper() == p_cls for g in gt if g):
         return 0.2
     return 0.0
 
@@ -609,7 +610,10 @@ async def run_evaluation(dataset_path: str = None, mode: str = "dev", force_refr
         return sanitize_numpy(final_res)
 
     except Exception as e:
+        import traceback
         logger.error(f"Evaluation failed: {str(e)}")
+        traceback.print_exc()
+        logger.exception("FULL_TRACEBACK")
         return {"status": "error", "message": f"Evaluation pipeline failed: {str(e)}"}
 
 

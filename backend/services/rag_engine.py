@@ -127,9 +127,12 @@ class RAGEngine:
         
         # ── Qdrant Cloud Client ────────────────────────────────────────────
         self.q_client = None
-        if settings.qdrant_url:
+        is_qdrant = settings.vector_db_provider.lower() == "qdrant"
+        if is_qdrant or settings.qdrant_url:
             try:
+                import traceback
                 from qdrant_client import QdrantClient
+                logger.info(f"Initializing Qdrant client (url={settings.qdrant_url})...")
                 self.q_client = QdrantClient(
                     url=settings.qdrant_url,
                     api_key=settings.qdrant_api_key,
@@ -139,9 +142,14 @@ class RAGEngine:
                 col_names = [c.name for c in cols.collections]
                 logger.info(f"QDRANT_CONNECTED_OK | url={settings.qdrant_url} | collections={col_names}")
             except Exception as qe:
+                import traceback
                 logger.error(f"CRITICAL_COMPONENT_LOAD_FAILURE | component=QDRANT | error={qe}")
+                traceback.print_exc()
+                logger.exception("FULL_TRACEBACK")
                 _failures.append("QDRANT")
                 self.q_client = None
+                if is_qdrant:
+                    raise RuntimeError(f"Qdrant connection failed: {qe}")
 
         # ── ChromaDB (local fallback) ──────────────────────────────────────
         db_path = settings.chroma_persist_dir
@@ -413,7 +421,10 @@ class RAGEngine:
                     "sub_timings": {"dense_ms": d_ms, "sparse_ms": s_ms}
                 }
             except Exception as e:
+                import traceback
                 logger.error("RAG_FETCH_ERROR for %s: %s", col_label, e)
+                traceback.print_exc()
+                logger.exception("FULL_TRACEBACK")
                 return None
 
         tasks = [fetch(col, k, weight, label) for col, k, weight, label in query_plan]
@@ -600,6 +611,8 @@ class RAGEngine:
         """
         Phase 5+6+8+9: Anatomical-Procedural Reasoning Reranker.
         """
+        if not candidates:
+            return []
         # Task 12 Optimization: Skip model call if already pre-computed in batch
         if candidates and "cross_score" in candidates[0]:
             cross_scores = [c["cross_score"] for c in candidates]
@@ -1092,6 +1105,91 @@ class RAGEngine:
             self.client.delete_collection(name)
             return self.client.create_collection(name=name, metadata={"hnsw:space": "cosine"})
 
+    def reset_icd(self):
+        self.recreate_collection(settings.chroma_collection_icd)
+
+    def reset_cpt(self):
+        self.recreate_collection(settings.chroma_collection_cpt)
+
+    def reset_guidelines(self):
+        self.recreate_collection(settings.chroma_collection_guidelines)
+
+    def reset_symptoms(self):
+        self.recreate_collection(settings.chroma_collection_symptoms)
+
+    def _empty_result(self, intent_scores: dict) -> dict:
+        empty_decision = {
+            "principal_diagnosis": [],
+            "secondary_diagnoses": [],
+            "chronic_conditions": [],
+            "procedures": [],
+            "modifiers": [],
+            "compliance_flags": [],
+            "medical_necessity": {},
+            "decomposition": {"acuity": "CHRONIC", "temporality": "unknown", "negated_entities": [], "laterality": "UNSPECIFIED", "encounter_type": "INITIAL", "demographics": {"sex": "UNKNOWN", "age_group": "ADULT"}},
+            "causal_relationships": [],
+            "guidelines_used": [],
+            "suppressed_candidates": [],
+            "confidence": {
+                "score": 0.0,
+                "level": "LOW",
+                "review_required": True,
+                "clinical_reasoning": "No diagnosis identified.",
+                "compliance_score": 1.0
+            },
+            "audit_trace": {
+                "engine_version": "Phase 14 (Ontology Constrained Platform)",
+                "anatomy_grounding": {"primary": [], "regions": []},
+                "procedural_intent": {"class": "GENERAL", "intervention": "unknown", "approach": "unknown"},
+                "ontology_shift": [],
+                "ncci_edits": [],
+                "exclusion_logic": [],
+                "semantic_validation": {
+                    "model": "SapBERT",
+                    "top_concept_match": 0.0,
+                    "ontology_precision": 1.0
+                }
+            }
+        }
+        return {
+            "decision": empty_decision,
+            "documents": [[]],
+            "metadatas": [[]],
+            "scores": [[]],
+            "forensics": [[]],
+            "confidence": 0.0,
+            "intent": intent_scores,
+            "anatomy": {"primary": [], "regions": []},
+            "procedural_intent": {"class": "GENERAL", "intervention": "unknown", "approach": "unknown"},
+            "comparison_trace": {
+                "sapbert_enabled": True,
+                "ontology_shift": [],
+                "is_benchmark": False
+            }
+        }
+
+    # Convenience wrappers for specific code types
+    async def search_icd10(self, query_text: str, top_k: int = 10):
+        """Search ICD-10 codes using the generic query interface asynchronously."""
+        result = await self.query(query_text, n_results=top_k, code_type="icd10")
+        return result.get("documents", [])
+
+    async def search_cpt(self, query_text: str, top_k: int = 10):
+        """Search CPT codes using the generic query interface asynchronously."""
+        result = await self.query(query_text, n_results=top_k, code_type="cpt")
+        return result.get("documents", [])
+
+    async def search_guidelines(self, query_text: str, top_k: int = 10):
+        """Search clinical guidelines using the generic query interface asynchronously."""
+        result = await self.query(query_text, n_results=top_k, code_type="guidelines")
+        return result.get("documents", [])
+
+    async def search_symptoms(self, query_text: str, top_k: int = 10):
+        """Search symptom entries using the generic query interface asynchronously."""
+        result = await self.query(query_text, n_results=top_k, code_type="symptoms")
+        return result.get("documents", [])
+
+    
     # Destructive methods REMOVED per Phase 11 Hardening Requirements.
     # If reset is needed, it must be done via direct filesystem deletion 
     # or a manual administrative script, never via the core RAGEngine.
