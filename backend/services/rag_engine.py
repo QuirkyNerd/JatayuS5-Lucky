@@ -392,7 +392,7 @@ class RAGEngine:
                     distances = []
                     for point in search_res:
                         payload = point.payload or {}
-                        doc_text = payload.get("document") or payload.get("text") or payload.get("description") or ""
+                        doc_text = payload.get("document") or payload.get("_document") or payload.get("text") or payload.get("description") or ""
                         docs.append(doc_text)
                         
                         meta = dict(payload)
@@ -763,7 +763,7 @@ class RAGEngine:
                     docs, metas, dists = [], [], []
                     for point in search_res:
                         payload = point.payload or {}
-                        doc_text = payload.get("document") or payload.get("text") or payload.get("description") or ""
+                        doc_text = payload.get("document") or payload.get("_document") or payload.get("text") or payload.get("description") or ""
                         docs.append(doc_text)
                         meta = dict(payload)
                         meta["code"] = payload.get("code") or payload.get("id") or str(point.id)
@@ -981,7 +981,7 @@ class RAGEngine:
                         )
                         for point in scroll_res:
                             payload = point.payload or {}
-                            doc_text = payload.get("document") or payload.get("text") or payload.get("description") or ""
+                            doc_text = payload.get("document") or payload.get("_document") or payload.get("text") or payload.get("description") or ""
                             all_docs.append(doc_text)
                             
                             meta = dict(payload)
@@ -1009,6 +1009,7 @@ class RAGEngine:
             logger.info("Saving BM25 indices to cache...")
             with open(cache_path, "wb") as f:
                 pickle.dump(self.bm25_indices, f)
+            logger.info("BM25_CACHE_REBUILT_OK")
         except Exception as e: logger.error("Failed to save BM25 cache: %s", e)
 
     def _bm25_tokenizer(self, text: str) -> List[str]:
