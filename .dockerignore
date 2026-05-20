@@ -1,0 +1,104 @@
+# =========================
+# Git & CI
+# =========================
+.git
+.gitignore
+.github
+.gitattributes
+
+# =========================
+# Node
+# =========================
+node_modules
+frontend/node_modules
+dist
+build
+frontend/dist
+*.md
+
+# =========================
+# Python Cache
+# =========================
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache
+.mypy_cache
+
+# =========================
+# Environment Files
+# =========================
+.env
+.env.local
+.env.prod
+.env.example
+
+# =========================
+# IDE / OS
+# =========================
+.vscode
+.idea
+.DS_Store
+Thumbs.db
+
+# =========================
+# Vector DB / ChromaDB (NOT needed in Docker image — mounted via named volume)
+# =========================
+backend/backend/chroma_db
+backend/backend/chroma_db_backup_*
+backend/chroma_db
+chroma_db
+chroma_store
+postgres_data
+redis_data
+
+# =========================
+# HuggingFace / Model Cache (mounted via named volume at runtime)
+# =========================
+backend/.cache
+hf_cache
+model_cache
+models
+checkpoints
+backend/data/checkpoints
+backend/data/model_cache
+
+# =========================
+# Model Binary Files
+# =========================
+*.onnx
+*.gguf
+*.safetensors
+*.pt
+*.pth
+*.bin
+
+# =========================
+# Serialized Python / Data
+# =========================
+*.pkl
+*.pickle
+*.joblib
+*.parquet
+
+# =========================
+# Logs / Temp
+# =========================
+logs
+*.log
+tmp
+temp
+
+# =========================
+# Tests (not needed in production container)
+# =========================
+tests
+test_*
+
+# =========================
+# Docker itself (no need to copy into context)
+# =========================
+docker-compose.yml
+docker-compose.override.yml
+Dockerfile

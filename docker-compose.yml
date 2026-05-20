@@ -1,0 +1,77 @@
+services:
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: codeperfect_backend
+
+    ports:
+      - "8000:8000"
+
+    env_file:
+      - .env.prod
+
+    environment:
+      PYTHONPATH: /app
+      HOST: 0.0.0.0
+      PORT: "8000"
+
+    working_dir: /app/backend
+
+    # Production: no --reload, bind to all interfaces
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --workers 2
+
+    volumes:
+      # ChromaDB fallback (production primary is Qdrant Cloud — this is a safety fallback only)
+      - chroma_data:/app/backend/backend/chroma_db
+      # HuggingFace model cache (persisted across container restarts)
+      - hf_cache:/app/.cache/huggingface
+      # Persistent PDF reports
+      - pdf_reports:/app/persistent/reports
+      # Ingestion checkpoints
+      - checkpoints:/app/backend/data/checkpoints
+
+    restart: always
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health/live"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+
+  frontend:
+    image: node:20-alpine
+
+    container_name: codeperfect_frontend
+
+    working_dir: /app
+
+    volumes:
+      - ./frontend:/app
+      - frontend_node_modules:/app/node_modules
+
+    ports:
+      - "3000:3000"
+
+    environment:
+      # Points to the Oracle VPS backend — used by the container-hosted frontend
+      VITE_API_URL: http://161.118.217.29:8000/api/v1
+
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0 --port 3000"
+
+    depends_on:
+      - backend
+
+    restart: always
+
+
+volumes:
+  chroma_data:
+  hf_cache:
+  pdf_reports:
+  checkpoints:
+  frontend_node_modules:

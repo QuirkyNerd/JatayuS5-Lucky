@@ -1,0 +1,581 @@
+condition,symptom_list,symptom_text,question,body_system,severity,keywords,synonyms,icd10_codes,embedding_text
+Acromegaly,"abnormal growth of hands and feet, swelling of hands and feet, joint pain, coarsening of facial features, fatigue, macroglossia, sleep apnea","Acromegaly commonly presents with abnormal growth of the hands and feet, swelling, joint pain, coarsening of facial features, macroglossia, sleep apnea, and fatigue.","What are the symptoms of Acromegaly?",Endocrine,Moderate,"acromegaly growth hormone pituitary enlargement extremities gigantism","somatotroph adenoma, GH excess",E22.0,"Condition: Acromegaly
+Body System: Endocrine
+Severity: Moderate
+Symptoms: abnormal growth of hands and feet, swelling, joint pain, coarsening of facial features, fatigue, macroglossia, sleep apnea
+Keywords: acromegaly, pituitary, growth hormone, enlargement, extremities"
+Addison Disease,"chronic fatigue, muscle weakness, loss of appetite, weight loss, hyperpigmentation, low blood pressure, salt craving, nausea, vomiting, abdominal pain","Addison disease (primary adrenal insufficiency) presents with chronic fatigue, muscle weakness, loss of appetite, weight loss, hyperpigmentation, hypotension, salt craving, nausea, vomiting, and abdominal pain.","What are the symptoms of Addison Disease?",Endocrine,Severe,"adrenal insufficiency addison's disease cortisol deficiency fatigue hyperpigmentation crisis","primary adrenal insufficiency, hypocortisolism, adrenal cortex failure",E27.1,"Condition: Addison Disease
+Body System: Endocrine
+Severity: Severe
+Symptoms: chronic fatigue, muscle weakness, weight loss, hyperpigmentation, hypotension, salt craving, nausea, vomiting
+Keywords: adrenal insufficiency, cortisol deficiency, addisonian crisis"
+Cushing's Syndrome,"upper body obesity, rounded face, increased fat around neck, slender arms and legs, hypertension, easy bruising, striae, muscle weakness, osteoporosis, hirsutism, glucose intolerance","Cushing's syndrome typically presents with central obesity, moon face, buffalo hump, thin extremities, hypertension, easy bruising, purple striae, muscle weakness, osteoporosis, hirsutism, and glucose intolerance.","What are the symptoms of Cushing's Syndrome?",Endocrine,Moderate,"cushing's syndrome hypercortisolism obesity moon face striae buffalo hump","hypercortisolism, corticosteroid excess, pituitary adenoma Cushing",E24.9,"Condition: Cushing's Syndrome
+Body System: Endocrine
+Severity: Moderate
+Symptoms: central obesity, moon face, buffalo hump, thin limbs, hypertension, easy bruising, striae, muscle weakness, osteoporosis
+Keywords: hypercortisolism, glucocorticoid excess, pituitary adenoma"
+Graves' Disease,"nervousness, irritability, fatigue, muscle weakness, heat intolerance, insomnia, tremors, weight loss, palpitations, increased sweating, exophthalmos, goiter, frequent bowel movements","Graves' disease commonly causes nervousness, irritability, fatigue, muscle weakness, heat intolerance, insomnia, tremors, weight loss, palpitations, increased sweating, exophthalmos, goiter, and frequent bowel movements.","What are the symptoms of Graves' Disease?",Endocrine,Moderate,"graves disease hyperthyroidism autoimmune thyroid ophthalmopathy exophthalmos","Basedow disease, autoimmune thyroiditis, toxic diffuse goiter",E05.00,"Condition: Graves' Disease
+Body System: Endocrine
+Severity: Moderate
+Symptoms: nervousness, irritability, fatigue, heat intolerance, insomnia, tremors, weight loss, palpitations, exophthalmos, goiter
+Keywords: autoimmune hyperthyroidism, TSH receptor antibodies, ophthalmopathy"
+Hashimoto's Disease,"fatigue, weight gain, cold intolerance, constipation, dry skin, hair loss, depression, goiter, bradycardia, heavy menses","Hashimoto's disease often begins asymptomatically, later causing goiter and hypothyroid symptoms such as fatigue, weight gain, cold intolerance, constipation, dry skin, hair loss, depression, bradycardia, and heavy menses.","What are the symptoms of Hashimoto's Disease?",Endocrine,Moderate,"hashimoto's thyroiditis autoimmune hypothyroidism goiter antibodies","chronic lymphocytic thyroiditis, autoimmune thyroiditis",E06.3,"Condition: Hashimoto's Thyroiditis
+Body System: Endocrine
+Severity: Moderate
+Symptoms: fatigue, weight gain, cold intolerance, constipation, dry skin, hair loss, depression, goiter, bradycardia
+Keywords: autoimmune thyroiditis, hypothyroidism, anti‑TPO, anti‑thyroglobulin"
+Hyperthyroidism,"nervousness, irritability, fatigue, muscle weakness, heat intolerance, insomnia, tremors, weight loss, palpitations, increased sweating, tachycardia, frequent bowel movements, goiter","Hyperthyroidism commonly presents with nervousness, irritability, fatigue, muscle weakness, heat intolerance, insomnia, tremors, weight loss, palpitations, increased sweating, tachycardia, frequent stools, and goiter.","What are the symptoms of Hyperthyroidism?",Endocrine,Moderate,"thyroid overactive thyroid hyperthyroidism metabolism heat intolerance tachycardia","thyrotoxicosis, toxic thyroid, thyroid hormone excess",E05.90,"Condition: Hyperthyroidism
+Body System: Endocrine
+Severity: Moderate
+Symptoms: nervousness, irritability, fatigue, heat intolerance, insomnia, tremors, weight loss, palpitations, tachycardia, goiter
+Keywords: thyrotoxicosis, overactive thyroid, TSH suppression"
+Hypothyroidism,"fatigue, weight gain, puffy face, cold intolerance, dry skin, joint pain, constipation, depression, bradycardia, memory impairment, heavy menses","Hypothyroidism commonly presents with fatigue, weight gain, facial puffiness, cold intolerance, dry skin, joint pain, constipation, depression, bradycardia, memory impairment, and heavy menses.","What are the symptoms of Hypothyroidism?",Endocrine,Moderate,"thyroid hypothyroidism fatigue weight gain slow metabolism myxedema","myxedema, underactive thyroid, thyroid hormone deficiency",E03.9,"Condition: Hypothyroidism
+Body System: Endocrine
+Severity: Moderate
+Symptoms: fatigue, weight gain, facial puffiness, cold intolerance, dry skin, constipation, depression, bradycardia
+Keywords: underactive thyroid, myxedema, elevated TSH"
+Iatrogenic CJD (Pituitary hGH),"difficulty walking, balance problems, dizziness, clumsiness, cognitive decline, myoclonus, vision changes, coordination loss, psychiatric symptoms","Iatrogenic CJD from pituitary hGH initially manifests with difficulty walking, balance issues, dizziness, clumsiness, progressing to cognitive decline, myoclonus, vision changes, and psychiatric symptoms.","What are the symptoms of Iatrogenic CJD?",Neurology,Critical,"CJD prion disease iatrogenic pituitary growth hormone neurological","iatrogenic Creutzfeldt-Jakob disease, human growth hormone CJD, prion disease",A81.0,"Condition: Iatrogenic Creutzfeldt‑Jakob Disease
+Body System: Neurology
+Severity: Critical
+Symptoms: difficulty walking, balance problems, dizziness, cognitive decline, myoclonus, vision changes
+Keywords: prion disease, iatrogenic CJD, hGH, spongiform encephalopathy"
+Primary Hyperparathyroidism,"muscle weakness, fatigue, excessive sleepiness, bone pain, kidney stones, depression, osteoporosis, polyuria, constipation","Primary hyperparathyroidism may be asymptomatic or cause muscle weakness, fatigue, excessive sleepiness, bone pain, kidney stones, depression, osteoporosis, polyuria, and constipation.","What are the symptoms of Primary Hyperparathyroidism?",Endocrine,Moderate,"hyperparathyroidism calcium parathyroid bone pain kidney stones hypercalcemia","primary parathyroid hyperplasia, parathyroid adenoma, hypercalcemia",E21.0,"Condition: Primary Hyperparathyroidism
+Body System: Endocrine
+Severity: Moderate
+Symptoms: fatigue, muscle weakness, bone pain, kidney stones, depression, osteoporosis, polyuria, constipation
+Keywords: hypercalcemia, PTH, parathyroid adenoma"
+Prolactinoma,"infertility, menstrual irregularities, amenorrhea, galactorrhea, decreased libido, headache, visual disturbances, gynecomastia in men, erectile dysfunction","Prolactinoma commonly causes infertility, menstrual irregularities or amenorrhea, galactorrhea, decreased libido, headache, visual disturbances, gynecomastia in men, and erectile dysfunction.","What are the symptoms of Prolactinoma?",Endocrine,Moderate,"prolactinoma pituitary adenoma hyperprolactinemia galactorrhea","prolactin‑secreting adenoma, lactotroph adenoma",D35.2,"Condition: Prolactinoma
+Body System: Endocrine
+Severity: Moderate
+Symptoms: infertility, amenorrhea, galactorrhea, decreased libido, headache, visual disturbances
+Keywords: pituitary adenoma, hyperprolactinemia, prolactin"
+Anemia of Inflammation/Chronic Disease,"fatigue, weakness, pallor, shortness of breath, dizziness, headache, poor concentration","Anemia of inflammation and chronic disease is usually mild, causing fatigue, weakness, pallor, shortness of breath, dizziness, headache, and poor concentration.","What are the symptoms of Anemia of Inflammation and Chronic Disease?",Hematology,Mild,"anemia chronic disease inflammation normocytic hepcidin","anemia of chronic disorders, ACD, inflammatory anemia",D63.8,"Condition: Anemia of Chronic Disease
+Body System: Hematology
+Severity: Mild
+Symptoms: fatigue, weakness, pallor, dyspnea, dizziness
+Keywords: normocytic anemia, hepcidin, chronic inflammation"
+Type 2 Diabetes,"increased thirst, frequent urination, fatigue, blurred vision, slow-healing sores, tingling in hands/feet, recurrent infections, unexplained weight loss sometimes early","Type 2 diabetes may present with mild symptoms such as increased thirst, frequent urination, fatigue, blurred vision, slow-healing sores, tingling in extremities, recurrent infections, and sometimes unexplained weight loss.","What are the symptoms of Type 2 Diabetes?",Endocrine,Mild,"type 2 diabetes mellitus hyperglycemia insulin resistance polydipsia polyuria","adult-onset diabetes, non‑insulin‑dependent diabetes mellitus (NIDDM)",E11.9,"Condition: Type 2 Diabetes Mellitus
+Body System: Endocrine
+Severity: Mild (initial)
+Symptoms: polyuria, polydipsia, fatigue, blurred vision, slow‑healing wounds, neuropathic tingling
+Keywords: insulin resistance, hyperglycemia, metabolic syndrome"
+Diabetic Nephropathy,"edema, swelling, foamy urine, hypertension, fatigue, proteinuria, progressive renal impairment","Diabetic kidney disease is often asymptomatic early, progressing to edema, swelling, foamy urine, hypertension, fatigue, and proteinuria.","What are the symptoms of Diabetic Nephropathy?",Renal,Severe,"diabetic kidney disease nephropathy diabetes microalbuminuria proteinuria CKD","diabetic glomerulosclerosis, Kimmelstiel‑Wilson disease",E11.21,"Condition: Diabetic Nephropathy
+Body System: Renal
+Severity: Severe
+Symptoms: edema, foamy urine, hypertension, fatigue, proteinuria
+Keywords: diabetic kidney disease, microalbuminuria, CKD, glomerulosclerosis"
+Diabetic Neuropathy,"numbness, tingling, pain, burning sensation, muscle weakness, loss of reflexes, foot ulcers, autonomic symptoms (dizziness, bladder issues)","Diabetic neuropathy often presents with numbness, tingling, pain, burning sensation, muscle weakness, loss of reflexes, and can lead to foot ulcers; autonomic neuropathy may cause dizziness and bladder dysfunction.","What are the symptoms of Diabetic Neuropathy?",Neurology,Moderate,"diabetic neuropathy peripheral nerve damage sensorimotor autonomic neuropathy","diabetic peripheral neuropathy, diabetic autonomic neuropathy",E11.40,"Condition: Diabetic Neuropathy
+Body System: Neurology
+Severity: Moderate
+Symptoms: numbness, tingling, burning pain, muscle weakness, loss of reflexes, autonomic dysfunction
+Keywords: peripheral neuropathy, sensorimotor, diabetes complications"
+Hypoglycemia,"hunger, shakiness, nervousness, sweating, dizziness, light‑headedness, sleepiness, confusion, difficulty speaking, anxiety, weakness, palpitations, blurred vision","Hypoglycemia manifests with hunger, shakiness, nervousness, sweating, dizziness, confusion, difficulty speaking, anxiety, weakness, palpitations, and blurred vision.","What are the symptoms of Hypoglycemia?",Endocrine,Moderate,"hypoglycemia low blood sugar insulin reaction diabetic neuroglycopenic","low blood glucose, insulin shock, glucose deficiency",E16.2,"Condition: Hypoglycemia
+Body System: Endocrine
+Severity: Moderate (can be severe)
+Symptoms: hunger, sweating, tremor, anxiety, confusion, slurred speech, weakness, palpitations
+Keywords: low blood glucose, insulin reaction, neuroglycopenia"
+Insulin Resistance / Prediabetes,"often asymptomatic, acanthosis nigricans, skin tags, fatigue, increased waist circumference","Insulin resistance and prediabetes are usually asymptomatic; some individuals may develop acanthosis nigricans, skin tags, and fatigue.","What are the symptoms of Insulin Resistance and Prediabetes?",Endocrine,Mild,"insulin resistance prediabetes metabolic syndrome acanthosis nigricans","impaired glucose tolerance, IGT, impaired fasting glucose",R73.03,"Condition: Insulin Resistance / Prediabetes
+Body System: Endocrine
+Severity: Mild
+Symptoms: often asymptomatic, acanthosis nigricans, skin tags, central obesity
+Keywords: metabolic syndrome, impaired glucose tolerance, insulin sensitivity"
+Diabetic Retinopathy,"blurry or double vision, rings or flashing lights, floaters, vision loss, dark spots","Diabetic retinopathy may initially be asymptomatic; later symptoms include blurry or double vision, rings or flashing lights, floaters, and vision loss.","What are the symptoms of Diabetic Retinopathy?",Ophthalmology,Severe,"diabetic retinopathy diabetes eye disease vision non‑proliferative proliferative","diabetic eye disease, retinal microangiopathy",E11.319,"Condition: Diabetic Retinopathy
+Body System: Ophthalmology
+Severity: Severe
+Symptoms: blurred vision, floaters, flashing lights, vision loss
+Keywords: retinal microangiopathy, non‑proliferative, proliferative, laser photocoagulation"
+Diabetic Cardiovascular Disease,"chest pain or discomfort, arm/back/jaw/neck pain, indigestion, shortness of breath, sweating, nausea, palpitations","Diabetic cardiovascular disease may present with chest pain, discomfort radiating to arms, back, jaw, or neck, shortness of breath, sweating, nausea, and palpitations.","What are the symptoms of Diabetic Cardiovascular Disease?",Cardiovascular,Severe,"diabetes heart disease myocardial infarction angina cardiovascular autonomic neuropathy","diabetic heart disease, coronary artery disease in diabetes",E11.59,"Condition: Diabetic Cardiovascular Disease
+Body System: Cardiovascular
+Severity: Severe
+Symptoms: chest pain, shortness of breath, sweating, nausea, palpitations
+Keywords: coronary artery disease, myocardial infarction, diabetes complications"
+Diabetes Mellitus (Type 1 and Type 2),"extreme thirst, frequent urination, extreme hunger, fatigue, unexplained weight loss, slow‑healing sores, blurred vision, recurrent infections","Diabetes mellitus type 1 and type 2 commonly present with extreme thirst, frequent urination, extreme hunger, fatigue, unexplained weight loss, slow‑healing sores, blurred vision, and recurrent infections.","What are the symptoms of Diabetes Mellitus?",Endocrine,Moderate,"diabetes mellitus hyperglycemia type 1 type 2 polydipsia polyuria","diabetes, sugar diabetes",E10.9/E11.9,"Condition: Diabetes Mellitus
+Body System: Endocrine
+Severity: Moderate
+Symptoms: polydipsia, polyuria, polyphagia, weight loss, fatigue, blurred vision, slow‑healing wounds
+Keywords: hyperglycemia, insulin deficiency, type 1, type 2"
+Abdominal Adhesions,"often asymptomatic, chronic abdominal pain, bloating, altered bowel habits","Abdominal adhesions are often asymptomatic; when present, chronic abdominal pain is the most common symptom, sometimes with bloating and altered bowel habits.","What are the symptoms of Abdominal Adhesions?",Gastrointestinal,Mild,"abdominal adhesions scar tissue pain obstruction","peritoneal adhesions, post‑surgical adhesions",K66.0,"Condition: Abdominal Adhesions
+Body System: Gastrointestinal
+Severity: Mild
+Symptoms: chronic abdominal pain, bloating, altered bowel habits
+Keywords: scar tissue, post‑surgical, peritoneal adhesions"
+Intestinal Obstruction,"severe abdominal pain, vomiting, abdominal bloating, constipation, inability to pass gas, abdominal distension","Intestinal obstruction presents with severe crampy abdominal pain, vomiting, bloating, constipation, and inability to pass gas.","What are the symptoms of Intestinal Obstruction?",Gastrointestinal,Critical,"intestinal obstruction adhesion acute abdomen emergency","bowel obstruction, ileus",K56.69,"Condition: Intestinal Obstruction
+Body System: Gastrointestinal
+Severity: Critical
+Symptoms: severe abdominal pain, vomiting, distension, obstipation
+Keywords: bowel obstruction, emergency, acute abdomen"
+Celiac Disease,"abdominal bloating, diarrhea, constipation, gas, nausea, weight loss, fatigue, dermatitis herpetiformis (itchy papulovesicular rash on extensors), iron‑deficiency anemia, osteoporosis","Celiac disease causes gastrointestinal symptoms (bloating, diarrhea, constipation, gas, nausea, weight loss) and extra‑intestinal manifestations such as fatigue, dermatitis herpetiformis, iron‑deficiency anemia, and osteoporosis.","What are the symptoms of Celiac Disease?",Gastrointestinal,Moderate,"celiac disease gluten enteropathy autoimmune malabsorption dermatitis herpetiformis","gluten‑sensitive enteropathy, celiac sprue, non‑tropical sprue",K90.0,"Condition: Celiac Disease
+Body System: Gastrointestinal
+Severity: Moderate
+Symptoms: bloating, diarrhea, constipation, nausea, weight loss, fatigue, dermatitis herpetiformis, anemia, osteoporosis
+Keywords: gluten, enteropathy, tissue transglutaminase, villous atrophy"
+Dermatitis Herpetiformis,"intensely itchy, clustered papules and vesicles on extensor surfaces (elbows, knees, buttocks, back, scalp), burning sensation, associated with gluten sensitivity","Dermatitis herpetiformis presents as intensely itchy, symmetric clusters of papules and vesicles on the elbows, knees, buttocks, back, and scalp, often with a burning sensation; it is the skin manifestation of celiac disease.","What are the symptoms of Dermatitis Herpetiformis?",Dermatology,Moderate,"dermatitis herpetiformis celiac gluten skin rash IgA","Duhring's disease, gluten‑sensitive dermatosis",L13.0,"Condition: Dermatitis Herpetiformis
+Body System: Dermatology
+Severity: Moderate
+Symptoms: intensely itchy papulovesicular rash on extensor surfaces, burning
+Keywords: gluten‑sensitive skin disease, IgA deposition, celiac rash"
+Chronic Diarrhea in Children,"cramping, abdominal pain, nausea, vomiting, fever, chills, dehydration, weight loss","Chronic diarrhea in children may present with cramping, abdominal pain, nausea, vomiting, fever, chills, dehydration, and weight loss.","What are the symptoms of Chronic Diarrhea in Children?",Gastrointestinal,Moderate,"chronic diarrhea pediatric gastroenteritis dehydration failure to thrive","persistent diarrhea, toddler diarrhea",K59.1,"Condition: Chronic Diarrhea in Children
+Body System: Gastrointestinal
+Severity: Moderate
+Symptoms: abdominal pain, cramping, nausea, vomiting, fever, dehydration, weight loss
+Keywords: pediatric diarrhea, malabsorption, infection"
+Crohn's Disease,"diarrhea, abdominal cramping and pain (often RLQ), weight loss, fatigue, fever, reduced appetite, perianal disease, arthritis, eye inflammation","Crohn's disease commonly presents with diarrhea, right lower quadrant abdominal pain, weight loss, fatigue, fever, and may include perianal disease, arthritis, and eye inflammation.","What are the symptoms of Crohn's Disease?",Gastrointestinal,Severe,"crohn inflammatory bowel disease diarrhea abdominal pain fistula","regional enteritis, granulomatous ileocolitis",K50.90,"Condition: Crohn Disease
+Body System: Gastrointestinal
+Severity: Severe
+Symptoms: diarrhea, abdominal pain (RLQ), weight loss, fatigue, fever, perianal disease
+Keywords: inflammatory bowel disease, transmural inflammation, fistula"
+Cyclic Vomiting Syndrome,"severe nausea, recurrent vomiting episodes lasting hours to days, retching, abdominal pain, headache, motion sensitivity, dehydration","Cyclic vomiting syndrome is characterized by severe nausea and recurrent, prolonged vomiting episodes, along with retching, abdominal pain, headache, motion sensitivity, and can lead to dehydration.","What are the symptoms of Cyclic Vomiting Syndrome?",Gastrointestinal,Moderate,"cyclic vomiting syndrome vomiting episodes nausea dehydration","CVS, abdominal migraine equivalent",G43.A0,"Condition: Cyclic Vomiting Syndrome
+Body System: Gastrointestinal
+Severity: Moderate
+Symptoms: severe episodic vomiting, nausea, abdominal pain, headache, dehydration
+Keywords: CVS, periodic vomiting, migraine variant"
+Diverticulitis,"left lower abdominal pain (sudden), fever, nausea, change in bowel habits, bloating, possible palpable mass","Diverticulitis typically presents with sudden left lower abdominal pain, fever, nausea, and altered bowel habits.","What are the symptoms of Diverticulitis?",Gastrointestinal,Moderate,"diverticulitis colon diverticula infection left lower quadrant pain","acute diverticulitis, sigmoid diverticulitis",K57.92,"Condition: Diverticulitis
+Body System: Gastrointestinal
+Severity: Moderate (can be severe)
+Symptoms: left lower quadrant pain, fever, nausea, altered bowel habits
+Keywords: colonic diverticula, inflammation, microperforation"
+Dumping Syndrome,"nausea, vomiting, abdominal pain, cramping, diarrhea, sweating, flushing, palpitations, late hypoglycemia","Dumping syndrome causes early symptoms like nausea, vomiting, abdominal pain, diarrhea, sweating, flushing, and late symptoms of hypoglycemia.","What are the symptoms of Dumping Syndrome?",Gastrointestinal,Moderate,"dumping syndrome gastric surgery rapid emptying early late","post‑gastrectomy dumping, rapid gastric emptying",K91.1,"Condition: Dumping Syndrome
+Body System: Gastrointestinal
+Severity: Moderate
+Symptoms: nausea, vomiting, diarrhea, sweating, flushing, palpitations, hypoglycemia
+Keywords: post‑surgical, rapid gastric emptying, vasomotor"
+Foodborne Illnesses,"vomiting, diarrhea (may be bloody), abdominal pain, fever, chills, myalgia","Foodborne illnesses commonly present with vomiting, diarrhea (sometimes bloody), abdominal pain, fever, chills, and myalgia.","What are the symptoms of Foodborne Illnesses?",Gastrointestinal,Moderate,"foodborne illness gastroenteritis food poisoning infectious diarrhea","food poisoning, infectious diarrhea",A09,"Condition: Foodborne Illness
+Body System: Gastrointestinal
+Severity: Moderate
+Symptoms: vomiting, diarrhea, abdominal pain, fever, chills
+Keywords: food poisoning, gastroenteritis, bacterial/viral"
+Gallstones,"often asymptomatic, right upper quadrant pain (biliary colic), nausea, vomiting, back pain between shoulder blades, fatty food intolerance","Gallstones are often asymptomatic; when symptomatic, they cause sudden right upper abdominal pain, nausea, vomiting, and pain radiating to the back, often triggered by fatty meals.","What are the symptoms of Gallstones?",Hepatobiliary,Moderate,"gallstones cholelithiasis biliary colic gallbladder cholecystitis","cholelithiasis, biliary calculi",K80.20,"Condition: Cholelithiasis (Gallstones)
+Body System: Hepatobiliary
+Severity: Moderate
+Symptoms: biliary colic, right upper quadrant pain, nausea, vomiting, referred back pain
+Keywords: gallbladder stones, cholecystitis risk"
+Gas in the Digestive Tract,"burping, flatulence, bloating, abdominal pain or discomfort, distension","Excess gas in the digestive tract manifests as burping, flatulence, bloating, and abdominal discomfort; may be worsened by certain foods or aerophagia.","What are the symptoms of Gas in the Digestive Tract?",Gastrointestinal,Mild,"gas bloating flatulence belching aerophagia","flatulence, intestinal gas, meteorism",R14.0,"Condition: Excessive Intestinal Gas
+Body System: Gastrointestinal
+Severity: Mild
+Symptoms: burping, flatulence, bloating, abdominal discomfort
+Keywords: flatus, aerophagia, IBS, dietary"
+Gastritis,"upper abdominal pain or discomfort, nausea, vomiting, bloating, loss of appetite, dyspepsia","Gastritis may be asymptomatic or cause upper abdominal pain, nausea, vomiting, bloating, and loss of appetite.","What are the symptoms of Gastritis?",Gastrointestinal,Mild,"gastritis stomach inflammation dyspepsia epigastric pain","acute gastritis, chronic gastritis, Helicobacter pylori gastritis",K29.70,"Condition: Gastritis
+Body System: Gastrointestinal
+Severity: Mild
+Symptoms: epigastric pain, nausea, vomiting, bloating, dyspepsia
+Keywords: Helicobacter pylori, NSAIDs, gastric inflammation"
+Erosive Gastritis with Bleeding,"black tarry stools (melena), vomiting blood (hematemesis), shortness of breath, dizziness, fatigue, anemia","Erosive gastritis with bleeding can cause black tarry stools, hematemesis, shortness of breath, dizziness, and fatigue due to anemia.","What are the symptoms of Erosive Gastritis with Bleeding?",Gastrointestinal,Severe,"erosive gastritis bleeding melena hematemesis anemia","hemorrhagic gastritis, stress gastritis",K29.01,"Condition: Erosive Gastritis with Hemorrhage
+Body System: Gastrointestinal
+Severity: Severe
+Symptoms: melena, hematemesis, dyspnea, dizziness, fatigue, anemia
+Keywords: GI bleeding, stress ulcer, NSAID"
+Gastroparesis,"nausea, early satiety, vomiting undigested food hours after meals, bloating, abdominal pain, heartburn, weight loss","Gastroparesis presents with nausea, early satiety, vomiting of undigested food hours after eating, bloating, abdominal pain, heartburn, and weight loss.","What are the symptoms of Gastroparesis?",Gastrointestinal,Moderate,"gastroparesis delayed gastric emptying nausea diabetes idiopathic","gastric stasis, delayed gastric emptying",K31.84,"Condition: Gastroparesis
+Body System: Gastrointestinal
+Severity: Moderate
+Symptoms: nausea, early satiety, vomiting undigested food, bloating, weight loss
+Keywords: gastric dysmotility, diabetic, post‑surgical"
+Hemorrhoids,"bright red blood per rectum, anal itching, pain, prolapse, swelling, mucus discharge","Hemorrhoids typically cause bright red blood during bowel movements, anal itching, pain, and sometimes prolapse.","What are the symptoms of Hemorrhoids?",Colorectal,Mild,"hemorrhoids piles rectal bleeding anal","piles",K64.9,"Condition: Hemorrhoids
+Body System: Colorectal
+Severity: Mild
+Symptoms: rectal bleeding, itching, pain, prolapse
+Keywords: internal/external hemorrhoids, piles, anal cushion"
+Indigestion (Dyspepsia),"early satiety, postprandial fullness, epigastric pain or burning, bloating, nausea, belching","Indigestion commonly causes early satiety, uncomfortable fullness after meals, epigastric burning or pain, bloating, nausea, and belching.","What are the symptoms of Indigestion?",Gastrointestinal,Mild,"dyspepsia indigestion epigastric pain fullness functional dyspepsia","functional dyspepsia, non‑ulcer dyspepsia",K30,"Condition: Dyspepsia (Indigestion)
+Body System: Gastrointestinal
+Severity: Mild
+Symptoms: postprandial fullness, early satiety, epigastric pain/burning, bloating, nausea
+Keywords: functional dyspepsia, H. pylori, Rome criteria"
+Inguinal Hernia,"groin bulge, pain or discomfort in groin, sensation of heaviness, aching with strain or lifting","Inguinal hernia presents as a bulge in the groin region, associated with pain, discomfort, or a heavy sensation, aggravated by coughing or lifting.","What are the symptoms of Inguinal Hernia?",Gastrointestinal,Mild,"inguinal hernia groin bulge hernia repair direct indirect","groin hernia, scrotal hernia",K40.90,"Condition: Inguinal Hernia
+Body System: Gastrointestinal
+Severity: Mild (unless incarcerated)
+Symptoms: groin bulge, pain, heaviness
+Keywords: direct/indirect hernia, reducible, strangulation risk"
+Intestinal Pseudo‑obstruction,"abdominal distension, abdominal pain, nausea, vomiting, constipation, diarrhea, bacterial overgrowth","Intestinal pseudo‑obstruction presents with abdominal distension, pain, nausea, vomiting, constipation, and sometimes diarrhea due to bacterial overgrowth.","What are the symptoms of Intestinal Pseudo‑obstruction?",Gastrointestinal,Severe,"pseudo‑obstruction intestinal dysmotility obstruction","Ogilvie syndrome (acute colonic pseudo‑obstruction), chronic intestinal pseudo‑obstruction",K59.8,"Condition: Intestinal Pseudo‑obstruction
+Body System: Gastrointestinal
+Severity: Severe
+Symptoms: abdominal distension, pain, nausea, vomiting, constipation
+Keywords: dysmotility, Ogilvie, neuropathic"
+Irritable Bowel Syndrome (IBS) in Children,"abdominal pain or discomfort relieved by defecation, change in stool frequency, change in stool form (diarrhea/constipation), bloating, mucus in stool","IBS in children is characterized by abdominal pain associated with defecation, changes in bowel habits (diarrhea, constipation, or both), bloating, and sometimes mucus.","What are the symptoms of Irritable Bowel Syndrome in Children?",Gastrointestinal,Moderate,"irritable bowel syndrome IBS abdominal pain bowel habits","spastic colon, functional bowel disorder",K58.9,"Condition: Irritable Bowel Syndrome
+Body System: Gastrointestinal
+Severity: Moderate
+Symptoms: abdominal pain relieved by defecation, change in stool frequency/form, bloating
+Keywords: IBS, Rome criteria, functional gastrointestinal disorder"
+Lactose Intolerance,"bloating, abdominal pain, diarrhea, gas, nausea, borborygmi","Lactose intolerance causes bloating, abdominal pain, diarrhea, gas, nausea, and borborygmi after consuming dairy products.","What are the symptoms of Lactose Intolerance?",Gastrointestinal,Mild,"lactose intolerance lactase deficiency dairy","lactase non‑persistence, milk intolerance",E73.9,"Condition: Lactose Intolerance
+Body System: Gastrointestinal
+Severity: Mild
+Symptoms: bloating, diarrhea, gas, abdominal pain, nausea
+Keywords: lactase deficiency, dairy, malabsorption"
+Ménétrier's Disease,"upper middle abdominal pain, nausea, vomiting, weight loss, edema, protein‑losing enteropathy, hypoalbuminemia, fatigue","Ménétrier's disease typically presents with epigastric pain, nausea, vomiting, weight loss, and protein‑losing enteropathy causing edema and fatigue.","What are the symptoms of Ménétrier's Disease?",Gastrointestinal,Severe,"menetrier disease hypertrophic gastropathy protein‑losing hypoproteinemia","giant hypertrophic gastritis, protein‑losing gastropathy",K29.60,"Condition: Ménétrier Disease
+Body System: Gastrointestinal
+Severity: Severe
+Symptoms: epigastric pain, nausea, vomiting, edema, weight loss, hypoalbuminemia
+Keywords: hypertrophic gastropathy, protein‑losing, giant gastric folds"
+Microscopic Colitis,"chronic watery nonbloody diarrhea, abdominal pain, weight loss, fatigue, urgency, fecal incontinence","Microscopic colitis primarily causes chronic, watery, nonbloody diarrhea, along with abdominal pain, weight loss, fatigue, urgency, and sometimes incontinence.","What are the symptoms of Microscopic Colitis?",Gastrointestinal,Moderate,"microscopic colitis collagenous lymphocytic diarrhea","collagenous colitis, lymphocytic colitis",K52.831,"Condition: Microscopic Colitis
+Body System: Gastrointestinal
+Severity: Moderate
+Symptoms: chronic watery diarrhea, abdominal pain, weight loss, fatigue, urgency
+Keywords: collagenous colitis, lymphocytic colitis, normal colonoscopy"
+Proctitis,"tenesmus, bloody or mucoid bowel movements, rectal bleeding, mucus discharge, rectal pain, constipation","Proctitis commonly causes tenesmus, bloody or mucoid stools, rectal bleeding, mucus discharge, and rectal pain.","What are the symptoms of Proctitis?",Gastrointestinal,Moderate,"proctitis rectal inflammation tenesmus bleeding","rectal inflammation, radiation proctitis, ulcerative proctitis",K62.89,"Condition: Proctitis
+Body System: Gastrointestinal
+Severity: Moderate
+Symptoms: tenesmus, rectal bleeding, mucus discharge, pain
+Keywords: rectal inflammation, sexually transmitted infections, IBD"
+Short Bowel Syndrome,"severe diarrhea, dehydration, malnutrition, weight loss, electrolyte imbalances, steatorrhea, vitamin deficiencies, fatigue","Short bowel syndrome leads to severe diarrhea, dehydration, malnutrition, weight loss, electrolyte disturbances, steatorrhea, and vitamin deficiencies, often with fatigue.","What are the symptoms of Short Bowel Syndrome?",Gastrointestinal,Severe,"short bowel syndrome malabsorption intestinal failure diarrhea dehydration","SBS, intestinal insufficiency",K91.2,"Condition: Short Bowel Syndrome
+Body System: Gastrointestinal
+Severity: Severe
+Symptoms: severe diarrhea, dehydration, weight loss, malnutrition, steatorrhea, electrolyte imbalances
+Keywords: intestinal failure, malabsorption, parenteral nutrition"
+Ulcerative Colitis,"bloody diarrhea with mucus or pus, abdominal discomfort/tenesmus, urgency, fatigue, weight loss, fever","Ulcerative colitis commonly presents with bloody diarrhea mixed with mucus or pus, abdominal discomfort, tenesmus, urgency, fatigue, weight loss, and fever.","What are the symptoms of Ulcerative Colitis?",Gastrointestinal,Severe,"ulcerative colitis IBD colon inflammation bloody diarrhea","chronic ulcerative colitis, idiopathic proctocolitis",K51.90,"Condition: Ulcerative Colitis
+Body System: Gastrointestinal
+Severity: Severe
+Symptoms: bloody diarrhea, mucus/pus, tenesmus, urgency, fatigue, weight loss
+Keywords: inflammatory bowel disease, continuous colonic inflammation"
+Viral Gastroenteritis,"watery diarrhea, vomiting, headache, fever, chills, abdominal cramps","Viral gastroenteritis manifests with watery diarrhea, vomiting, headache, fever, chills, and abdominal cramps.","What are the symptoms of Viral Gastroenteritis?",Gastrointestinal,Mild,"viral gastroenteritis stomach flu norovirus rotavirus diarrhea","stomach flu, norovirus, rotavirus",A08.4,"Condition: Viral Gastroenteritis
+Body System: Gastrointestinal
+Severity: Mild
+Symptoms: watery diarrhea, vomiting, fever, abdominal cramps, headache
+Keywords: norovirus, rotavirus, self‑limiting"
+Whipple Disease,"diarrhea, weight loss, malabsorption, abdominal pain, arthralgia, fever, lymphadenopathy, neurological symptoms","Whipple disease symptoms include diarrhea, weight loss due to malabsorption, abdominal pain, arthralgia, fever, lymphadenopathy, and neurological manifestations.","What are the symptoms of Whipple Disease?",Gastrointestinal,Severe,"whipple disease Tropheryma whipplei malabsorption arthralgia","intestinal lipodystrophy, Whipple's disease",K90.81,"Condition: Whipple Disease
+Body System: Gastrointestinal
+Severity: Severe
+Symptoms: diarrhea, weight loss, arthralgia, abdominal pain, fever, neurological changes
+Keywords: Tropheryma whipplei, PAS‑positive macrophages, systemic infection"
+Wilson Disease,"fatigue, jaundice, abdominal swelling, tremor, clumsiness, speech problems, psychiatric changes, Kayser‑Fleischer rings","Wilson disease may present with hepatic (jaundice, abdominal swelling, fatigue) and neurological symptoms (tremor, clumsiness, speech problems, psychiatric changes) and Kayser‑Fleischer rings.","What are the symptoms of Wilson Disease?",Hepatobiliary,Severe,"wilson disease copper accumulation liver cirrhosis neurological dystonia","hepatolenticular degeneration, copper storage disease",E83.0,"Condition: Wilson Disease
+Body System: Hepatobiliary & Neurology
+Severity: Severe
+Symptoms: jaundice, tremor, dysarthria, psychiatric symptoms, Kayser‑Fleischer rings, fatigue
+Keywords: copper, ceruloplasmin, ATP7B, liver disease, basal ganglia"
+Zollinger‑Ellison Syndrome,"peptic ulcers causing dull/burning epigastric pain, diarrhea, heartburn, nausea, vomiting, weight loss, gastrointestinal bleeding","Zollinger‑Ellison syndrome causes severe peptic ulcer pain (dull/burning epigastric), diarrhea, heartburn, nausea, vomiting, weight loss, and bleeding.","What are the symptoms of Zollinger‑Ellison Syndrome?",Gastrointestinal,Severe,"zollinger‑ellison gastrinoma peptic ulcer diarrhea","gastrinoma, Z‑E syndrome, pancreatic endocrine tumor",E16.4,"Condition: Zollinger‑Ellison Syndrome
+Body System: Gastrointestinal
+Severity: Severe
+Symptoms: severe peptic ulcer pain, diarrhea, heartburn, nausea, weight loss
+Keywords: gastrinoma, hypergastrinemia, duodenal ulcers"
+Acquired Cystic Kidney Disease,"often asymptomatic, flank pain, hematuria, urinary tract infections, mass effect","Acquired cystic kidney disease is often asymptomatic; symptoms may include flank pain, hematuria, and UTIs.","What are the symptoms of Acquired Cystic Kidney Disease?",Renal,Mild,"acquired cystic kidney disease dialysis renal cysts","ACKD, dialysis‑associated cysts",N28.1,"Condition: Acquired Cystic Kidney Disease
+Body System: Renal
+Severity: Mild
+Symptoms: often asymptomatic, hematuria, flank pain, UTIs
+Keywords: dialysis, renal cysts, chronic kidney disease"
+Primary Amyloidosis (Kidney Involvement),"nephrotic syndrome: albuminuria, edema, hyperlipidemia, hypoalbuminemia; fatigue, weight loss, hepatomegaly","Renal amyloidosis often presents with nephrotic syndrome (edema, proteinuria, hyperlipidemia) along with fatigue, weight loss, and hepatomegaly.","What are the symptoms of Amyloidosis and Kidney Disease?",Renal,Severe,"amyloidosis kidney nephrotic syndrome proteinuria","AL amyloidosis, primary systemic amyloidosis",E85.9,"Condition: AL Amyloidosis (Renal)
+Body System: Renal
+Severity: Severe
+Symptoms: nephrotic syndrome (edema, proteinuria, hyperlipidemia), fatigue, weight loss
+Keywords: amyloid deposition, light chains, renal biopsy"
+Dialysis‑related Amyloidosis,"joint pain, stiffness, fluid in joints, carpal tunnel syndrome, bone cysts, spinal pain","Dialysis‑related amyloidosis causes joint pain, stiffness, carpal tunnel syndrome, bone cysts, and spinal pain.","What are the symptoms of Dialysis‑related Amyloidosis?",Renal,Moderate,"dialysis amyloidosis beta‑2 microglobulin carpal tunnel","DRA, β2‑microglobulin amyloidosis",E85.3,"Condition: Dialysis‑Related Amyloidosis
+Body System: Renal/Musculoskeletal
+Severity: Moderate
+Symptoms: joint pain, carpal tunnel syndrome, bone cysts, spinal involvement
+Keywords: beta‑2 microglobulin, long‑term hemodialysis"
+Anemia in Chronic Kidney Disease,"weakness, fatigue, pallor, headache, dizziness, dyspnea, poor concentration","Anemia in CKD causes weakness, fatigue, pallor, headache, dizziness, dyspnea, and impaired concentration.","What are the symptoms of Anemia in Chronic Kidney Disease?",Hematology,Moderate,"anemia chronic kidney disease erythropoietin deficiency","renal anemia, anemia of CKD",D63.1,"Condition: Anemia of CKD
+Body System: Hematology
+Severity: Moderate
+Symptoms: fatigue, pallor, dyspnea, dizziness, poor concentration
+Keywords: erythropoietin deficiency, renal anemia"
+Childhood Nephrotic Syndrome,"edema (legs, feet, ankles, hands, face), foamy urine, weight gain, fatigue, loss of appetite","Childhood nephrotic syndrome presents with edema, foamy urine (proteinuria), weight gain, fatigue, and loss of appetite.","What are the symptoms of Childhood Nephrotic Syndrome?",Renal,Severe,"nephrotic syndrome edema proteinuria children","minimal change disease, pediatric nephrosis",N04.9,"Condition: Childhood Nephrotic Syndrome
+Body System: Renal
+Severity: Severe
+Symptoms: edema, frothy urine, weight gain, fatigue
+Keywords: proteinuria, minimal change disease, steroid‑responsive"
+Mineral and Bone Disorder in CKD,"bone pain, fractures, muscle weakness, vascular calcification, itching, growth impairment in children","Mineral and bone disorder in CKD may remain silent until bone pain, fractures, muscle weakness, vascular calcification, and itching occur.","What are the symptoms of Mineral and Bone Disorder in CKD?",Renal,Moderate,"CKD‑MBD renal osteodystrophy calcium phosphate PTH","renal osteodystrophy, secondary hyperparathyroidism",N25.81,"Condition: CKD‑MBD
+Body System: Renal/Musculoskeletal
+Severity: Moderate
+Symptoms: bone pain, fractures, muscle weakness, itching, vascular calcification
+Keywords: secondary hyperparathyroidism, vitamin D, phosphate"
+Ectopic Kidney,"often asymptomatic, diagnosed incidentally, possible urinary tract infections, palpable abdominal mass","An ectopic kidney often causes no symptoms and is found incidentally; rarely UTIs or palpable mass.","What are the symptoms of Ectopic Kidney?",Renal,Mild,"ectopic kidney congenital renal anomaly","renal ectopia, pelvic kidney",Q63.2,"Condition: Ectopic Kidney
+Body System: Renal
+Severity: Mild
+Symptoms: asymptomatic, possible UTIs, palpable mass
+Keywords: congenital, renal ectopia, pelvic kidney"
+Glomerular Diseases,"albuminuria, hematuria, reduced GFR, edema, hypertension, foamy urine, fatigue","Glomerular diseases present with proteinuria (foamy urine), hematuria, edema, hypertension, and fatigue with reduced kidney function.","What are the symptoms of Glomerular Diseases?",Renal,Severe,"glomerular disease albuminuria hematuria nephritic syndrome","glomerulonephritis, nephritic syndrome, nephrosis",N05.9,"Condition: Glomerular Disease
+Body System: Renal
+Severity: Severe
+Symptoms: hematuria, proteinuria, edema, hypertension, fatigue
+Keywords: glomerulonephritis, nephritic/nephrotic syndrome"
+Goodpasture Syndrome,"fatigue, nausea, vomiting, weakness, cough, hemoptysis, shortness of breath, hematuria, renal failure","Goodpasture syndrome initially causes fatigue, nausea, weakness, then lung involvement (cough, hemoptysis, dyspnea) and kidney involvement (hematuria, renal failure).","What are the symptoms of Goodpasture Syndrome?",Renal,Critical,"goodpasture syndrome anti‑GBM disease hemoptysis hematuria","anti‑GBM antibody disease, glomerular basement membrane disease",M31.0,"Condition: Goodpasture Syndrome
+Body System: Renal/Pulmonary
+Severity: Critical
+Symptoms: hemoptysis, dyspnea, hematuria, fatigue, renal failure
+Keywords: anti‑GBM, alveolar hemorrhage, crescentic glomerulonephritis"
+Hemolytic Uremic Syndrome in Children,"diarrhea (often bloody), vomiting, abdominal pain, decreased urine output, pallor, lethargy, petechiae, hypertension","HUS in children often starts with gastroenteritis (bloody diarrhea, vomiting, abdominal pain), then oliguria, pallor, lethargy, petechiae, and hypertension.","What are the symptoms of Hemolytic Uremic Syndrome in Children?",Renal,Critical,"hemolytic uremic syndrome HUS E. coli children renal","HUS, Shiga‑toxin producing E. coli (STEC) HUS",D59.3,"Condition: Hemolytic Uremic Syndrome
+Body System: Renal/Hematology
+Severity: Critical
+Symptoms: bloody diarrhea, oliguria, pallor, petechiae, lethargy
+Keywords: thrombotic microangiopathy, E. coli O157:H7, renal failure"
+Henoch‑Schönlein Purpura (HSP),"palpable purpura (buttocks, legs), abdominal pain, arthralgia, renal involvement (hematuria, proteinuria), fever","HSP presents with palpable purpura, abdominal pain, joint pain, and renal involvement (hematuria, proteinuria).","What are the symptoms of Henoch‑Schonlein Purpura?",Renal/Rheumatology,Moderate,"Henoch‑Schonlein purpura IgA vasculitis purpura abdominal pain","IgA vasculitis, anaphylactoid purpura",D69.0,"Condition: Henoch‑Schönlein Purpura
+Body System: Renal/Vasculitis
+Severity: Moderate
+Symptoms: palpable purpura, abdominal pain, arthralgia, hematuria
+Keywords: IgA vasculitis, leukocytoclastic, children"
+High Blood Pressure and Kidney Disease,"often asymptomatic, headaches (rare), oliguria, edema, fatigue","High blood pressure and early kidney disease are often asymptomatic; some may have headaches and later edema.","What are the symptoms of High Blood Pressure and Kidney Disease?",Renal,Moderate,"hypertension kidney disease hypertensive nephrosclerosis CKD","hypertensive renal disease, renal hypertension",I12.9,"Condition: Hypertensive Renal Disease
+Body System: Renal/Cardiovascular
+Severity: Moderate
+Symptoms: often asymptomatic, headaches, edema in advanced stage
+Keywords: hypertension, nephrosclerosis, proteinuria"
+IgA Nephropathy,"hematuria (flank pain with gross hematuria after infection), proteinuria, hypertension, edema","IgA nephropathy may be silent for years; common symptom is hematuria, often with flank pain after an upper respiratory infection, proteinuria, and hypertension.","What are the symptoms of IgA Nephropathy?",Renal,Moderate,"IgA nephropathy Berger disease hematuria glomerulonephritis","Berger's disease, IgA GN",N02.8,"Condition: IgA Nephropathy
+Body System: Renal
+Severity: Moderate
+Symptoms: hematuria, flank pain, proteinuria, hypertension
+Keywords: Berger, IgA deposition, synpharyngitic"
+Kidney Dysplasia,"often asymptomatic if unilateral, enlarged kidney at birth, abdominal mass, possible UTIs","Kidney dysplasia may be asymptomatic if unilateral; an enlarged kidney may be felt as a mass in infants.","What are the symptoms of Kidney Dysplasia?",Renal,Mild,"kidney dysplasia renal dysplasia congenital","multicystic dysplastic kidney (MCDK)",Q61.4,"Condition: Kidney Dysplasia
+Body System: Renal
+Severity: Mild
+Symptoms: often asymptomatic, abdominal mass in infant, possible UTIs
+Keywords: congenital, MCDK, cystic dysplasia"
+Lupus Nephritis,"edema, foamy urine, hypertension, weight gain, fatigue, hematuria, proteinuria","Lupus nephritis presents with edema, foamy urine, hypertension, weight gain, fatigue, hematuria, and proteinuria.","What are the symptoms of Lupus Nephritis?",Renal,Severe,"lupus nephritis SLE kidney proteinuria edema","SLE kidney disease, lupus glomerulonephritis",M32.14,"Condition: Lupus Nephritis
+Body System: Renal
+Severity: Severe
+Symptoms: edema, proteinuria, hypertension, hematuria, fatigue
+Keywords: systemic lupus erythematosus, immune complex, renal biopsy"
+Medullary Sponge Kidney,"often asymptomatic, recurrent UTIs, kidney stones, hematuria, flank pain","Medullary sponge kidney is often first detected due to recurrent UTIs, kidney stones, hematuria, and flank pain.","What are the symptoms of Medullary Sponge Kidney?",Renal,Mild,"medullary sponge kidney renal calculi UTI nephrocalcinosis","Cacchi‑Ricci disease, tubular ectasia",Q61.5,"Condition: Medullary Sponge Kidney
+Body System: Renal
+Severity: Mild
+Symptoms: recurrent kidney stones, UTIs, hematuria, flank pain
+Keywords: tubular ectasia, nephrocalcinosis, calculus"
+Nephrotic Syndrome in Adults,"edema (generalized), foamy urine, hyperlipidemia, hypoalbuminemia, weight gain, fatigue, loss of appetite","Nephrotic syndrome in adults presents with generalized edema, foamy urine, hyperlipidemia, hypoalbuminemia, weight gain, and fatigue.","What are the symptoms of Nephrotic Syndrome in Adults?",Renal,Severe,"nephrotic syndrome proteinuria edema hyperlipidemia hypoalbuminemia","idiopathic nephrotic syndrome, membranous nephropathy",N04.9,"Condition: Nephrotic Syndrome
+Body System: Renal
+Severity: Severe
+Symptoms: massive proteinuria, edema, hyperlipidemia, hypoalbuminemia, fatigue
+Keywords: podocyte injury, glomerular basement membrane, thromboembolism risk"
+Polycystic Kidney Disease (PKD),"back and flank pain, headaches, hypertension, hematuria, enlarged kidneys, palpable mass, recurrent UTIs, kidney stones","Autosomal dominant PKD commonly causes back/flank pain, headaches, hypertension, hematuria, enlarged kidneys, and recurrent UTIs.","What are the symptoms of Polycystic Kidney Disease?",Renal,Severe,"polycystic kidney disease ADPKD cysts renal failure","ADPKD, ARPKD",Q61.2,"Condition: Autosomal Dominant Polycystic Kidney Disease
+Body System: Renal
+Severity: Severe
+Symptoms: flank pain, hypertension, hematuria, palpable kidneys, UTIs
+Keywords: ADPKD, PKD1/PKD2, cyst growth, renal failure"
+Autosomal Recessive PKD (ARPKD),"enlarged kidneys in utero/neonate, oligohydramnios, Potter sequence, hypertension, renal insufficiency","ARPKD often presents prenatally with enlarged kidneys, oligohydramnios, and after birth hypertension and renal failure.","What are the symptoms of Autosomal Recessive Polycystic Kidney Disease?",Renal,Critical,"ARPKD polycystic kidney disease infant renal failure","infantile PKD, polycystic kidney disease type 2",Q61.1,"Condition: ARPKD
+Body System: Renal
+Severity: Critical
+Symptoms: massively enlarged kidneys, oligohydramnios, hypertension, renal failure
+Keywords: PKHD1, congenital hepatic fibrosis, perinatal"
+Proteinuria,"often asymptomatic early, foamy urine, edema (if quantitative heavy), fatigue due to protein loss","Proteinuria has no early symptoms; large amounts cause foamy urine, edema, and fatigue.","What are the symptoms of Proteinuria?",Renal,Mild,"proteinuria foamy urine edema protein","albuminuria, microalbuminuria",R80.9,"Condition: Proteinuria
+Body System: Renal
+Severity: Mild (if isolated)
+Symptoms: foamy urine, edema (if heavy), fatigue
+Keywords: albuminuria, kidney damage marker, CKD staging"
+Pyelonephritis (Kidney Infection),"fever, chills, back/side/flank pain, nausea, vomiting, frequent painful urination, cloudy urine","Pyelonephritis causes fever, chills, flank pain, nausea, vomiting, and urinary symptoms (dysuria, frequency).","What are the symptoms of Pyelonephritis?",Renal,Severe,"pyelonephritis kidney infection UTI fever flank pain","acute pyelonephritis, upper UTI",N10,"Condition: Acute Pyelonephritis
+Body System: Renal
+Severity: Severe
+Symptoms: fever, flank pain, chills, nausea, dysuria
+Keywords: upper UTI, renal involvement, sepsis risk"
+Renal Artery Stenosis,"often asymptomatic until severe; high blood pressure (resistant), decreased kidney function, flash pulmonary edema","Renal artery stenosis may be asymptomatic; signs include resistant hypertension, declining renal function, and occasionally flash pulmonary edema.","What are the symptoms of Renal Artery Stenosis?",Renal,Severe,"renal artery stenosis hypertension renovascular flash pulmonary edema","renovascular hypertension, atherosclerotic RAS",I70.1,"Condition: Renal Artery Stenosis
+Body System: Renal/Cardiovascular
+Severity: Severe
+Symptoms: resistant hypertension, renal failure, flash pulmonary edema (bilateral)
+Keywords: renovascular, atherosclerosis, fibromuscular dysplasia"
+Simple Kidney Cysts,"often asymptomatic, flank pain if large, possible palpable mass, hematuria rarely","Simple kidney cysts usually cause no symptoms; large cysts may cause dull flank pain.","What are the symptoms of Simple Kidney Cysts?",Renal,Mild,"simple kidney cyst renal cyst benign","renal cortical cyst, simple cyst",N28.1,"Condition: Simple Renal Cyst
+Body System: Renal
+Severity: Mild
+Symptoms: usually asymptomatic, flank ache if large
+Keywords: benign, Bosniak I, incidental"
+Alagille Syndrome,"jaundice, pruritus, xanthomas, congenital heart disease (pulmonary stenosis), butterfly vertebrae, posterior embryotoxon, renal anomalies","Alagille syndrome presents with cholestatic jaundice, pruritus, xanthomas, and associations with cardiac, skeletal, ocular, and renal anomalies.","What are the symptoms of Alagille Syndrome?",Hepatobiliary,Severe,"alagille syndrome JAG1 NOTCH2 bile duct paucity","arteriohepatic dysplasia, syndromic bile duct paucity",Q44.7,"Condition: Alagille Syndrome
+Body System: Hepatobiliary
+Severity: Severe
+Symptoms: cholestatic jaundice, pruritus, congenital heart disease, butterfly vertebrae
+Keywords: JAG1, intrahepatic bile duct paucity, genetic syndrome"
+Autoimmune Hepatitis,"fatigue, joint pain, nausea, loss of appetite, right upper quadrant pain, jaundice, dark urine, pruritus, skin rashes","Autoimmune hepatitis commonly presents with fatigue, arthralgia, nausea, anorexia, right upper quadrant pain, jaundice, dark urine, and pruritus.","What are the symptoms of Autoimmune Hepatitis?",Hepatobiliary,Severe,"autoimmune hepatitis liver inflammation ANA SMA","lupoid hepatitis, chronic active hepatitis",K75.4,"Condition: Autoimmune Hepatitis
+Body System: Hepatobiliary
+Severity: Severe
+Symptoms: fatigue, arthralgia, jaundice, anorexia, hepatomegaly
+Keywords: ANA, anti‑smooth muscle, IgG, interface hepatitis"
+Biliary Atresia,"neonatal jaundice (beyond 2 weeks), pale stools, dark urine, hepatomegaly, poor weight gain","Biliary atresia presents in neonates with persistent jaundice, pale acholic stools, dark urine, hepatomegaly, and failure to thrive.","What are the symptoms of Biliary Atresia?",Hepatobiliary,Critical,"biliary atresia neonatal jaundice cholestasis","extrahepatic biliary atresia, neonatal cholestasis",Q44.2,"Condition: Biliary Atresia
+Body System: Hepatobiliary
+Severity: Critical
+Symptoms: prolonged neonatal jaundice, acholic stools, dark urine, hepatomegaly
+Keywords: Kasai portoenterostomy, infantile obstructive cholangiopathy"
+Cirrhosis,"fatigue, weakness, loss of appetite, nausea, weight loss, jaundice, spider angiomas, palmar erythema, ascites, easy bruising, confusion (hepatic encephalopathy)","Cirrhosis may be asymptomatic early; later symptoms include fatigue, anorexia, weight loss, jaundice, spider angiomas, ascites, bruising, and mental changes.","What are the symptoms of Cirrhosis?",Hepatobiliary,Severe,"cirrhosis liver fibrosis ascites jaundice portal hypertension","end‑stage liver disease, hepatic fibrosis",K74.60,"Condition: Cirrhosis
+Body System: Hepatobiliary
+Severity: Severe
+Symptoms: fatigue, jaundice, ascites, spider angiomas, palmar erythema, encephalopathy
+Keywords: portal hypertension, liver decompensation, MELD"
+Hemochromatosis,"joint pain, fatigue, unexplained weight loss, bronze/gray skin, abdominal pain, loss of libido, heart problems","Hereditary hemochromatosis may present with joint pain, fatigue, weight loss, bronze skin discoloration, abdominal pain, and hypogonadism.","What are the symptoms of Hemochromatosis?",Hepatobiliary,Severe,"hemochromatosis iron overload HFE gene bronze diabetes","hereditary hemochromatosis, bronze diabetes",E83.119,"Condition: Hereditary Hemochromatosis
+Body System: Hepatobiliary
+Severity: Severe
+Symptoms: joint pain, fatigue, skin hyperpigmentation, diabetes, cirrhosis
+Keywords: iron overload, HFE, C282Y, phlebotomy"
+Hepatitis B,"often asymptomatic, fatigue, muscle soreness, upset stomach, fever, loss of appetite, jaundice, abdominal pain, dark urine","Hepatitis B may be silent; acute symptoms include fatigue, muscle soreness, nausea, fever, anorexia, jaundice, abdominal pain, and dark urine.","What are the symptoms of Hepatitis B?",Hepatobiliary,Moderate,"hepatitis B HBV viral hepatitis jaundice","serum hepatitis, HBV infection",B18.1,"Condition: Hepatitis B
+Body System: Hepatobiliary
+Severity: Moderate (chronic severe)
+Symptoms: fatigue, nausea, jaundice, abdominal pain, dark urine, anorexia
+Keywords: HBV, surface antigen, antiviral"
+Nonalcoholic Steatohepatitis (NASH),"often asymptomatic early; later fatigue, weight loss, weakness, right upper quadrant discomfort","NASH is usually silent until later stages when fatigue, weight loss, weakness, and right upper quadrant discomfort appear.","What are the symptoms of Nonalcoholic Steatohepatitis?",Hepatobiliary,Severe,"NASH fatty liver steatohepatitis cirrhosis metabolic","non‑alcoholic fatty liver disease (NAFLD) with inflammation",K75.81,"Condition: NASH
+Body System: Hepatobiliary
+Severity: Severe (progressive)
+Symptoms: fatigue, weight loss, weakness, right upper quadrant pain
+Keywords: metabolic syndrome, steatosis, ballooning, fibrosis"
+Porphyria,"oversensitivity to sunlight (cutaneous), abdominal pain (acute), muscle weakness, neuropsychiatric, red urine","Cutaneous porphyrias cause photosensitivity, blistering; acute porphyrias cause severe abdominal pain, neuropsychiatric symptoms, and red urine.","What are the symptoms of Porphyria?",Hepatobiliary/Hematology,Severe,"porphyria heme synthesis photosensitivity abdominal pain","acute intermittent porphyria, porphyria cutanea tarda",E80.9,"Condition: Porphyria
+Body System: Hepatobiliary/Hematology
+Severity: Severe
+Symptoms: photosensitivity, abdominal pain, neurovisceral attacks, red urine
+Keywords: heme biosynthesis, PBG, ALA"
+Primary Biliary Cholangitis (PBC),"fatigue, pruritus, dry eyes/mouth, jaundice, darkening skin from scratching, hepatomegaly","PBC commonly presents with fatigue, intractable pruritus, dry eyes/mouth, and later jaundice and hepatomegaly.","What are the symptoms of Primary Biliary Cholangitis?",Hepatobiliary,Severe,"primary biliary cholangitis PBC antimitochondrial antibody","primary biliary cirrhosis, chronic nonsuppurative destructive cholangitis",K74.3,"Condition: Primary Biliary Cholangitis
+Body System: Hepatobiliary
+Severity: Severe
+Symptoms: fatigue, pruritus, dry eyes/mouth, jaundice, hepatomegaly
+Keywords: AMA, cholestatic, ursodeoxycholic acid"
+Primary Sclerosing Cholangitis (PSC),"pruritus, fatigue, jaundice, right upper quadrant pain, fever/chills (if cholangitis)","PSC causes pruritus, fatigue, jaundice, abdominal pain, and episodic cholangitis with fever and chills.","What are the symptoms of Primary Sclerosing Cholangitis?",Hepatobiliary,Severe,"primary sclerosing cholangitis PSC IBD cholestasis","sclerosing cholangitis, fibrosing cholangitis",K83.0,"Condition: Primary Sclerosing Cholangitis
+Body System: Hepatobiliary
+Severity: Severe
+Symptoms: pruritus, fatigue, jaundice, cholangitis episodes
+Keywords: multifocal strictures, IBD, ERCP"
+Viral Hepatitis (General A‑E),"jaundice, fatigue, abdominal pain, loss of appetite, nausea, vomiting, diarrhea, low‑grade fever, headache","Viral hepatitis commonly presents with jaundice, fatigue, abdominal pain, anorexia, nausea, vomiting, diarrhea, low‑grade fever, and headache.","What are the symptoms of Viral Hepatitis?",Hepatobiliary,Mild to Severe,"viral hepatitis Hepatitis A B C D E","acute viral hepatitis",B19.9,"Condition: Acute Viral Hepatitis
+Body System: Hepatobiliary
+Severity: Moderate
+Symptoms: jaundice, fatigue, anorexia, nausea, abdominal pain
+Keywords: hepatitis A, B, C, D, E, transaminase elevation"
+Interstitial Cystitis / Painful Bladder Syndrome,"urinary urgency, frequency, pelvic pain, pressure, discomfort as bladder fills, nocturia","Interstitial cystitis presents with urinary urgency, frequency, pelvic pain, and discomfort that worsens as the bladder fills, and nocturia.","What are the symptoms of Interstitial Cystitis/Painful Bladder Syndrome?",Urology,Moderate,"interstitial cystitis painful bladder syndrome IC/BPS","IC/PBS, bladder pain syndrome, Hunner's ulcer",N30.10,"Condition: Interstitial Cystitis
+Body System: Urology
+Severity: Moderate
+Symptoms: urinary urgency, frequency, pelvic pain, nocturia
+Keywords: bladder pain, Hunner lesions, non‑infectious"
+Kidney Stones (Nephrolithiasis) in Adults,"pain while urinating, hematuria, sharp flank/back pain radiating to groin, nausea, vomiting, cloudy urine","Kidney stones cause intense flank pain radiating to groin, hematuria, dysuria, nausea, and vomiting.","What are the symptoms of Kidney Stones in Adults?",Renal,Severe,"renal stone nephrolithiasis hematuria flank pain colic","urolithiasis, renal calculi",N20.0,"Condition: Kidney Stones
+Body System: Renal
+Severity: Severe
+Symptoms: colicky flank pain, hematuria, nausea, vomiting, dysuria
+Keywords: renal colic, calcium oxalate, ureteral calculus"
+Kidney Stones in Children,"pain while urinating, hematuria, sharp pain in back or lower abdomen, nausea, vomiting, restlessness","Children with kidney stones may present with dysuria, hematuria, flank or abdominal pain, nausea, vomiting, and restlessness.","What are the symptoms of Kidney Stones in Children?",Renal,Severe,"kidney stones children urolithiasis hematuria","pediatric nephrolithiasis",N20.9,"Condition: Pediatric Kidney Stones
+Body System: Renal
+Severity: Severe
+Symptoms: flank/abdominal pain, hematuria, nausea, vomiting
+Keywords: pediatric, metabolic evaluation, hypercalciuria"
+Peyronie's Disease,"hard lumps on penis, pain during erection, penile curvature, erectile dysfunction, shortening","Peyronie's disease causes palpable plaque, painful erections, penile curvature, and erectile dysfunction.","What are the symptoms of Peyronie's Disease?",Urology,Moderate,"peyronie disease penile curvature plaque fibrosis","induratio penis plastica, penile fibromatosis",N48.6,"Condition: Peyronie Disease
+Body System: Urology
+Severity: Moderate
+Symptoms: penile plaque, curvature, painful erections, ED
+Keywords: penile fibrosis, Dupuytren, collagen"
+Benign Prostatic Hyperplasia (BPH),"urinary frequency, urgency, nocturia, weak stream, hesitancy, straining, feeling of incomplete emptying","BPH causes lower urinary tract symptoms: frequency, urgency, nocturia, weak stream, hesitancy, strain, and incomplete emptying.","What are the symptoms of Prostate Enlargement (BPH)?",Urology,Moderate,"BPH benign prostatic hyperplasia urinary obstruction LUTS","prostatic enlargement, benign prostatic hypertrophy",N40.0,"Condition: Benign Prostatic Hyperplasia
+Body System: Urology
+Severity: Moderate
+Symptoms: weak stream, hesitancy, frequency, nocturia, urgency
+Keywords: LUTS, prostate, alpha‑blockers"
+Urinary Retention,"inability to urinate, painful urge, lower abdominal discomfort/fullness, overflow incontinence (if chronic)","Acute urinary retention presents with inability to void, painful urge, and lower abdominal discomfort.","What are the symptoms of Urinary Retention?",Urology,Severe,"urinary retention acute bladder outlet obstruction","ischuria, bladder outlet obstruction",R33,"Condition: Acute Urinary Retention
+Body System: Urology
+Severity: Severe
+Symptoms: inability to void, painful bladder distension, lower abdominal pain
+Keywords: outlet obstruction, catheterization"
+Urinary Tract Infection (UTI) in Adults,"dysuria, frequency, urgency, hematuria, cloudy urine, strong odor, pelvic pain; elderly may have confusion","UTI in adults causes dysuria, frequency, urgency, hematuria, cloudy urine, and pelvic discomfort; elderly may present with confusion.","What are the symptoms of Urinary Tract Infection in Adults?",Urology,Moderate,"UTI cystitis dysuria bacteriuria urinary tract","urinary tract infection, cystitis, pyelonephritis if upper",N39.0,"Condition: Urinary Tract Infection
+Body System: Urology
+Severity: Moderate
+Symptoms: dysuria, frequency, urgency, cloudy urine, hematuria
+Keywords: cystitis, bacteriuria, antibiotic"
+UTI in Children,"fever, irritability, vomiting, poor feeding, dysuria (in older child), unusual smelling urine","Children with UTI may have fever, irritability, vomiting, poor feeding, and in older children dysuria and frequency.","What are the symptoms of Urinary Tract Infections in Children?",Urology,Moderate,"pediatric UTI childhood urinary tract infection","child UTI, paediatric cystitis",N39.0,"Condition: Pediatric UTI
+Body System: Urology
+Severity: Moderate
+Symptoms: fever, irritability, vomiting, dysuria
+Keywords: vesicoureteral reflux, renal scarring"
+Urine Blockage in Newborns,"decreased urine output, no urine, palpable abdominal mass (enlarged kidney or bladder), poor feeding","Newborns with urine blockage may void only small amounts or not at all, have an enlarged bladder/kidney, and poor feeding.","What are the symptoms of Urine Blockage in Newborns?",Urology,Critical,"posterior urethral valves urinary obstruction newborn","fetal urinary obstruction, PUV",Q64.0,"Condition: Neonatal Urinary Obstruction
+Body System: Urology
+Severity: Critical
+Symptoms: oliguria, abdominal mass, poor feeding
+Keywords: posterior urethral valves, hydronephrosis"
+Vesicoureteral Reflux (VUR),"often asymptomatic, UTI, flank pain, voiding dysfunction","VUR is often asymptomatic until a UTI occurs; some children have flank pain or voiding issues.","What are the symptoms of Vesicoureteral Reflux?",Urology,Moderate,"vesicoureteral reflux VUR UTI reflux","ureteral reflux, congenital VUR",N13.70,"Condition: Vesicoureteral Reflux
+Body System: Urology
+Severity: Moderate
+Symptoms: often asymptomatic, recurrent UTIs, flank pain
+Keywords: VUR, recurrent pyelonephritis, renal scarring"
+Acinetobacter Infection,"pneumonia (cough, fever, dyspnea), bloodstream infection (fever, chills, hypotension), wound infection (pus, redness, pain), can colonize without symptoms","Acinetobacter can cause pneumonia, bloodstream or wound infections with corresponding symptoms; colonization may be asymptomatic.","What are the symptoms of Acinetobacter Infection?",Infectious Disease,Severe,"acinetobacter nosocomial infection pneumonia","Acinetobacter baumannii, multidrug‑resistant, hospital‑acquired",B96.89,"Condition: Acinetobacter Infection
+Body System: Infectious Disease (Multisystem)
+Severity: Severe
+Symptoms: depends on site: pneumonia (cough, fever), bacteremia (fever, hypotension), wound (purulence)
+Keywords: nosocomial, MDR, ICU pathogen"
+Alkhurma Hemorrhagic Fever (AHF),"fever, anorexia, vomiting, abdominal pain, headache, myalgia; may progress to hemorrhagic signs","AHF begins with flu‑like symptoms: fever, anorexia, vomiting, abdominal pain, headache, myalgia, followed by hemorrhagic manifestations.","What are the symptoms of Alkhurma Hemorrhagic Fever?",Infectious Disease,Severe,"alkhurma hemorrhagic fever AHF tick‑borne","Alkhurma virus, KFDV variant",A92.8,"Condition: Alkhurma Hemorrhagic Fever
+Body System: Infectious Disease
+Severity: Severe
+Symptoms: fever, headache, myalgia, vomiting, hemorrhagic signs
+Keywords: tick‑borne, Kyasanur Forest disease virus variant"
+Anaplasmosis,"fever, chills, headache, myalgia, malaise, nausea, cough","Anaplasmosis causes fever, chills, severe headache, myalgia, malaise, nausea, and cough.","What are the symptoms of Anaplasmosis?",Infectious Disease,Moderate,"anaplasmosis tick‑borne human granulocytic anaplasmosis","HGA, Anaplasma phagocytophilum",A79.82,"Condition: Human Granulocytic Anaplasmosis
+Body System: Infectious Disease
+Severity: Moderate
+Symptoms: fever, headache, myalgia, chills, nausea, cough
+Keywords: tick‑borne, Ixodes, intracellular"
+Botulism,"double vision, blurred vision, drooping eyelids, slurred speech, difficulty swallowing, dry mouth, muscle weakness (descending), respiratory failure, infant: lethargy, constipation, poor feeding","Botulism presents with cranial nerve palsies: diplopia, ptosis, dysphagia, dysarthria, dry mouth, followed by descending paralysis and respiratory failure; infants present with lethargy, constipation, and poor feeding.","What are the symptoms of Botulism?",Infectious Disease,Critical,"botulism Clostridium botulinum neurotoxin paralysis","foodborne botulism, infant botulism",A05.1,"Condition: Botulism
+Body System: Infectious Disease (Neurological)
+Severity: Critical
+Symptoms: diplopia, ptosis, dysphagia, dysarthria, descending weakness, respiratory failure
+Keywords: botulinum toxin, flaccid paralysis, antitoxin"
+Crimean‑Congo Hemorrhagic Fever (CCHF),"sudden onset, high fever, headache, back pain, joint pain, abdominal pain, vomiting, red eyes, flushed face, petechiae, severe hemorrhagic signs","CCHF begins suddenly with fever, headache, backache, joint pain, abdominal pain, vomiting, red eyes, flushed face, and petechiae, progressing to hemorrhage.","What are the symptoms of Crimean‑Congo Hemorrhagic Fever?",Infectious Disease,Critical,"CCHF hemorrhagic fever tick‑borne viral","Congo fever, viral hemorrhagic fever",A98.0,"Condition: Crimean‑Congo Hemorrhagic Fever
+Body System: Infectious Disease
+Severity: Critical
+Symptoms: high fever, headache, myalgia, hemorrhage, petechiae
+Keywords: tick‑borne, Nairovirus, nosocomial risk"
+Chapare Hemorrhagic Fever (CHHF),"fever, headache, myalgia, arthralgia, nausea, vomiting, hemorrhagic signs, similar to other South American hemorrhagic fevers","CHHF presents with fever, headache, myalgia, arthralgia, nausea, vomiting, and hemorrhagic manifestations.","What are the symptoms of Chapare Hemorrhagic Fever?",Infectious Disease,Critical,"chapare hemorrhagic fever Mammarenavirus South America","Chapare virus, arenavirus",A96.8,"Condition: Chapare Hemorrhagic Fever
+Body System: Infectious Disease
+Severity: Critical
+Symptoms: fever, headache, myalgia, vomiting, hemorrhage
+Keywords: arenavirus, South American HF, rodent reservoir"
+Ehrlichiosis,"fever, chills, headache, myalgia, nausea, vomiting, confusion (in severe cases), rash less common than RMSF","Ehrlichiosis presents with fever, chills, severe headache, myalgia, nausea, and sometimes confusion; rash occurs in minority.","What are the symptoms of Ehrlichiosis?",Infectious Disease,Moderate,"ehrlichiosis HME tick‑borne","human monocytic ehrlichiosis, E. chaffeensis",A79.89,"Condition: Ehrlichiosis
+Body System: Infectious Disease
+Severity: Moderate
+Symptoms: fever, headache, myalgia, nausea, confusion
+Keywords: tick‑borne, intracellular, monocytic"
+Hantavirus Pulmonary Syndrome (HPS),"fatigue, fever, myalgia (large muscle groups), headache, dizziness, chills, then rapidly progressive cough, shortness of breath, pulmonary edema requiring ventilation","HPS begins with a prodrome of fatigue, fever, myalgia, then rapidly progresses to cough, dyspnea, pulmonary edema, and respiratory failure.","What are the symptoms of Hantavirus Pulmonary Syndrome?",Infectious Disease,Critical,"hantavirus pulmonary syndrome HPS sin nombre","HPS, HCPS, hantavirus cardiopulmonary syndrome",B33.4,"Condition: Hantavirus Pulmonary Syndrome
+Body System: Infectious Disease (Respiratory)
+Severity: Critical
+Symptoms: fever, myalgia, rapid onset pulmonary edema, respiratory failure
+Keywords: Sin Nombre virus, rodent reservoir, ARDS"
+Hendra Virus Infection,"respiratory illness with severe flu‑like symptoms, cough, sore throat, headache, fever; may progress to encephalitis","Hendra virus causes severe flu‑like respiratory illness, and in some cases encephalitis.","What are the symptoms of Hendra Virus Disease?",Infectious Disease,Critical,"hendra virus HeV zoonotic equine","Henipavirus, equine morbillivirus",B33.8,"Condition: Hendra Virus Disease
+Body System: Infectious Disease
+Severity: Critical
+Symptoms: respiratory illness, fever, headache, encephalitis
+Keywords: bat‑borne, zoonotic, horses"
+Kyasanur Forest Disease (KFD),"sudden onset chills, fever, headache, severe muscle pain, vomiting, gastrointestinal symptoms, bleeding problems","KFD begins suddenly with chills, fever, headache, severe myalgia, vomiting, and GI and bleeding symptoms.","What are the symptoms of Kyasanur Forest Disease?",Infectious Disease,Severe,"kyasanur forest disease KFD tick‑borne viral hemorrhagic","Kyasanur Forest disease virus (KFDV)",A92.8,"Condition: Kyasanur Forest Disease
+Body System: Infectious Disease
+Severity: Severe
+Symptoms: fever, myalgia, vomiting, hemorrhagic tendency
+Keywords: tick‑borne, Indian subcontinent, KFDV"
+Lymphocytic Choriomeningitis (LCM),"fever, malaise, myalgia, anorexia, nausea, vomiting; second phase: meningitis/encephalitis (headache, neck stiffness, confusion)","LCM often presents with a biphasic illness: initial flu‑like symptoms (fever, myalgia, nausea), then neurological phase with meningitis or encephalitis.","What are the symptoms of Lymphocytic Choriomeningitis?",Infectious Disease,Severe,"LCM lymphocytic choriomeningitis arenavirus","LCMV, arenavirus meningitis",A87.2,"Condition: Lymphocytic Choriomeningitis
+Body System: Infectious Disease (Neurological)
+Severity: Severe
+Symptoms: fever, myalgia, headache, then meningoencephalitis
+Keywords: rodent, LCMV, aseptic meningitis"
+Lujo Hemorrhagic Fever (LUHF),"fever, headache, myalgia, pharyngitis, vomiting, diarrhea, facial edema, rash, severe hemorrhage","LUHF resembles severe Lassa fever: fever, headache, myalgia, pharyngitis, vomiting, diarrhea, facial edema, rash, and hemorrhage.","What are the symptoms of Lujo Hemorrhagic Fever?",Infectious Disease,Critical,"lujo hemorrhagic fever LUHF arenavirus","Lujo virus, arenavirus HF",A96.8,"Condition: Lujo Hemorrhagic Fever
+Body System: Infectious Disease
+Severity: Critical
+Symptoms: fever, pharyngitis, facial edema, hemorrhage
+Keywords: arenavirus, rodent, Southern Africa"
+Marburg Hemorrhagic Fever,"sudden fever, chills, headache, myalgia; maculopapular rash day 5; nausea, vomiting, chest pain, sore throat, progressive hemorrhage","Marburg HF starts abruptly with fever, chills, headache, myalgia; around day 5 a rash appears, followed by nausea, vomiting, hemorrhage.","What are the symptoms of Marburg Hemorrhagic Fever?",Infectious Disease,Critical,"marburg hemorrhagic fever filovirus","Marburg virus disease, filovirus HF",A98.3,"Condition: Marburg Virus Disease
+Body System: Infectious Disease
+Severity: Critical
+Symptoms: fever, rash, vomiting, hemorrhage, shock
+Keywords: filovirus, bats, laboratory"
+Nocardiosis,"pulmonary: cough, shortness of breath, chest pain, fever; disseminated: brain abscesses (headache, seizures), skin abscesses","Nocardiosis most commonly causes lung infection with cough, dyspnea, fever; disseminated disease may cause brain abscess and skin lesions.","What are the symptoms of Nocardiosis?",Infectious Disease,Severe,"nocardiosis Nocardia pulmonary brain abscess","Nocardia asteroides complex, opportunistic infection",A43.0,"Condition: Nocardiosis
+Body System: Infectious Disease
+Severity: Severe
+Symptoms: cough, dyspnea, fever; brain abscess, skin abscesses
+Keywords: Gram‑positive rod, immunocompromised, sulfonamide"
+Omsk Hemorrhagic Fever (OHF),"sudden chills, fever, headache, severe muscle pain, vomiting, gastrointestinal symptoms, bleeding, pneumonia","OHF starts suddenly with chills, fever, headache, severe myalgia, vomiting, GI symptoms, bleeding, and may have pneumonia.","What are the symptoms of Omsk Hemorrhagic Fever?",Infectious Disease,Severe,"omsk hemorrhagic fever OHF tick‑borne","Omsk hemorrhagic fever virus (OHFV)",A92.8,"Condition: Omsk Hemorrhagic Fever
+Body System: Infectious Disease
+Severity: Severe
+Symptoms: fever, myalgia, vomiting, hemorrhage, pneumonia
+Keywords: tick‑borne, Siberia, flavivirus"
+Q Fever,"acute: high fever, severe headache, chills, myalgia, nonproductive cough, sweats, chest pain, photophobia; chronic: endocarditis, hepatitis","Acute Q fever presents with high fever, severe headache, chills, myalgia, cough, and chest pain; chronic Q fever may cause endocarditis or hepatitis.","What are the symptoms of Q Fever?",Infectious Disease,Moderate to Severe,"q fever Coxiella burnetii zoonotic","query fever, coxiellosis",A78,"Condition: Q Fever
+Body System: Infectious Disease
+Severity: Moderate (acute) / Severe (chronic)
+Symptoms: fever, headache, cough, myalgia; chronic: endocarditis
+Keywords: Coxiella, aerosol, livestock"
+Rabies,"initial - flu‑like: fever, headache, malaise, discomfort at bite site; later - neurological: hydrophobia, aerophobia, agitation, confusion, paralysis, hypersalivation","Rabies first presents with flu‑like symptoms and paresthesia at the bite site, then progresses to hydrophobia, aerophobia, agitation, paralysis, and coma.","What are the symptoms of Rabies?",Infectious Disease,Critical,"rabies lyssavirus encephalitis hydrophobia aerophobia","hydrophobia, rabid, viral encephalitis",A82.9,"Condition: Rabies
+Body System: Infectious Disease (Neurological)
+Severity: Critical
+Symptoms: fever, headache, paresthesia, hydrophobia, paralysis, coma
+Keywords: lyssavirus, animal bite, post‑exposure prophylaxis"
+Rocky Mountain Spotted Fever (RMSF),"fever, headache, rash (petechial starting at wrists/ankles), myalgia, nausea, vomiting, abdominal pain, conjunctivitis","RMSF begins with fever, headache, rash (petechial, starting peripherally), myalgia, nausea, and abdominal pain.","What are the symptoms of Rocky Mountain Spotted Fever?",Infectious Disease,Severe,"rocky mountain spotted fever RMSF rickettsia tick","RMSF, Rickettsia rickettsii, spotted fever",A77.0,"Condition: Rocky Mountain Spotted Fever
+Body System: Infectious Disease
+Severity: Severe
+Symptoms: fever, petechial rash, headache, myalgia, nausea
+Keywords: tick‑borne, vasculitis, doxycycline"
+Typhoid Fever,"sustained high fever (103–104°F), weakness, stomach pain, headache, loss of appetite, rose spots, constipation or diarrhea","Typhoid fever causes sustained high fever, weakness, abdominal pain, headache, anorexia, and sometimes rose spots.","What are the symptoms of Typhoid Fever?",Infectious Disease,Severe,"typhoid fever Salmonella typhi enteric fever","enteric fever, Salmonella Typhi",A01.00,"Condition: Typhoid Fever
+Body System: Infectious Disease
+Severity: Severe
+Symptoms: prolonged fever, headache, abdominal pain, anorexia, rose spots
+Keywords: Salmonella Typhi, contaminated water, rose spots"
+Chronic Fatigue Syndrome (CFS/ME),"severe chronic fatigue (>6 months), post‑exertional malaise, unrefreshing sleep, cognitive impairment, orthostatic intolerance, myalgia, headache, sore throat","CFS is characterized by profound fatigue, post‑exertional malaise, unrefreshing sleep, cognitive difficulties, and orthostatic intolerance, along with myalgia and headaches.","What are the symptoms of Chronic Fatigue Syndrome?",Rheumatology/Neurology,Moderate,"chronic fatigue syndrome myalgic encephalomyelitis CFS ME","myalgic encephalomyelitis, systemic exertion intolerance disease (SEID)",R53.82,"Condition: Chronic Fatigue Syndrome
+Body System: Multisystem
+Severity: Moderate
+Symptoms: severe fatigue, post‑exertional malaise, unrefreshing sleep, cognitive dysfunction
+Keywords: ME/CFS, immune dysregulation, exclusion diagnosis"
+Cystocele,"vaginal bulge, feeling of something falling out of vagina, pelvic heaviness/fullness, difficulty starting urine stream, incomplete emptying, stress incontinence","Cystocele causes a vaginal bulge, pelvic pressure, difficulty voiding, and stress urinary incontinence.","What are the symptoms of Cystocele?",Urology/Gynecology,Moderate,"cystocele anterior vaginal wall prolapse","prolapsed bladder, anterior prolapse",N81.1,"Condition: Cystocele
+Body System: Urology / Gynecology
+Severity: Moderate
+Symptoms: vaginal bulge, pelvic pressure, voiding dysfunction
+Keywords: anterior pelvic organ prolapse, POP, pessary"
+Hematuria (Blood in Urine),"microscopic: no symptoms; gross: pink, red, or cola‑colored urine","Microscopic hematuria is asymptomatic; gross hematuria is visible as pink, red, or brown urine.","What are the symptoms of Hematuria?",Urology,Mild to Severe (determined by cause),"hematuria blood in urine gross microscopic","hematuria, urinary tract bleeding",R31.9,"Condition: Hematuria
+Body System: Urology
+Severity: Variable
+Symptoms: visible blood in urine, or microscopic only
+Keywords: bladder cancer risk, UTI, stones"
+Hirschsprung Disease,"neonatal bowel obstruction (failure to pass meconium), severe constipation, abdominal distension, vomiting, failure to thrive","Hirschsprung disease presents in neonates with failure to pass meconium, abdominal distension, vomiting, and severe constipation.","What are the symptoms of Hirschsprung Disease?",Gastrointestinal,Critical,"hirschsprung disease congenital megacolon aganglionosis","congenital aganglionic megacolon, HD",Q43.1,"Condition: Hirschsprung Disease
+Body System: Gastrointestinal
+Severity: Critical
+Symptoms: failure to pass meconium, neonatal obstruction, chronic constipation, distension
+Keywords: aganglionosis, pull‑through surgery, enterocolitis"

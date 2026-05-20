@@ -1,0 +1,29 @@
+[
+  {
+    "case_id": "A1_HISTORY_LEAK_DVT",
+    "category": "history_leakage",
+    "difficulty": "adversarial",
+    "raw_note_text": "PAST MEDICAL HISTORY: Chronic DVT of the left leg (on Eliquis), Hypertension, GERD. \nASSESSMENT: Acute cellulitis of the left lower extremity. No evidence of acute DVT on Doppler ultrasound performed today. Plan: IV Vancomycin.",
+    "ground_truth": ["L03.116"],
+    "primary_diagnosis": "L03.116",
+    "explanation": "Active diagnosis is cellulitis. DVT is historical/chronic and Doppler was negative for acute process. System must not activate I82.40x."
+  },
+  {
+    "case_id": "A2_RULE_OUT_STRESS",
+    "category": "negation",
+    "difficulty": "adversarial",
+    "raw_note_text": "65yo male with chest pain. \nDifferential diagnosis includes: \n1. Rule out PE (negative CTA)\n2. Rule out MI (negative Troponins)\n3. Rule out Dissection (negative CTA)\n4. Community acquired pneumonia - Right lower lobe infiltrate seen on CXR. \nSTARTING AZITHROMYCIN.",
+    "ground_truth": ["J18.9"],
+    "primary_diagnosis": "J18.9",
+    "explanation": "PE, MI, and Dissection were ruled out. Pneumonia is the only active confirmed diagnosis."
+  },
+  {
+    "case_id": "A3_LATERALITY_CONFUSION",
+    "category": "laterality",
+    "difficulty": "adversarial",
+    "raw_note_text": "Postoperative Note: \nProcedure: Left total hip arthroplasty (THA). \nIndications: Severe osteoarthritis of the right hip. \nFindings: Advanced chondromalacia of the left acetabulum. \nPostop Diagnosis: Left hip osteoarthritis.",
+    "ground_truth": ["M16.12"],
+    "primary_diagnosis": "M16.12",
+    "explanation": "Conflicting laterality in note. Procedural evidence and final diagnosis point to LEFT (M16.12). RIGHT mention in indications is likely a template error."
+  }
+]

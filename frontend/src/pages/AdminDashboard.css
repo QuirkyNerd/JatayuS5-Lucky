@@ -1,0 +1,375 @@
+/* AdminDashboard.css – Governance & AI Performance Admin Panel Styles */
+
+/* ── Root Layout ── */
+.adm-root {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 20px 64px;
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    color: #e2e8f0;
+    background: #0f172a;
+    min-height: 100vh;
+}
+
+/* ── Header ── */
+.adm-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 28px;
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    border: 1px solid #334155;
+    border-radius: 16px;
+    margin-bottom: 28px;
+}
+
+.adm-header__title {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.adm-header__icon {
+    font-size: 2rem;
+}
+
+.adm-header__title h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin: 0;
+}
+
+.adm-header__title p {
+    margin: 4px 0 0;
+    color: #94a3b8;
+    font-size: 0.9rem;
+}
+
+.adm-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.adm-header__audits {
+    font-size: 0.85rem;
+    color: #64748b;
+    background: #1e293b;
+    border: 1px solid #334155;
+    padding: 6px 14px;
+    border-radius: 999px;
+}
+
+/* ── Buttons ── */
+.adm-btn {
+    padding: 8px 20px;
+    border-radius: 8px;
+    border: 1px solid #475569;
+    background: #1e293b;
+    color: #e2e8f0;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.adm-btn:hover {
+    background: #334155;
+    border-color: #64748b;
+}
+
+.adm-btn--primary {
+    background: linear-gradient(135deg, #3b82f6, #6366f1);
+    border-color: transparent;
+    color: #fff;
+    font-weight: 600;
+}
+
+.adm-btn--primary:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+/* ── Section ── */
+.adm-section {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin-bottom: 24px;
+}
+
+.adm-section__title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #f1f5f9;
+    margin: 0 0 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #334155;
+}
+
+/* ── Metrics Grid ── */
+.adm-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.adm-card {
+    background: #0f172a;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border: 1px solid #334155;
+    transition: transform 0.2s;
+}
+
+.adm-card:hover {
+    transform: translateY(-2px);
+}
+
+.adm-card__label {
+    font-size: 0.78rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.adm-card__value {
+    font-size: 1.9rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.adm-card__sub {
+    margin-top: 4px;
+}
+
+.adm-card--green .adm-card__value {
+    color: #4ade80;
+}
+
+.adm-card--orange .adm-card__value {
+    color: #fb923c;
+}
+
+.adm-card--red .adm-card__value {
+    color: #f87171;
+}
+
+.adm-card--blue .adm-card__value {
+    color: #60a5fa;
+}
+
+/* ── Badges ── */
+.adm-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
+.adm-badge--ok {
+    background: rgba(74, 222, 128, 0.15);
+    color: #4ade80;
+}
+
+.adm-badge--warn {
+    background: rgba(251, 146, 60, 0.15);
+    color: #fb923c;
+}
+
+.adm-badge--red {
+    background: rgba(248, 113, 113, 0.15);
+    color: #f87171;
+}
+
+/* ── Targets ── */
+.adm-targets {
+    font-size: 0.82rem;
+    color: #64748b;
+    padding: 10px 0 0;
+}
+
+/* ── Feedback Summary ── */
+.adm-feedback-summary {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 20px;
+}
+
+.adm-feedback-summary__item {
+    flex: 1;
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+}
+
+.adm-feedback-summary__count {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #94a3b8;
+}
+
+.adm-feedback-summary__item--green .adm-feedback-summary__count {
+    color: #4ade80;
+}
+
+.adm-feedback-summary__item--red .adm-feedback-summary__count {
+    color: #f87171;
+}
+
+.adm-feedback-summary__label {
+    font-size: 0.82rem;
+    color: #64748b;
+}
+
+/* ── Rejection Reasons ── */
+.adm-reasons h3 {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    margin: 0 0 12px;
+}
+
+.adm-reasons__grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.adm-reason-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 6px 12px;
+}
+
+.adm-reason-chip__label {
+    font-size: 0.82rem;
+    color: #94a3b8;
+    text-transform: capitalize;
+}
+
+.adm-reason-chip__count {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #f87171;
+    background: rgba(248, 113, 113, 0.1);
+    padding: 2px 8px;
+    border-radius: 999px;
+}
+
+/* ── Tables ── */
+.adm-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+}
+
+.adm-table th {
+    text-align: left;
+    padding: 10px 14px;
+    color: #64748b;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid #334155;
+}
+
+.adm-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid #1e293b;
+    color: #cbd5e1;
+    vertical-align: middle;
+}
+
+.adm-table tr:last-child td {
+    border-bottom: none;
+}
+
+.adm-table tr:hover td {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.adm-table__rank {
+    color: #475569;
+    font-weight: 600;
+}
+
+.adm-code {
+    background: rgba(99, 102, 241, 0.15);
+    color: #818cf8;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: 'Fira Code', 'Cascadia Code', monospace;
+    font-size: 0.85em;
+}
+
+/* ── Bar chart ── */
+.adm-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.adm-bar {
+    height: 6px;
+    background: linear-gradient(90deg, #f87171, #fb923c);
+    border-radius: 999px;
+    transition: width 0.4s ease;
+}
+
+.adm-bar-wrap span {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    min-width: 24px;
+}
+
+/* ── Empty state ── */
+.adm-empty {
+    color: #475569;
+    font-size: 0.9rem;
+    font-style: italic;
+    padding: 12px 0;
+}
+
+/* ── Loading / Error ── */
+.adm-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    gap: 16px;
+    color: #64748b;
+}
+
+.adm-spinner {
+    width: 48px;
+    height: 48px;
+    border: 3px solid #334155;
+    border-top-color: #3b82f6;
+    border-radius: 50%;
+    animation: adm-spin 0.8s linear infinite;
+}
+
+@keyframes adm-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.adm-error {
+    color: #f87171;
+}

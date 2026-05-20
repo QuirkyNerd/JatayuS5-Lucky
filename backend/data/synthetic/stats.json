@@ -1,0 +1,24 @@
+{
+  "total_patients": 200,
+  "seed": 42,
+  "generated_at": "2026-03-11T23:20:19.412940",
+  "department_distribution": {
+    "Neurology": 35,
+    "Endocrinology": 36,
+    "Critical Care": 36,
+    "Pulmonology": 32,
+    "Cardiology": 33,
+    "Orthopedics": 28
+  },
+  "payer_distribution": {
+    "self_pay": 38,
+    "cghs": 29,
+    "ayushman_bharat": 34,
+    "government": 19,
+    "private": 31,
+    "tpa": 25,
+    "esi": 24
+  },
+  "avg_omissions_per_case": 1.31,
+  "total_coding_discrepancies": 263
+}

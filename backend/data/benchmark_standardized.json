@@ -1,0 +1,2325 @@
+[
+  {
+    "id": "A1_HISTORY_LEAK_DVT",
+    "category": "history_leakage",
+    "difficulty": "adversarial",
+    "clinical_note": "PAST MEDICAL HISTORY: Chronic DVT of the left leg (on Eliquis), Hypertension, GERD. \nASSESSMENT: Acute cellulitis of the left lower extremity. No evidence of acute DVT on Doppler ultrasound performed today. Plan: IV Vancomycin.",
+    "expected_codes": [
+      "L03.116"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "A2_RULE_OUT_STRESS",
+    "category": "negation",
+    "difficulty": "adversarial",
+    "clinical_note": "65yo male with chest pain. \nDifferential diagnosis includes: \n1. Rule out PE (negative CTA)\n2. Rule out MI (negative Troponins)\n3. Rule out Dissection (negative CTA)\n4. Community acquired pneumonia - Right lower lobe infiltrate seen on CXR. \nSTARTING AZITHROMYCIN.",
+    "expected_codes": [
+      "J18.9"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "high",
+    "tags": []
+  },
+  {
+    "id": "A3_LATERALITY_CONFUSION",
+    "category": "laterality",
+    "difficulty": "adversarial",
+    "clinical_note": "Postoperative Note: \nProcedure: Left total hip arthroplasty (THA). \nIndications: Severe osteoarthritis of the right hip. \nFindings: Advanced chondromalacia of the left acetabulum. \nPostop Diagnosis: Left hip osteoarthritis.",
+    "expected_codes": [
+      "M16.12"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ORTHO-001",
+    "category": "orthopedic_operative",
+    "difficulty": "standard",
+    "clinical_note": "PREOPERATIVE DIAGNOSIS: Displaced left femoral neck fracture. POSTOPERATIVE DIAGNOSIS: Displaced left femoral neck fracture. PROCEDURE: Left total hip arthroplasty. Patient is a 74-year-old female who sustained a displaced femoral neck fracture after a fall.",
+    "expected_codes": [
+      "S72.012A",
+      "27130"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ORTHO-002",
+    "category": "orthopedic_operative",
+    "difficulty": "hard",
+    "clinical_note": "POSTOPERATIVE DIAGNOSIS: Pathological fracture left femoral neck due to age-related osteoporosis. PROCEDURE: Left cemented total hip arthroplasty. Patient has known osteoporosis.",
+    "expected_codes": [
+      "M80.012A",
+      "27130"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ORTHO-003",
+    "category": "orthopedic_operative",
+    "difficulty": "standard",
+    "clinical_note": "PREOPERATIVE DIAGNOSIS: Right displaced intertrochanteric femur fracture. PROCEDURE: Right hip ORIF with intramedullary nail fixation. No history of pathological fracture.",
+    "expected_codes": [
+      "S72.141A",
+      "27245"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "high",
+    "tags": []
+  },
+  {
+    "id": "ORTHO-004",
+    "category": "orthopedic_operative",
+    "difficulty": "hard",
+    "clinical_note": "Patient presents with bilateral knee pain and crepitus. POSTOPERATIVE DIAGNOSIS: Severe bilateral primary osteoarthritis of knees. PROCEDURE: Left total knee arthroplasty. Right knee to be addressed in staged procedure.",
+    "expected_codes": [
+      "M17.11",
+      "M17.12",
+      "27447"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "CARDIO-001",
+    "category": "cardiology",
+    "difficulty": "standard",
+    "clinical_note": "ASSESSMENT: Patient admitted with acute ST-elevation myocardial infarction of left anterior descending artery. Underwent emergent PCI with drug-eluting stent placement to LAD.",
+    "expected_codes": [
+      "I21.02",
+      "92928"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "CARDIO-002",
+    "category": "cardiology",
+    "difficulty": "standard",
+    "clinical_note": "DIAGNOSIS: Systolic heart failure due to hypertensive heart disease, current exacerbation. Patient has longstanding hypertension with now decompensated systolic HF.",
+    "expected_codes": [
+      "I11.0",
+      "I50.21"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "CARDIO-003",
+    "category": "cardiology",
+    "difficulty": "edge_case",
+    "clinical_note": "HISTORY: Patient has a history of coronary artery disease. MEDICATIONS: Aspirin, atorvastatin, metoprolol, and DVT prophylaxis with enoxaparin. Patient is admitted for elective CABG.",
+    "expected_codes": [
+      "I25.10",
+      "36.10"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "high",
+    "tags": []
+  },
+  {
+    "id": "DIABETES-001",
+    "category": "diabetes_chronic",
+    "difficulty": "standard",
+    "clinical_note": "ASSESSMENT: Type 2 diabetes mellitus with diabetic chronic kidney disease, stage 3b. Patient also has essential hypertension managed with lisinopril.",
+    "expected_codes": [
+      "E11.65",
+      "N18.32",
+      "I10"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "DIABETES-002",
+    "category": "diabetes_chronic",
+    "difficulty": "hard",
+    "clinical_note": "Patient with known type 1 diabetes presents with diabetic peripheral neuropathy affecting bilateral lower extremities. Also has mild diabetic retinopathy, right eye.",
+    "expected_codes": [
+      "E10.40",
+      "E10.3211"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "POSTOP-001",
+    "category": "postop_note",
+    "difficulty": "standard",
+    "clinical_note": "POSTOPERATIVE DIAGNOSIS: Acute appendicitis without rupture. PROCEDURE PERFORMED: Laparoscopic appendectomy. No evidence of perforation intraoperatively. Patient doing well postoperatively.",
+    "expected_codes": [
+      "K35.80",
+      "44950"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "laparoscopic",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "POSTOP-002",
+    "category": "postop_note",
+    "difficulty": "standard",
+    "clinical_note": "POSTOPERATIVE DIAGNOSIS: Cholelithiasis with acute cholecystitis. PROCEDURE: Laparoscopic cholecystectomy. Gallbladder was inflamed, stones confirmed. Patient tolerated procedure well.",
+    "expected_codes": [
+      "K80.00",
+      "47562"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "laparoscopic",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "HISTORY-HEAVY-001",
+    "category": "history_heavy",
+    "difficulty": "edge_case",
+    "clinical_note": "PAST MEDICAL HISTORY: Hypertension, type 2 diabetes, history of DVT 5 years ago, COPD. CHIEF COMPLAINT: Acute chest pain. ASSESSMENT: Unstable angina. No active DVT.",
+    "expected_codes": [
+      "I20.0"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "high",
+    "tags": []
+  },
+  {
+    "id": "HISTORY-HEAVY-002",
+    "category": "history_heavy",
+    "difficulty": "hard",
+    "clinical_note": "PAST MEDICAL HISTORY: Breast cancer (treated, in remission 3 years). CURRENT DIAGNOSIS: Pathological fracture lumbar vertebra L2 secondary to metastatic disease. Known bone metastases from prior breast cancer.",
+    "expected_codes": [
+      "M84.552A",
+      "C79.51",
+      "Z85.3"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "MED-HEAVY-001",
+    "category": "medication_heavy",
+    "difficulty": "edge_case",
+    "clinical_note": "MEDICATIONS: Warfarin for atrial fibrillation, metformin for type 2 diabetes, lisinopril for hypertension, enoxaparin DVT prophylaxis perioperatively, proton pump inhibitor. ASSESSMENT: Admitted for elective right knee replacement.",
+    "expected_codes": [
+      "I48.19",
+      "E11.9",
+      "I10",
+      "M17.11",
+      "27447"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "CONFLICT-001",
+    "category": "conflicting_diagnoses",
+    "difficulty": "hard",
+    "clinical_note": "Patient has pathological fracture of the left femoral neck due to osteoporosis. Also has history of osteoporosis without fracture per old records. Current imaging confirms acute pathological fracture.",
+    "expected_codes": [
+      "M80.012A"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "high",
+    "tags": []
+  },
+  {
+    "id": "CONFLICT-002",
+    "category": "conflicting_diagnoses",
+    "difficulty": "hard",
+    "clinical_note": "Patient admitted with acute kidney injury in the setting of known CKD stage 3. Labs show creatinine 4.2, up from baseline 1.8. Acute on chronic kidney disease pattern.",
+    "expected_codes": [
+      "N17.9",
+      "N18.3"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "SYMPTOM-001",
+    "category": "symptom_only",
+    "difficulty": "edge_case",
+    "clinical_note": "Patient presents with acute hip pain, left side. X-ray does not show fracture. MRI deferred. ASSESSMENT: Left hip pain, etiology unclear. Rule out labral tear vs early OA.",
+    "expected_codes": [
+      "M25.552"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "high",
+    "tags": []
+  },
+  {
+    "id": "SYMPTOM-002",
+    "category": "symptom_only",
+    "difficulty": "edge_case",
+    "clinical_note": "CHIEF COMPLAINT: Chest pain, atypical. ECG normal. Troponin negative x2. ASSESSMENT: Chest pain, likely musculoskeletal. Ruling out ACS. No confirmed cardiac diagnosis.",
+    "expected_codes": [
+      "R07.9"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "PROPHYLAXIS-001",
+    "category": "prophylaxis_vs_active",
+    "difficulty": "edge_case",
+    "clinical_note": "Patient received DVT prophylaxis with sequential compression devices and enoxaparin 40mg daily postoperatively following total hip arthroplasty. No clinical or radiological evidence of DVT.",
+    "expected_codes": [
+      "27130",
+      "Z79.01"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "PROPHYLAXIS-002",
+    "category": "prophylaxis_vs_active",
+    "difficulty": "standard",
+    "clinical_note": "Patient with confirmed bilateral DVT by ultrasound, treated with therapeutic anticoagulation. Heparin drip started, transitioned to warfarin. DVT confirmed in bilateral femoral veins.",
+    "expected_codes": [
+      "I82.411",
+      "I82.412"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "COMBINATION-001",
+    "category": "combination_code",
+    "difficulty": "hard",
+    "clinical_note": "ASSESSMENT: Type 2 diabetes mellitus with diabetic peripheral angiopathy without gangrene. Patient has rest pain in bilateral feet, ABI 0.6, confirmed peripheral arterial disease secondary to diabetes.",
+    "expected_codes": [
+      "E11.51"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "COMBINATION-002",
+    "category": "combination_code",
+    "difficulty": "hard",
+    "clinical_note": "DIAGNOSIS: Type 2 diabetes with nonproliferative diabetic retinopathy, moderate severity, left eye, with macular edema.",
+    "expected_codes": [
+      "E11.3312"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "NEGATION-001",
+    "category": "negation",
+    "difficulty": "edge_case",
+    "clinical_note": "Patient denies chest pain. No shortness of breath. No fever or chills. ASSESSMENT: No evidence of pneumonia on chest X-ray. Patient admitted for elective hernia repair.",
+    "expected_codes": [
+      "K40.90",
+      "49505"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "NEGATION-002",
+    "category": "negation",
+    "difficulty": "edge_case",
+    "clinical_note": "HISTORY: No history of diabetes. Not a known hypertensive. ASSESSMENT: Admitted for acute pyelonephritis. Urine culture positive for E. coli.",
+    "expected_codes": [
+      "N10",
+      "B96.20"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "high",
+    "tags": []
+  },
+  {
+    "id": "LATERALITY-001",
+    "category": "laterality_conflict",
+    "difficulty": "hard",
+    "clinical_note": "PREOPERATIVE DIAGNOSIS: Left shoulder rotator cuff tear, full thickness. POSTOPERATIVE DIAGNOSIS: Full-thickness tear of left supraspinatus tendon confirmed arthroscopically. PROCEDURE: Left shoulder arthroscopic rotator cuff repair.",
+    "expected_codes": [
+      "M75.122",
+      "29827"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "LATERALITY-002",
+    "category": "laterality_conflict",
+    "difficulty": "hard",
+    "clinical_note": "Patient sustained injury to right wrist. X-ray shows displaced fracture of distal radius, right side. PROCEDURE: ORIF right distal radius.",
+    "expected_codes": [
+      "S52.501A",
+      "25600"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "MULTI-FRACTURE-001",
+    "category": "multiple_fractures",
+    "difficulty": "hard",
+    "clinical_note": "Patient involved in MVC. INJURIES: Displaced left femoral shaft fracture, non-displaced right tibial shaft fracture. Both treated surgically. PROCEDURES: Left femur IM nail, Right tibia IM nail.",
+    "expected_codes": [
+      "S72.302A",
+      "S82.231A",
+      "27506",
+      "27759"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "PROCEDURE-LINK-001",
+    "category": "procedure_diagnosis_link",
+    "difficulty": "standard",
+    "clinical_note": "POSTOPERATIVE DIAGNOSIS: Lumbar spinal stenosis L4-L5 with neurogenic claudication. PROCEDURE: L4-L5 lumbar decompression laminectomy. Patient had significant leg pain and weakness preoperatively.",
+    "expected_codes": [
+      "M48.06",
+      "63047"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "SEPSIS-001",
+    "category": "cardiology",
+    "difficulty": "hard",
+    "clinical_note": "ASSESSMENT: Sepsis due to pneumonia caused by Streptococcus pneumoniae. Patient meets sepsis criteria \u00e2\u20ac\u201d SIRS + suspected infection source. Blood cultures positive.",
+    "expected_codes": [
+      "A40.3",
+      "J13"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "high",
+    "tags": []
+  },
+  {
+    "id": "SUSPECTED-001",
+    "category": "negation",
+    "difficulty": "edge_case",
+    "clinical_note": "IMPRESSION: Possible pulmonary embolism. CT pulmonary angiography ordered but results pending. Patient started on anticoagulation empirically pending confirmation. Rule out PE cannot be excluded.",
+    "expected_codes": [
+      "R09.89"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "high",
+    "tags": []
+  },
+  {
+    "id": "SPINAL-001",
+    "category": "orthopedic_operative",
+    "difficulty": "standard",
+    "clinical_note": "POSTOPERATIVE DIAGNOSIS: L4-L5 disc herniation with radiculopathy, left. PROCEDURE: L4-L5 left microdiscectomy. Patient had 3 months of left leg sciatica with positive straight leg raise.",
+    "expected_codes": [
+      "M51.16",
+      "63030"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ORTHO-EXP-001",
+    "category": "orthopedic_operative",
+    "difficulty": "standard",
+    "clinical_note": "PREOPERATIVE DIAGNOSIS: Displaced right femoral shaft fracture. PROCEDURE: IM nailing of right femur. Patient was involved in a motor vehicle accident.",
+    "expected_codes": [
+      "S72.301A",
+      "27506"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ORTHO-EXP-002",
+    "category": "orthopedic_operative",
+    "difficulty": "hard",
+    "clinical_note": "POSTOPERATIVE DIAGNOSIS: Left subtrochanteric femur fracture, displaced. PROCEDURE: Left hip ORIF. Patient has a history of a previous fall.",
+    "expected_codes": [
+      "S72.22XA",
+      "27244"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "high",
+    "tags": []
+  },
+  {
+    "id": "ORTHO-EXP-003",
+    "category": "orthopedic_operative",
+    "difficulty": "standard",
+    "clinical_note": "DIAGNOSIS: Nondisplaced fracture of right patella. Treatment plan: Knee immobilizer and non-weight bearing.",
+    "expected_codes": [
+      "S82.001A"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ORTHO-EXP-004",
+    "category": "orthopedic_operative",
+    "difficulty": "hard",
+    "clinical_note": "Patient with bilateral hip osteoarthritis. Admitted for right total hip arthroplasty.",
+    "expected_codes": [
+      "M16.0",
+      "27130"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "CARDIO-EXP-001",
+    "category": "cardiology",
+    "difficulty": "standard",
+    "clinical_note": "ASSESSMENT: Acute NSTEMI. Patient with chest pain, troponin elevation to 2.4. Coronary angiography shows multi-vessel disease.",
+    "expected_codes": [
+      "I21.4"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "CARDIO-EXP-002",
+    "category": "cardiology",
+    "difficulty": "hard",
+    "clinical_note": "DIAGNOSIS: Hypertensive chronic kidney disease stage 4 with heart failure. Patient has baseline HTN and CKD.",
+    "expected_codes": [
+      "I12.9",
+      "N18.4",
+      "I50.9"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "CARDIO-EXP-003",
+    "category": "cardiology",
+    "difficulty": "standard",
+    "clinical_note": "ASSESSMENT: Permanent atrial fibrillation. Patient on long-term warfarin for stroke prevention.",
+    "expected_codes": [
+      "I48.21",
+      "Z79.01"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "CARDIO-EXP-004",
+    "category": "cardiology",
+    "difficulty": "hard",
+    "clinical_note": "DIAGNOSIS: Acute on chronic systolic heart failure. Admitted with volume overload and pulmonary edema.",
+    "expected_codes": [
+      "I50.23"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "NEPHRO-EXP-001",
+    "category": "nephrology",
+    "difficulty": "standard",
+    "clinical_note": "ASSESSMENT: End-stage renal disease on hemodialysis. Admitted for dialysis catheter replacement.",
+    "expected_codes": [
+      "N18.6",
+      "Z99.2"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "NEPHRO-EXP-002",
+    "category": "nephrology",
+    "difficulty": "hard",
+    "clinical_note": "DIAGNOSIS: Nephrotic syndrome due to minimal change disease. Patient has significant peripheral edema.",
+    "expected_codes": [
+      "N04.0"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "NEPHRO-EXP-003",
+    "category": "nephrology",
+    "difficulty": "standard",
+    "clinical_note": "ASSESSMENT: CKD stage 3a. Patient monitored for creatinine clearance.",
+    "expected_codes": [
+      "N18.31"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "GI-EXP-001",
+    "category": "gi_surgery",
+    "difficulty": "standard",
+    "clinical_note": "POSTOPERATIVE DIAGNOSIS: Incarcerated inguinal hernia, right side. PROCEDURE: Open right inguinal hernia repair with mesh.",
+    "expected_codes": [
+      "K40.30",
+      "49507"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "open",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "GI-EXP-002",
+    "category": "gi_surgery",
+    "difficulty": "hard",
+    "clinical_note": "DIAGNOSIS: Acute cholecystitis with cholelithiasis and obstruction. Underwent laparoscopic cholecystectomy.",
+    "expected_codes": [
+      "K80.01",
+      "47562"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "laparoscopic",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "GI-EXP-003",
+    "category": "gi_surgery",
+    "difficulty": "standard",
+    "clinical_note": "ASSESSMENT: Acute appendicitis with localized peritonitis. Underwent appendectomy.",
+    "expected_codes": [
+      "K35.30",
+      "44950"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ENDOC-EXP-001",
+    "category": "endocrine",
+    "difficulty": "standard",
+    "clinical_note": "DIAGNOSIS: Type 2 diabetes with diabetic polyneuropathy. Metformin and gabapentin managed.",
+    "expected_codes": [
+      "E11.42"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ENDOC-EXP-002",
+    "category": "endocrine",
+    "difficulty": "hard",
+    "clinical_note": "ASSESSMENT: Type 1 diabetes with proliferative retinopathy, bilateral, with macular edema.",
+    "expected_codes": [
+      "E10.3513"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ENDOC-EXP-003",
+    "category": "endocrine",
+    "difficulty": "standard",
+    "clinical_note": "DIAGNOSIS: Graves disease with thyrotoxic crisis. Patient admitted to ICU.",
+    "expected_codes": [
+      "E05.01"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "SEPSIS-EXP-001",
+    "category": "sepsis",
+    "difficulty": "hard",
+    "clinical_note": "ASSESSMENT: Sepsis due to Escherichia coli UTI. Patient is hypotensive and meeting qSOFA criteria.",
+    "expected_codes": [
+      "A41.51",
+      "N39.0"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "SEPSIS-EXP-002",
+    "category": "sepsis",
+    "difficulty": "hard",
+    "clinical_note": "DIAGNOSIS: Septic shock secondary to aspiration pneumonia. Vasopressor support required.",
+    "expected_codes": [
+      "R65.21",
+      "J69.0"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "MIXED-EXP-001",
+    "category": "mixed_comorbidity",
+    "difficulty": "hard",
+    "clinical_note": "78-year-old male with T2DM, CKD stage 3, and hypertension admitted for acute systolic heart failure exacerbation.",
+    "expected_codes": [
+      "I50.21",
+      "E11.9",
+      "I12.9",
+      "N18.30"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ORTHO-GEN-5",
+    "category": "orthopedic_operative",
+    "difficulty": "standard",
+    "clinical_note": "Fracture case 5: Displaced left humerus shaft fracture.",
+    "expected_codes": [
+      "S42.322A"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ORTHO-GEN-6",
+    "category": "orthopedic_operative",
+    "difficulty": "standard",
+    "clinical_note": "Fracture case 6: Displaced left humerus shaft fracture.",
+    "expected_codes": [
+      "S42.322A"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ORTHO-GEN-7",
+    "category": "orthopedic_operative",
+    "difficulty": "standard",
+    "clinical_note": "Fracture case 7: Displaced left humerus shaft fracture.",
+    "expected_codes": [
+      "S42.322A"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ORTHO-GEN-8",
+    "category": "orthopedic_operative",
+    "difficulty": "standard",
+    "clinical_note": "Fracture case 8: Displaced left humerus shaft fracture.",
+    "expected_codes": [
+      "S42.322A"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ORTHO-GEN-9",
+    "category": "orthopedic_operative",
+    "difficulty": "standard",
+    "clinical_note": "Fracture case 9: Displaced left humerus shaft fracture.",
+    "expected_codes": [
+      "S42.322A"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ORTHO-GEN-10",
+    "category": "orthopedic_operative",
+    "difficulty": "standard",
+    "clinical_note": "Fracture case 10: Displaced left humerus shaft fracture.",
+    "expected_codes": [
+      "S42.322A"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ORTHO-GEN-11",
+    "category": "orthopedic_operative",
+    "difficulty": "standard",
+    "clinical_note": "Fracture case 11: Displaced left humerus shaft fracture.",
+    "expected_codes": [
+      "S42.322A"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ORTHO-GEN-12",
+    "category": "orthopedic_operative",
+    "difficulty": "standard",
+    "clinical_note": "Fracture case 12: Displaced left humerus shaft fracture.",
+    "expected_codes": [
+      "S42.322A"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ORTHO-GEN-13",
+    "category": "orthopedic_operative",
+    "difficulty": "standard",
+    "clinical_note": "Fracture case 13: Displaced left humerus shaft fracture.",
+    "expected_codes": [
+      "S42.322A"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ORTHO-GEN-14",
+    "category": "orthopedic_operative",
+    "difficulty": "standard",
+    "clinical_note": "Fracture case 14: Displaced left humerus shaft fracture.",
+    "expected_codes": [
+      "S42.322A"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ORTHO-GEN-15",
+    "category": "orthopedic_operative",
+    "difficulty": "standard",
+    "clinical_note": "Fracture case 15: Displaced left humerus shaft fracture.",
+    "expected_codes": [
+      "S42.322A"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ORTHO-GEN-16",
+    "category": "orthopedic_operative",
+    "difficulty": "standard",
+    "clinical_note": "Fracture case 16: Displaced left humerus shaft fracture.",
+    "expected_codes": [
+      "S42.322A"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ORTHO-GEN-17",
+    "category": "orthopedic_operative",
+    "difficulty": "standard",
+    "clinical_note": "Fracture case 17: Displaced left humerus shaft fracture.",
+    "expected_codes": [
+      "S42.322A"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ORTHO-GEN-18",
+    "category": "orthopedic_operative",
+    "difficulty": "standard",
+    "clinical_note": "Fracture case 18: Displaced left humerus shaft fracture.",
+    "expected_codes": [
+      "S42.322A"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ORTHO-GEN-19",
+    "category": "orthopedic_operative",
+    "difficulty": "standard",
+    "clinical_note": "Fracture case 19: Displaced left humerus shaft fracture.",
+    "expected_codes": [
+      "S42.322A"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "CARDIO-GEN-5",
+    "category": "cardiology",
+    "difficulty": "standard",
+    "clinical_note": "Cardio case 5: Chronic diastolic heart failure.",
+    "expected_codes": [
+      "I50.32"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "CARDIO-GEN-6",
+    "category": "cardiology",
+    "difficulty": "standard",
+    "clinical_note": "Cardio case 6: Chronic diastolic heart failure.",
+    "expected_codes": [
+      "I50.32"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "CARDIO-GEN-7",
+    "category": "cardiology",
+    "difficulty": "standard",
+    "clinical_note": "Cardio case 7: Chronic diastolic heart failure.",
+    "expected_codes": [
+      "I50.32"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "CARDIO-GEN-8",
+    "category": "cardiology",
+    "difficulty": "standard",
+    "clinical_note": "Cardio case 8: Chronic diastolic heart failure.",
+    "expected_codes": [
+      "I50.32"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "CARDIO-GEN-9",
+    "category": "cardiology",
+    "difficulty": "standard",
+    "clinical_note": "Cardio case 9: Chronic diastolic heart failure.",
+    "expected_codes": [
+      "I50.32"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "CARDIO-GEN-10",
+    "category": "cardiology",
+    "difficulty": "standard",
+    "clinical_note": "Cardio case 10: Chronic diastolic heart failure.",
+    "expected_codes": [
+      "I50.32"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "CARDIO-GEN-11",
+    "category": "cardiology",
+    "difficulty": "standard",
+    "clinical_note": "Cardio case 11: Chronic diastolic heart failure.",
+    "expected_codes": [
+      "I50.32"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "CARDIO-GEN-12",
+    "category": "cardiology",
+    "difficulty": "standard",
+    "clinical_note": "Cardio case 12: Chronic diastolic heart failure.",
+    "expected_codes": [
+      "I50.32"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "CARDIO-GEN-13",
+    "category": "cardiology",
+    "difficulty": "standard",
+    "clinical_note": "Cardio case 13: Chronic diastolic heart failure.",
+    "expected_codes": [
+      "I50.32"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "CARDIO-GEN-14",
+    "category": "cardiology",
+    "difficulty": "standard",
+    "clinical_note": "Cardio case 14: Chronic diastolic heart failure.",
+    "expected_codes": [
+      "I50.32"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "CARDIO-GEN-15",
+    "category": "cardiology",
+    "difficulty": "standard",
+    "clinical_note": "Cardio case 15: Chronic diastolic heart failure.",
+    "expected_codes": [
+      "I50.32"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "CARDIO-GEN-16",
+    "category": "cardiology",
+    "difficulty": "standard",
+    "clinical_note": "Cardio case 16: Chronic diastolic heart failure.",
+    "expected_codes": [
+      "I50.32"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "CARDIO-GEN-17",
+    "category": "cardiology",
+    "difficulty": "standard",
+    "clinical_note": "Cardio case 17: Chronic diastolic heart failure.",
+    "expected_codes": [
+      "I50.32"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "CARDIO-GEN-18",
+    "category": "cardiology",
+    "difficulty": "standard",
+    "clinical_note": "Cardio case 18: Chronic diastolic heart failure.",
+    "expected_codes": [
+      "I50.32"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "CARDIO-GEN-19",
+    "category": "cardiology",
+    "difficulty": "standard",
+    "clinical_note": "Cardio case 19: Chronic diastolic heart failure.",
+    "expected_codes": [
+      "I50.32"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "NEPHRO-GEN-4",
+    "category": "nephrology",
+    "difficulty": "standard",
+    "clinical_note": "Nephro case 4: CKD stage 2.",
+    "expected_codes": [
+      "N18.2"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "NEPHRO-GEN-5",
+    "category": "nephrology",
+    "difficulty": "standard",
+    "clinical_note": "Nephro case 5: CKD stage 2.",
+    "expected_codes": [
+      "N18.2"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "NEPHRO-GEN-6",
+    "category": "nephrology",
+    "difficulty": "standard",
+    "clinical_note": "Nephro case 6: CKD stage 2.",
+    "expected_codes": [
+      "N18.2"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "NEPHRO-GEN-7",
+    "category": "nephrology",
+    "difficulty": "standard",
+    "clinical_note": "Nephro case 7: CKD stage 2.",
+    "expected_codes": [
+      "N18.2"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "NEPHRO-GEN-8",
+    "category": "nephrology",
+    "difficulty": "standard",
+    "clinical_note": "Nephro case 8: CKD stage 2.",
+    "expected_codes": [
+      "N18.2"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "NEPHRO-GEN-9",
+    "category": "nephrology",
+    "difficulty": "standard",
+    "clinical_note": "Nephro case 9: CKD stage 2.",
+    "expected_codes": [
+      "N18.2"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "NEPHRO-GEN-10",
+    "category": "nephrology",
+    "difficulty": "standard",
+    "clinical_note": "Nephro case 10: CKD stage 2.",
+    "expected_codes": [
+      "N18.2"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "NEPHRO-GEN-11",
+    "category": "nephrology",
+    "difficulty": "standard",
+    "clinical_note": "Nephro case 11: CKD stage 2.",
+    "expected_codes": [
+      "N18.2"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "NEPHRO-GEN-12",
+    "category": "nephrology",
+    "difficulty": "standard",
+    "clinical_note": "Nephro case 12: CKD stage 2.",
+    "expected_codes": [
+      "N18.2"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "NEPHRO-GEN-13",
+    "category": "nephrology",
+    "difficulty": "standard",
+    "clinical_note": "Nephro case 13: CKD stage 2.",
+    "expected_codes": [
+      "N18.2"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "NEPHRO-GEN-14",
+    "category": "nephrology",
+    "difficulty": "standard",
+    "clinical_note": "Nephro case 14: CKD stage 2.",
+    "expected_codes": [
+      "N18.2"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "NEPHRO-GEN-15",
+    "category": "nephrology",
+    "difficulty": "standard",
+    "clinical_note": "Nephro case 15: CKD stage 2.",
+    "expected_codes": [
+      "N18.2"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "NEPHRO-GEN-16",
+    "category": "nephrology",
+    "difficulty": "standard",
+    "clinical_note": "Nephro case 16: CKD stage 2.",
+    "expected_codes": [
+      "N18.2"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "NEPHRO-GEN-17",
+    "category": "nephrology",
+    "difficulty": "standard",
+    "clinical_note": "Nephro case 17: CKD stage 2.",
+    "expected_codes": [
+      "N18.2"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "NEPHRO-GEN-18",
+    "category": "nephrology",
+    "difficulty": "standard",
+    "clinical_note": "Nephro case 18: CKD stage 2.",
+    "expected_codes": [
+      "N18.2"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "NEPHRO-GEN-19",
+    "category": "nephrology",
+    "difficulty": "standard",
+    "clinical_note": "Nephro case 19: CKD stage 2.",
+    "expected_codes": [
+      "N18.2"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "GI-GEN-4",
+    "category": "gi_surgery",
+    "difficulty": "standard",
+    "clinical_note": "GI case 4: Acute cholecystitis.",
+    "expected_codes": [
+      "K81.0"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "GI-GEN-5",
+    "category": "gi_surgery",
+    "difficulty": "standard",
+    "clinical_note": "GI case 5: Acute cholecystitis.",
+    "expected_codes": [
+      "K81.0"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "GI-GEN-6",
+    "category": "gi_surgery",
+    "difficulty": "standard",
+    "clinical_note": "GI case 6: Acute cholecystitis.",
+    "expected_codes": [
+      "K81.0"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "GI-GEN-7",
+    "category": "gi_surgery",
+    "difficulty": "standard",
+    "clinical_note": "GI case 7: Acute cholecystitis.",
+    "expected_codes": [
+      "K81.0"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "GI-GEN-8",
+    "category": "gi_surgery",
+    "difficulty": "standard",
+    "clinical_note": "GI case 8: Acute cholecystitis.",
+    "expected_codes": [
+      "K81.0"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "GI-GEN-9",
+    "category": "gi_surgery",
+    "difficulty": "standard",
+    "clinical_note": "GI case 9: Acute cholecystitis.",
+    "expected_codes": [
+      "K81.0"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "GI-GEN-10",
+    "category": "gi_surgery",
+    "difficulty": "standard",
+    "clinical_note": "GI case 10: Acute cholecystitis.",
+    "expected_codes": [
+      "K81.0"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "GI-GEN-11",
+    "category": "gi_surgery",
+    "difficulty": "standard",
+    "clinical_note": "GI case 11: Acute cholecystitis.",
+    "expected_codes": [
+      "K81.0"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "GI-GEN-12",
+    "category": "gi_surgery",
+    "difficulty": "standard",
+    "clinical_note": "GI case 12: Acute cholecystitis.",
+    "expected_codes": [
+      "K81.0"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "GI-GEN-13",
+    "category": "gi_surgery",
+    "difficulty": "standard",
+    "clinical_note": "GI case 13: Acute cholecystitis.",
+    "expected_codes": [
+      "K81.0"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "GI-GEN-14",
+    "category": "gi_surgery",
+    "difficulty": "standard",
+    "clinical_note": "GI case 14: Acute cholecystitis.",
+    "expected_codes": [
+      "K81.0"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "GI-GEN-15",
+    "category": "gi_surgery",
+    "difficulty": "standard",
+    "clinical_note": "GI case 15: Acute cholecystitis.",
+    "expected_codes": [
+      "K81.0"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "GI-GEN-16",
+    "category": "gi_surgery",
+    "difficulty": "standard",
+    "clinical_note": "GI case 16: Acute cholecystitis.",
+    "expected_codes": [
+      "K81.0"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "GI-GEN-17",
+    "category": "gi_surgery",
+    "difficulty": "standard",
+    "clinical_note": "GI case 17: Acute cholecystitis.",
+    "expected_codes": [
+      "K81.0"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "GI-GEN-18",
+    "category": "gi_surgery",
+    "difficulty": "standard",
+    "clinical_note": "GI case 18: Acute cholecystitis.",
+    "expected_codes": [
+      "K81.0"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "GI-GEN-19",
+    "category": "gi_surgery",
+    "difficulty": "standard",
+    "clinical_note": "GI case 19: Acute cholecystitis.",
+    "expected_codes": [
+      "K81.0"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ENDOC-GEN-4",
+    "category": "endocrine",
+    "difficulty": "standard",
+    "clinical_note": "Endoc case 4: Hypothyroidism.",
+    "expected_codes": [
+      "E03.9"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ENDOC-GEN-5",
+    "category": "endocrine",
+    "difficulty": "standard",
+    "clinical_note": "Endoc case 5: Hypothyroidism.",
+    "expected_codes": [
+      "E03.9"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ENDOC-GEN-6",
+    "category": "endocrine",
+    "difficulty": "standard",
+    "clinical_note": "Endoc case 6: Hypothyroidism.",
+    "expected_codes": [
+      "E03.9"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ENDOC-GEN-7",
+    "category": "endocrine",
+    "difficulty": "standard",
+    "clinical_note": "Endoc case 7: Hypothyroidism.",
+    "expected_codes": [
+      "E03.9"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ENDOC-GEN-8",
+    "category": "endocrine",
+    "difficulty": "standard",
+    "clinical_note": "Endoc case 8: Hypothyroidism.",
+    "expected_codes": [
+      "E03.9"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ENDOC-GEN-9",
+    "category": "endocrine",
+    "difficulty": "standard",
+    "clinical_note": "Endoc case 9: Hypothyroidism.",
+    "expected_codes": [
+      "E03.9"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ENDOC-GEN-10",
+    "category": "endocrine",
+    "difficulty": "standard",
+    "clinical_note": "Endoc case 10: Hypothyroidism.",
+    "expected_codes": [
+      "E03.9"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ENDOC-GEN-11",
+    "category": "endocrine",
+    "difficulty": "standard",
+    "clinical_note": "Endoc case 11: Hypothyroidism.",
+    "expected_codes": [
+      "E03.9"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ENDOC-GEN-12",
+    "category": "endocrine",
+    "difficulty": "standard",
+    "clinical_note": "Endoc case 12: Hypothyroidism.",
+    "expected_codes": [
+      "E03.9"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ENDOC-GEN-13",
+    "category": "endocrine",
+    "difficulty": "standard",
+    "clinical_note": "Endoc case 13: Hypothyroidism.",
+    "expected_codes": [
+      "E03.9"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ENDOC-GEN-14",
+    "category": "endocrine",
+    "difficulty": "standard",
+    "clinical_note": "Endoc case 14: Hypothyroidism.",
+    "expected_codes": [
+      "E03.9"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ENDOC-GEN-15",
+    "category": "endocrine",
+    "difficulty": "standard",
+    "clinical_note": "Endoc case 15: Hypothyroidism.",
+    "expected_codes": [
+      "E03.9"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ENDOC-GEN-16",
+    "category": "endocrine",
+    "difficulty": "standard",
+    "clinical_note": "Endoc case 16: Hypothyroidism.",
+    "expected_codes": [
+      "E03.9"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ENDOC-GEN-17",
+    "category": "endocrine",
+    "difficulty": "standard",
+    "clinical_note": "Endoc case 17: Hypothyroidism.",
+    "expected_codes": [
+      "E03.9"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ENDOC-GEN-18",
+    "category": "endocrine",
+    "difficulty": "standard",
+    "clinical_note": "Endoc case 18: Hypothyroidism.",
+    "expected_codes": [
+      "E03.9"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ENDOC-GEN-19",
+    "category": "endocrine",
+    "difficulty": "standard",
+    "clinical_note": "Endoc case 19: Hypothyroidism.",
+    "expected_codes": [
+      "E03.9"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "H1_ORTHO_HARDWARE",
+    "category": "orthopedic",
+    "difficulty": "challenging",
+    "clinical_note": "78yo female s/p ORIF of right femoral neck 6 months ago. Now presents with new onset left hip pain after mechanical fall. X-ray confirms acute displaced subtrochanteric fracture of the left femur. Surgical hardware on the right side is intact with no evidence of loosening or infection. Plan for left intramedullary nailing.",
+    "expected_codes": [
+      "S72.22XA"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "H2_CARDIOLOGY_AFIB",
+    "category": "cardiology",
+    "difficulty": "standard",
+    "clinical_note": "Patient with history of persistent atrial fibrillation and prior pulmonary vein isolation. Today's EKG shows normal sinus rhythm. However, patient reports multiple episodes of palpitations and 'racing heart' at home over the last week. Holter monitor from 2 days ago documented paroxysmal atrial fibrillation. Starting flecainide.",
+    "expected_codes": [
+      "I48.0"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "high",
+    "tags": []
+  },
+  {
+    "id": "H3_ID_SEPSIS",
+    "category": "infectious_disease",
+    "difficulty": "challenging",
+    "clinical_note": "Admitted from SNF with altered mental status and fever. WBC 18k, Lactate 3.2. Urine culture positive for E. coli. Clinical picture highly concerning for sepsis secondary to UTI. Patient meets SIRS criteria. Starting IV Ceftriaxone and aggressive fluid resuscitation. No evidence of organ dysfunction at this time.",
+    "expected_codes": [
+      "A41.51",
+      "N39.0"
+    ],
+    "expected_anatomy": "unspecified",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "low",
+    "tags": []
+  },
+  {
+    "id": "ADV-001-ENCOUNTER",
+    "category": "encounter_conflict",
+    "difficulty": "hard",
+    "clinical_note": "Patient presents for initial encounter for treatment of right radius fracture sustained in a fall today. Note also mentions subsequent follow-up for old ankle sprain.",
+    "expected_codes": [
+      "S52.501A"
+    ],
+    "expected_anatomy": "radius",
+    "expected_approach": "unspecified",
+    "expected_modifiers": [
+      "laterality",
+      "initial_encounter"
+    ],
+    "contradiction_expected": false,
+    "confidence_expectation": "HIGH",
+    "hallucination_risk": "medium",
+    "tags": [
+      "encounter",
+      "radius"
+    ]
+  },
+  {
+    "id": "ADV-002-SEX",
+    "category": "demographic_contradiction",
+    "difficulty": "hard",
+    "clinical_note": "65-year-old male patient scheduled for total laparoscopic hysterectomy due to pelvic pain.",
+    "expected_codes": [],
+    "expected_anatomy": "uterus",
+    "expected_approach": "laparoscopic",
+    "expected_modifiers": [],
+    "contradiction_expected": true,
+    "confidence_expectation": "LOW",
+    "hallucination_risk": "critical",
+    "tags": [
+      "sex_mismatch",
+      "hysterectomy"
+    ]
+  }
+]

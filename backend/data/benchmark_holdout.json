@@ -1,0 +1,29 @@
+[
+  {
+    "case_id": "H1_ORTHO_HARDWARE",
+    "category": "orthopedic",
+    "difficulty": "challenging",
+    "raw_note_text": "78yo female s/p ORIF of right femoral neck 6 months ago. Now presents with new onset left hip pain after mechanical fall. X-ray confirms acute displaced subtrochanteric fracture of the left femur. Surgical hardware on the right side is intact with no evidence of loosening or infection. Plan for left intramedullary nailing.",
+    "ground_truth": ["S72.22XA"],
+    "primary_diagnosis": "S72.22XA",
+    "explanation": "Active displaced subtrochanteric fracture of left femur. Right side hardware is historical and asymptomatic."
+  },
+  {
+    "case_id": "H2_CARDIOLOGY_AFIB",
+    "category": "cardiology",
+    "difficulty": "standard",
+    "raw_note_text": "Patient with history of persistent atrial fibrillation and prior pulmonary vein isolation. Today's EKG shows normal sinus rhythm. However, patient reports multiple episodes of palpitations and 'racing heart' at home over the last week. Holter monitor from 2 days ago documented paroxysmal atrial fibrillation. Starting flecainide.",
+    "ground_truth": ["I48.0"],
+    "primary_diagnosis": "I48.0",
+    "explanation": "Paroxysmal atrial fibrillation (I48.0) documented on Holter and being treated. History of persistent AFib is superseded by current paroxysmal presentation."
+  },
+  {
+    "case_id": "H3_ID_SEPSIS",
+    "category": "infectious_disease",
+    "difficulty": "challenging",
+    "raw_note_text": "Admitted from SNF with altered mental status and fever. WBC 18k, Lactate 3.2. Urine culture positive for E. coli. Clinical picture highly concerning for sepsis secondary to UTI. Patient meets SIRS criteria. Starting IV Ceftriaxone and aggressive fluid resuscitation. No evidence of organ dysfunction at this time.",
+    "ground_truth": ["A41.51", "N39.0"],
+    "primary_diagnosis": "A41.51",
+    "explanation": "Sepsis due to E. coli (A41.51) and UTI (N39.0). Patient does not meet criteria for septic shock (R65.21) yet as no organ dysfunction."
+  }
+]
