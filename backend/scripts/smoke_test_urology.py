@@ -112,7 +112,7 @@ async def run_smoke_test():
     print("\n  EXPECTED ICD CODE CHECK:")
     for exp in EXPECTED_ICD:
         found = any(exp in c for c in icd_codes_found)
-        status = "✅ FOUND" if found else "⚠️ NOT in top 10 (may be in extended results)"
+        status = "[OK] FOUND" if found else "[WARN] NOT in top 10 (may be in extended results)"
         print(f"    {exp}: {status}")
 
     # ── Step 3: Run CPT Retrieval ───────────────────────────────────
@@ -138,7 +138,7 @@ async def run_smoke_test():
     print("\n  EXPECTED CPT CODE CHECK:")
     for exp in EXPECTED_CPT + EXPECTED_IMAGING_CPT:
         found = any(exp in c for c in cpt_codes_found)
-        status = "✅ FOUND" if found else "⚠️ NOT in top 10 (may be in extended results)"
+        status = "[OK] FOUND" if found else "[WARN] NOT in top 10 (may be in extended results)"
         print(f"    {exp}: {status}")
 
     # ── Step 4: Run Guidelines Retrieval ────────────────────────────
@@ -229,7 +229,7 @@ async def run_smoke_test():
                 ("74176", "CT abdomen pelvis with contrast"),
             ]:
                 found = any(exp_code in c for c in all_emitted)
-                print(f"  {exp_code} ({exp_desc}): {'✅ EMITTED' if found else '⚠️ NOT EMITTED'}")
+                print(f"  {exp_code} ({exp_desc}): {'[OK] EMITTED' if found else '[WARN] NOT EMITTED'}")
             
             # Check hallucination rate
             unsupported = [d for d in discrepancies if d.get("type") == "unsupported_code"]

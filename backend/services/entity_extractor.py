@@ -540,7 +540,7 @@ class EntityExtractor:
                     code_aggregation[code] = {
                         "code": code,
                         "description": entity.ontology_code["description"],
-                        "type": entity.ontology_code["type"],
+                        "type": entity.ontology_code.get("type", "ICD-10"),
                         "confidence": final_conf,
                         "source": "deterministic",
                         "entity": entity.entity,

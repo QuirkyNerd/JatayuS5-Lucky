@@ -57,13 +57,17 @@ async def run_production_evaluation():
         print(f"nDCG@10:       {metrics.get('ndcg_at_10'):.3f}")
         print("-" * 40)
         print("CLINICAL FIDELITY:")
-        interpretable = result.get("interpretable_metrics", {})
-        print(f"Hallucination Rate:     {interpretable.get('hallucination_rate'):.1%}")
-        print(f"Specificity Preserv.:   {interpretable.get('specificity_preservation'):.1%}")
-        print(f"Dangerous FP Rate:      {interpretable.get('dangerous_fp_rate'):.1%}")
+        interpretable = result.get("interpretable_metrics") or metrics.get("interpretable_metrics", {})
+        h_rate = interpretable.get("hallucination_rate")
+        s_pres = interpretable.get("specificity_preservation")
+        d_fp = interpretable.get("dangerous_fp_rate")
+        print(f"Hallucination Rate:     {h_rate:.1%}" if h_rate is not None else "Hallucination Rate:     N/A")
+        print(f"Specificity Preserv.:   {s_pres:.1%}" if s_pres is not None else "Specificity Preserv.:   N/A")
+        print(f"Dangerous FP Rate:      {d_fp:.1%}" if d_fp is not None else "Dangerous FP Rate:      N/A")
         print("-" * 40)
         
         # Save Report
+        os.makedirs(os.path.dirname(REPORT_PATH), exist_ok=True)
         with open(REPORT_PATH, "w") as f:
             json.dump(result, f, indent=2)
         print(f"[SAVED]: Detailed report saved to: {REPORT_PATH}")

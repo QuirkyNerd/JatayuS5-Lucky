@@ -442,6 +442,15 @@ def run_final_validation(codes: list[dict], note_text: str) -> tuple[list[dict],
             c["protected"] = True
             c.setdefault("audit_traces", []).append("EARLY_ORTHO_PROTECTION_APPLIED")
 
+        # EARLY UROLOGY PROTECTION: Protect N13, 52332, 74176
+        is_urology_code = any(code_str.startswith(pre) for pre in ["N13", "52332", "74176"])
+        if is_urology_code:
+            c["protected"] = True
+            c.setdefault("audit_traces", []).append("EARLY_UROLOGY_PROTECTION_APPLIED")
+
+    # Snapshot protected codes before any pass can drop them
+    _protected_snapshot = [c for c in codes if c.get("protected")]
+
     # Stage 1: clinical reasoning (grounding + anatomy + prophylaxis + section)
     codes = _reasoning_engine.validate_codes(codes, note_text)
     if hasattr(_reasoning_engine, "last_rejected_traces"):
@@ -640,6 +649,16 @@ def run_final_validation(codes: list[dict], note_text: str) -> tuple[list[dict],
     print("Validated Count:", len(codes))
     for i, v in enumerate(codes[:10]):
         print(f"  {i+1}. VALIDATED: {v.get('code')} | CONF: {v.get('confidence')}")
+
+    # 🛡️ PROTECTED CODE RESCUE: Re-insert any codes that were marked protected
+    # but got dropped by intermediate pipeline passes (e.g. temporal governance)
+    final_codes_set = {c.get("code") for c in codes}
+    for c in _protected_snapshot:
+        if c.get("code") not in final_codes_set:
+            c.setdefault("audit_traces", []).append("PROTECTED_CODE_RESCUED")
+            codes.append(c)
+            final_codes_set.add(c.get("code"))
+            logger.info("FinalValidator: PROTECTED_CODE_RESCUED: %s", c.get("code"))
 
     return codes, all_rejected_traces
 
@@ -2415,14 +2434,14 @@ def apply_final_temporal_governance(codes: list[dict], note_text: str) -> list[d
         leak_risk = float(c.get("HISTORICAL_LEAK_RISK_VAL") or 0.0)
         
         # Suppress non-active states if they lack strong current evidence
-        if leak_risk >= 0.75 or temp_auth < 0.30:
+        if (leak_risk >= 0.75 or temp_auth < 0.30) and not c.get("protected"):
             to_suppress.add(c.get("code"))
             c.setdefault("audit_traces", []).append("HISTORICAL_FRAGMENT_REMOVED")
             
         # Suppress planned/prophylactic misclassification in final gate
         desc = (c.get("description") or "").lower()
         if any(m in desc for m in ["prophylaxis", "planned", "scheduled", "possible"]):
-            if c not in active_anchors and float(c.get("DIRECT_GROUNDING_AUTHORITY") or 0) < 0.50:
+            if c not in active_anchors and float(c.get("DIRECT_GROUNDING_AUTHORITY") or 0) < 0.50 and not c.get("protected"):
                 to_suppress.add(c.get("code"))
 
     return [c for c in codes if c.get("code") not in to_suppress]

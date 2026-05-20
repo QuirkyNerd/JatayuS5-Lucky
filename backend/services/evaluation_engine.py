@@ -509,47 +509,76 @@ async def run_evaluation(dataset_path: str = None, mode: str = "dev", force_refr
         with open(dataset_path, "r") as f: data = json.load(f)
         logger.info(f"BENCHMARK: Processing {len(data)} cases")
         
-        from services.rag_engine import get_rag_engine
-        rag = get_rag_engine()
-        
-        # Task 8: Pre-batch embeddings for all cases to maximize CPU throughput
-        logger.info(f"BENCHMARK: Pre-batching embeddings for {len(data)} cases...")
-        all_notes = [c.get("clinical_note") or c.get("raw_note_text") or c.get("note_snippet") or "" for c in data]
-        all_vectors = await rag.embedding_service.embed_texts(all_notes)
+        semaphore = asyncio.Semaphore(15)
 
-        # Task 12+: Parallel Batch Mode (Maximize CPU throughput)
-        num_chunks = 4
-        import math
-        chunk_size = math.ceil(len(all_notes) / num_chunks)
-        note_chunks = [all_notes[i:i + chunk_size] for i in range(0, len(all_notes), chunk_size)]
-        vector_chunks = [all_vectors[i:i + chunk_size] for i in range(0, len(all_vectors), chunk_size)]
-        
-        logger.info(f"BENCHMARK: Executing {num_chunks} parallel batches...")
-        results_chunks = await asyncio.gather(*[rag.batch_query(nc, vc) for nc, vc in zip(note_chunks, vector_chunks)])
-        
-        # Flatten results
-        batch_results = []
-        for chunk in results_chunks: batch_results.extend(chunk)
-        
-        fresh_data = []
-        for i, (case, result) in enumerate(zip(data, batch_results)):
-            fresh = case.copy()
+        async def process_case(case_idx: int, case: dict):
+            note_text = case.get("clinical_note") or case.get("raw_note_text") or case.get("note_snippet") or ""
+            human_codes = case.get("expected_codes", case.get("ground_truth", []))
+            
+            # Instantiate pipeline for this case (resets context internally)
+            pipeline = AuditPipeline()
+            
             ai_codes = []
-            decision = result.get("decision", {})
-            for cat in ["principal_diagnosis", "secondary_diagnoses", "chronic_conditions", "procedures"]:
-                for item in decision.get(cat, []):
-                    ai_codes.append({
-                        "code": item.get("normed_code") or item.get("code"),
-                        "final_score": item.get("score", 0.0),
-                        "confidence": item.get("level", "LOW"),
-                        "reasoning": item.get("reasoning", ""),
-                        "forensic": item.get("forensic", {}) # Task 1
-                    })
+            forensic_trace = {}
+            pipeline_log = []
+            
+            t_case_start = time.time()
+            async with semaphore:
+                try:
+                    async for chunk in pipeline.run_stream(note_text, human_codes, ground_truth=human_codes):
+                        if chunk.get("event") == "complete":
+                            payload = chunk.get("data", {})
+                            ai_codes_raw = payload.get("ai_codes", [])
+                            for item in ai_codes_raw:
+                                conf_val = item.get("confidence", 0.5)
+                                if isinstance(conf_val, float):
+                                    conf_level = "HIGH" if conf_val >= 0.85 else "MEDIUM" if conf_val >= 0.60 else "LOW"
+                                else:
+                                    conf_level = str(conf_val)
+                                ai_codes.append({
+                                    "code": item.get("code") or item.get("normed_code"),
+                                    "final_score": conf_val if isinstance(conf_val, float) else 0.85,
+                                    "confidence": conf_level,
+                                    "reasoning": item.get("rationale") or item.get("reasoning", ""),
+                                    "forensic": item.get("forensic", {}) or item.get("retrieval_trace", {})
+                                })
+                            forensic_trace = payload.get("forensic_trace", {})
+                            pipeline_log = payload.get("pipeline_log", [])
+                except Exception as exc:
+                    logger.error(f"EVALUATION_CASE_FAILED: Case {case_idx} failed: {exc}", exc_info=True)
+            
+            duration_ms = (time.time() - t_case_start) * 1000.0
+            
+            # Map step durations to case_timings
+            step_durations = {s.get("step"): s.get("duration_ms", 0.0) for s in pipeline_log}
+            preprocessing_ms = step_durations.get("EntityExtractorAgent", 0.0)
+            dense_retrieval_ms = step_durations.get("CodingLogicAgent", 0.0)
+            decision_engine_ms = step_durations.get("SelectionEngine", 0.0)
+            rule_engine_ms = step_durations.get("RuleEngine", 0.0)
+            
+            case_timings = {
+                "preprocessing_ms": preprocessing_ms,
+                "embedding_gen_ms": 0.0,
+                "dense_retrieval_ms": dense_retrieval_ms,
+                "sparse_search_ms": 0.0,
+                "vector_search_ms": dense_retrieval_ms,
+                "reranker_ms": 0.0,
+                "sapbert_ms": 0.0,
+                "decision_engine_ms": decision_engine_ms + rule_engine_ms,
+                "total_query_ms": duration_ms,
+                "model_load_count": 1
+            }
+            
+            fresh = case.copy()
             fresh["prediction_enhanced"] = ai_codes
             fresh["_ai_codes_full"] = ai_codes
-            fresh["forensic_trace"] = result.get("comparison_trace", {})
-            fresh["case_timings"] = result.get("timings", {})
-            fresh_data.append(fresh)
+            fresh["forensic_trace"] = forensic_trace
+            fresh["case_timings"] = case_timings
+            return fresh
+
+        logger.info(f"BENCHMARK: Executing parallel cases...")
+        tasks = [process_case(i, case) for i, case in enumerate(data)]
+        fresh_data = await asyncio.gather(*tasks)
 
         metrics = _compute_metrics(fresh_data, "prediction_enhanced")
         

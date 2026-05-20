@@ -134,6 +134,10 @@ async def _generate_explanation(
     Enforces 5-minimum structured sections with CDI-specialist tone.
     Returns plain text; never returns AI-style generic phrases.
     """
+    if settings.benchmark_mode:
+        logger.info("ExplanationAgent: Benchmark mode active, bypassing Groq explanation layer.")
+        return _build_deterministic_explanation(ai_codes, discrepancies)
+
     try:
         context_block = _build_structured_explanation_context(note_text, ai_codes, discrepancies)
 

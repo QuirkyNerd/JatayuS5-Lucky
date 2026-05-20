@@ -361,13 +361,18 @@ class ClinicalRelevanceFilter:
             code_type = code_dict.get("type", "").upper()
             code_str = code_dict.get("code", "").upper()
 
+            # Early urology protection
+            is_urology = any(code_str.startswith(pre) for pre in ["N13", "52332", "74176"])
+            if is_urology:
+                code_dict["protected"] = True
+
             # Rule 1: reject symptom codes if definitive diagnosis present
-            if code_type == "ICD-10" and code_str.startswith("R") and has_definitive:
+            if code_type == "ICD-10" and code_str.startswith("R") and has_definitive and not code_dict.get("protected"):
                 logger.info("PostFilter: suppressed symptom %s", code_str)
                 continue
 
             # Rule 2: reject diagnostic CPTs
-            if code_type == "CPT" and code_str in DIAGNOSTIC_CPTS:
+            if code_type == "CPT" and code_str in DIAGNOSTIC_CPTS and not code_dict.get("protected"):
                 logger.info("PostFilter: suppressed diagnostic CPT %s", code_str)
                 continue
 

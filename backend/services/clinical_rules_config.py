@@ -227,7 +227,13 @@ MANDATORY_GROUPS = {
     "lipid":             {"code": "E78.5", "description": "Hyperlipidemia, unspecified"},
     "sepsis":            {"code": "A41.9", "description": "Sepsis, unspecified"},
     "pneumonia":         {"code": "J18.9", "description": "Pneumonia, unspecified"},
-}
+    # Urology mandatory groups – ensure detection of obstruction and hydronephrosis
+    "obstruction":       {"code": "N13.2", "description": "Obstructive uropathy with hydronephrosis"},
+    "hydronephrosis":    {"code": "N13.2", "description": "Obstructive uropathy with hydronephrosis"},
+    "ureteral calculus": {"code": "N13.2", "description": "Obstructive uropathy with hydronephrosis"},
+    "ureteral obstruction": {"code": "N13.2", "description": "Obstructive uropathy with hydronephrosis"},
+    "ureteric calculus": {"code": "N13.2", "description": "Obstructive uropathy with hydronephrosis"}
+};
 
 # ─────────────────────────────────────────────────────────────────────────────
 # HARD-REJECT CATEGORIES

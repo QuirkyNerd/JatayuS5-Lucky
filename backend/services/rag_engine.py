@@ -730,35 +730,41 @@ class RAGEngine:
             elif label == "guidelines": col_weight = 1.2
             elif label == "symptoms": col_weight = 0.8
             
-            # Batch Query
+            # Batch Query using parallel search calls
             if self.q_client:
-                from qdrant_client.models import SearchRequest
+                # Determine collection name based on label
                 col_name = (
                     settings.chroma_collection_icd if label == "icd10" else
                     settings.chroma_collection_cpt if label == "cpt" else
                     settings.chroma_collection_guidelines if label == "guidelines" else
                     settings.chroma_collection_symptoms
                 )
-                requests = [
-                    SearchRequest(vector=v, limit=n_results, with_payload=True)
+                logger.info(f"QDRANT_BATCH_QUERY_START | label={label} | batch_size={len(vectors)}")
+                start_time = time.perf_counter()
+                loop = asyncio.get_event_loop()
+                # Schedule individual searches in thread pool executor
+                tasks = [
+                    loop.run_in_executor(
+                        None,
+                        lambda v=v: self.q_client.search(
+                            collection_name=col_name,
+                            query_vector=v,
+                            limit=n_results,
+                            with_payload=True,
+                        ),
+                    )
                     for v in vectors
                 ]
-                loop = asyncio.get_event_loop()
-                batch_res = await loop.run_in_executor(None, lambda: self.q_client.search_batch(
-                    collection_name=col_name,
-                    requests=requests
-                ))
-                
+                batch_res = await asyncio.gather(*tasks)
+                # Build combined result structure
                 res = {"documents": [], "metadatas": [], "distances": []}
+                total_candidates = 0
                 for search_res in batch_res:
-                    docs = []
-                    metas = []
-                    dists = []
+                    docs, metas, dists = [], [], []
                     for point in search_res:
                         payload = point.payload or {}
                         doc_text = payload.get("document") or payload.get("text") or payload.get("description") or ""
                         docs.append(doc_text)
-                        
                         meta = dict(payload)
                         meta["code"] = payload.get("code") or payload.get("id") or str(point.id)
                         metas.append(meta)
@@ -872,14 +878,51 @@ class RAGEngine:
         symptom_keywords = ["pain", "swelling", "ache", "fever", "nausea"]
         is_symptom = any(f" {k} " in f" {q} " for k in symptom_keywords)
         scores = {"ICD": 0.5, "CPT": 0.1, "GUIDELINE": 0.1, "SYMPTOM": 0.1}
-        if requested_type == "CPT": scores["CPT"] += 0.6
-        elif requested_type == "ICD-10": scores["ICD"] += 0.4
+        
+        req_upper = requested_type.upper().replace("-", "") if requested_type else ""
+        scores["requested_type"] = req_upper
+
+        if req_upper == "CPT":
+            scores["CPT"] += 0.6
+        elif req_upper in ("ICD10", "ICD"):
+            scores["ICD"] += 0.4
+        elif req_upper == "ALL":
+            scores["ICD"] += 0.4
+            scores["CPT"] += 0.4
+
         if is_procedure: scores["CPT"] += 0.8
         if is_instructional: scores["GUIDELINE"] += 0.8
         if is_symptom: scores["SYMPTOM"] += 0.6
         return scores
 
     def _build_query_plan(self, intent: dict, n_results: int) -> list:
+        req_type = intent.get("requested_type", "")
+        if req_type == "CPT":
+            return [
+                (self._cpt_col, n_results * 2, 1.5, "cpt"),
+                (self._icd_col, n_results // 2, 0.5, "icd10")
+            ]
+        elif req_type in ("ICD10", "ICD"):
+            return [
+                (self._icd_col, n_results * 2, 1.5, "icd10")
+            ]
+        elif req_type == "ALL":
+            return [
+                (self._icd_col, n_results, 1.0, "icd10"),
+                (self._cpt_col, n_results, 1.0, "cpt")
+            ]
+        elif req_type in ("GUIDELINES", "GUIDELINE"):
+            return [
+                (self._guide_col, n_results * 2, 1.5, "guidelines"),
+                (self._icd_col, n_results // 2, 0.5, "icd10")
+            ]
+        elif req_type in ("SYMPTOMS", "SYMPTOM"):
+            return [
+                (self._symptom_col, n_results * 2, 1.5, "symptoms"),
+                (self._icd_col, n_results // 2, 0.5, "icd10")
+            ]
+
+        # Intent fallback
         plan = []
         if intent["GUIDELINE"] > 0.7:
             plan.append((self._guide_col, n_results * 2, 1.2, "guidelines"))
@@ -1170,24 +1213,69 @@ class RAGEngine:
 
     # Convenience wrappers for specific code types
     async def search_icd10(self, query_text: str, top_k: int = 10):
-        """Search ICD-10 codes using the generic query interface asynchronously."""
+        """Search ICD-10 codes using the generic query interface asynchronously and return structured results."""
         result = await self.query(query_text, n_results=top_k, code_type="icd10")
-        return result.get("documents", [])
+        # Combine documents, metadatas and scores into a list of dicts
+        docs = result.get("documents", [[]])[0]
+        metas = result.get("metadatas", [[]])[0]
+        scores = result.get("scores", [[]])[0]
+        combined = []
+        for doc, meta, score in zip(docs, metas, scores):
+            combined.append({
+                "code": meta.get("code") or meta.get("id") or "?",
+                "description": doc,
+                "score": score,
+                "meta": meta,
+            })
+        return combined
 
     async def search_cpt(self, query_text: str, top_k: int = 10):
-        """Search CPT codes using the generic query interface asynchronously."""
+        """Search CPT codes using the generic query interface asynchronously and return structured results."""
         result = await self.query(query_text, n_results=top_k, code_type="cpt")
-        return result.get("documents", [])
+        docs = result.get("documents", [[]])[0]
+        metas = result.get("metadatas", [[]])[0]
+        scores = result.get("scores", [[]])[0]
+        combined = []
+        for doc, meta, score in zip(docs, metas, scores):
+            combined.append({
+                "code": meta.get("code") or meta.get("id") or "?",
+                "description": doc,
+                "score": score,
+                "meta": meta,
+            })
+        return combined
 
     async def search_guidelines(self, query_text: str, top_k: int = 10):
-        """Search clinical guidelines using the generic query interface asynchronously."""
+        """Search clinical guidelines using the generic query interface asynchronously and return structured results."""
         result = await self.query(query_text, n_results=top_k, code_type="guidelines")
-        return result.get("documents", [])
+        docs = result.get("documents", [[]])[0]
+        metas = result.get("metadatas", [[]])[0]
+        scores = result.get("scores", [[]])[0]
+        combined = []
+        for doc, meta, score in zip(docs, metas, scores):
+            combined.append({
+                "code": meta.get("code") or meta.get("id") or "?",
+                "description": doc,
+                "score": score,
+                "meta": meta,
+            })
+        return combined
 
     async def search_symptoms(self, query_text: str, top_k: int = 10):
-        """Search symptom entries using the generic query interface asynchronously."""
+        """Search symptom entries using the generic query interface asynchronously and return structured results."""
         result = await self.query(query_text, n_results=top_k, code_type="symptoms")
-        return result.get("documents", [])
+        docs = result.get("documents", [[]])[0]
+        metas = result.get("metadatas", [[]])[0]
+        scores = result.get("scores", [[]])[0]
+        combined = []
+        for doc, meta, score in zip(docs, metas, scores):
+            combined.append({
+                "code": meta.get("code") or meta.get("id") or "?",
+                "description": doc,
+                "score": score,
+                "meta": meta,
+            })
+        return combined
 
     
     # Destructive methods REMOVED per Phase 11 Hardening Requirements.
