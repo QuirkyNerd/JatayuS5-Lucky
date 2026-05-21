@@ -674,30 +674,140 @@ class RAGEngine:
 
         results = []
         q_clean = query.lower()
-        q_prim = set(q_anatomy["primary"])
-        q_regs = set(q_anatomy["regions"])
+        q_prim = set(q_anatomy.get("primary", []))
+        q_regs = set(q_anatomy.get("regions", []))
         
-        for cand, cross_score in zip(candidates, norm_cross_scores):
-            doc = cand["doc"]; meta = cand["meta"]; label = cand["label"]
+        # --- TASK 1: ICD Prefix Matching ---
+        import re
+        query_codes = re.findall(r'\b[A-Z][0-9]{2}(?:\.[0-9A-Z]{1,4})?[A-Z]?\b', query.upper())
+        query_icd_prefixes = {c[:3] for c in query_codes}
+        
+        # --- TASK 2: 7th Character encounter stage awareness ---
+        # Map: A = initial, D = subsequent, S = sequela
+        q_stage = None
+        if any(w in q_clean for w in ["initial", "admission", "presentation", "presented", "acute", "emergency", "onset", "new patient", "first encounter", "new onset"]):
+            q_stage = "A"
+        elif any(w in q_clean for w in ["subsequent", "follow up", "follow-up", "routine", "healing", "recovery", "checkup", "check-up", "status post", "s/p"]):
+            q_stage = "D"
+        elif any(w in q_clean for w in ["sequela", "late effect", "old injury", "residual"]):
+            q_stage = "S"
+            
+        # --- TASK 3: Laterality Boosting ---
+        # Left, right, bilateral
+        q_left = "left" in q_clean
+        q_right = "right" in q_clean
+        q_bilateral = "bilateral" in q_clean or "both" in q_clean
+        
+        # --- TASK 1 & 5: Fracture Subtypes ---
+        fracture_subtypes = ["displaced", "nondisplaced", "non-displaced", "open", "closed", "pathological", "traumatic", "stress", "transverse", "oblique", "spiral", "comminuted"]
+        q_frac_subtypes = {s for s in fracture_subtypes if s in q_clean}
+        
+        # Identify the primary 3-character category family from the top-scoring candidate to use as reference
+        primary_family = None
+        if candidates:
+            first_code = (candidates[0].get("code") or "").upper().strip()
+            if first_code:
+                primary_family = first_code[:3]
+        
+        for cand, cross_score, norm_cross_score in zip(candidates, cross_scores, norm_cross_scores):
+            doc = cand["doc"]; meta = cand.get("meta") or {}; label = cand["label"]
             d_clean = clean_rag_description(doc).lower()
+            code = (cand.get("code") or cand.get("normed_code") or "").upper().strip()
             
             consistency_score = 0.0
             trace = {"anatomy_match": False, "proc_class_match": False, "device_penalty": False, "anatomy_distance": 0.0, "anatomy_level": 4}
             
-            # 1. Laterality (Phase 5B)
-            q_left, q_right = "left" in q_clean, "right" in q_clean
-            d_left, d_right = "left" in d_clean, "right" in d_clean
-            if (q_left and d_left) or (q_right and d_right): consistency_score += 0.25
-            elif (q_left and d_right) or (q_right and d_left): consistency_score -= 0.50
+            # Individual forensic bonuses/penalties
+            icd_prefix_bonus = 0.0
+            anatomy_bonus = 0.0
+            laterality_bonus = 0.0
+            encounter_bonus = 0.0
+            fracture_subtype_bonus = 0.0
+            specificity_depth_bonus = 0.0
+            family_penalty = 0.0
+            
+            # Mismatch flags
+            laterality_mismatch = False
+            encounter_mismatch = False
+            fracture_subtype_mismatch = False
+            
+            # Match code type
+            is_icd = label in ["icd10", "symptoms"] or meta.get("code_type") == "ICD-10"
+            
+            if is_icd and code:
+                # 1. ICD prefix matches
+                if code[:3] in query_icd_prefixes:
+                    icd_prefix_bonus += 0.20
+                    
+                # 2. Fracture Subtype Alignment
+                d_frac_subtypes = {s for s in fracture_subtypes if s in d_clean}
+                matching_frac = q_frac_subtypes.intersection(d_frac_subtypes)
+                if matching_frac:
+                    fracture_subtype_bonus += 0.15
+                # Mismatch checks: displaced vs nondisplaced
+                if "displaced" in q_frac_subtypes and ("nondisplaced" in d_frac_subtypes or "non-displaced" in d_frac_subtypes):
+                    fracture_subtype_mismatch = True
+                    fracture_subtype_bonus -= 0.40
+                elif ("nondisplaced" in q_frac_subtypes or "non-displaced" in q_frac_subtypes) and "displaced" in d_frac_subtypes:
+                    fracture_subtype_mismatch = True
+                    fracture_subtype_bonus -= 0.40
+                # Mismatch checks: open vs closed
+                if "open" in q_frac_subtypes and "closed" in d_frac_subtypes:
+                    fracture_subtype_mismatch = True
+                    fracture_subtype_bonus -= 0.40
+                elif "closed" in q_frac_subtypes and "open" in d_frac_subtypes:
+                    fracture_subtype_mismatch = True
+                    fracture_subtype_bonus -= 0.40
                 
-            # 2. High-Granularity Anatomical Precision (Phase 9)
+                # 3. Encounter stage match
+                d_stage = None
+                clean_code = code.replace(".", "")
+                if clean_code and clean_code[-1] in ("A", "D", "S"):
+                    d_stage = clean_code[-1]
+                elif "initial encounter" in d_clean:
+                    d_stage = "A"
+                elif "subsequent encounter" in d_clean:
+                    d_stage = "D"
+                elif "sequela" in d_clean:
+                    d_stage = "S"
+                    
+                if q_stage is not None and d_stage is not None:
+                    if q_stage == d_stage:
+                        encounter_bonus += 0.15
+                    else:
+                        encounter_mismatch = True
+                        encounter_bonus -= 0.10
+                        
+                # 4. Specificity Depth Bonus
+                depth = len(code.replace(".", ""))
+                specificity_depth_bonus += 0.015 * max(0, depth - 3) * norm_cross_score
+                
+            # 5. Laterality match/mismatch
+            d_left = "left" in d_clean
+            d_right = "right" in d_clean
+            d_bilateral = "bilateral" in d_clean
+            
+            if q_left or q_right or q_bilateral:
+                # Correct laterality match
+                if (q_left and d_left) or (q_right and d_right) or (q_bilateral and d_bilateral):
+                    laterality_bonus += 0.20
+                # Mismatch cases (including bilateral vs unilateral)
+                elif (q_left and d_right) or (q_right and d_left) or (q_bilateral and (d_left or d_right)) or ((q_left or q_right) and d_bilateral):
+                    laterality_mismatch = True
+                    laterality_bonus -= 0.15
+            
+            # 6. Anatomical matching
             d_anatomy_raw = str(meta.get("anatomy", "General")).lower().split(",")
             d_anatomy_prim = set([a.strip() for a in d_anatomy_raw if a.strip() and a.strip() != "general"])
             
+            anatomy_match_found = False
             if q_prim:
                 # Level 1: Exact Match
                 if q_prim.intersection(d_anatomy_prim) or any(p in d_clean for p in q_prim):
-                    consistency_score += 0.60; trace["anatomy_level"] = 1; trace["anatomy_match"] = True
+                    anatomy_bonus += 0.20
+                    trace["anatomy_level"] = 1
+                    trace["anatomy_match"] = True
+                    anatomy_match_found = True
                 # Level 2: Adjacent/Regional Match
                 elif q_regs:
                     d_regs = set()
@@ -705,12 +815,29 @@ class RAGEngine:
                         for reg, members in ANATOMY_HIERARCHY.items():
                             if any(kw in da for kw in members): d_regs.add(reg)
                     if q_regs.intersection(d_regs):
-                        consistency_score += 0.25; trace["anatomy_level"] = 2
+                        anatomy_bonus += 0.10
+                        trace["anatomy_level"] = 2
+                        anatomy_match_found = True
                     else:
-                        # Level 4: Region Mismatch (Severe Penalty)
-                        consistency_score -= 1.0; trace["anatomy_level"] = 4; trace["anatomy_distance"] = 1.0
+                        # Level 4: Region Mismatch – soft downranking
+                        anatomy_bonus -= 0.50
+                        trace["anatomy_level"] = 4
+                        trace["anatomy_distance"] = 1.0
             
-            # 3. Procedural Semantic Hierarchy (Phase 8)
+            # 7. Sibling / Family penalty
+            if is_icd and code and primary_family:
+                current_family = code[:3]
+                if current_family == primary_family:
+                    # direct competitor sibling soft calibration
+                    if code != (candidates[0].get("code") or "").upper().strip():
+                        family_penalty -= 0.02
+                else:
+                    # completely unrelated family code with NO anatomical match
+                    if not anatomy_match_found and q_prim:
+                        family_penalty -= 0.30
+            family_penalty = max(-0.08, family_penalty)
+            
+            # 8. Procedural Semantic Hierarchy (Phase 8)
             d_class = meta.get("procedure_class", "GENERAL").upper()
             d_interv = meta.get("intervention_type", "unknown").lower()
             if q_proc["class"] != "GENERAL" and q_proc["class"] == d_class:
@@ -720,29 +847,67 @@ class RAGEngine:
             if q_proc["intervention"] != "unknown" and q_proc["intervention"] == d_interv:
                 consistency_score += 0.25
             
-            # 4. Supportive Device Suppression (Phase 8)
+            # 9. Supportive Device Suppression
             is_operative_q = q_proc["class"] in ["OPEN_SURGERY", "LAPAROSCOPIC_SURGERY", "ENDOVASCULAR_INTERVENTION"]
             if is_operative_q and d_class == "SUPPORTIVE_DEVICE":
-                consistency_score -= 1.2; trace["device_penalty"] = True # Increased penalty
+                consistency_score -= 1.2; trace["device_penalty"] = True
             
-            # 5. Domain/Intent weight
+            # 10. Domain/Intent weight
             is_proc_query = intent_scores["CPT"] > 0.6
             if is_proc_query and label == "cpt": consistency_score += 0.20
-
-            final_score = (0.60 * cross_score) + (0.40 * consistency_score)
+ 
+            # Integrate currently dead scoring variables into consistency_score
+            consistency_score += icd_prefix_bonus + specificity_depth_bonus + family_penalty
+ 
+            # Compute multiplicative boost factors (conservative values with soft downranking)
+            boost_factor = 1.0
+            if anatomy_match_found:
+                boost_factor *= 1.18
+            else:
+                # Soft downranking when anatomy does not match and query has primary anatomy
+                if q_prim:
+                    boost_factor *= 0.65
+            if laterality_bonus > 0:
+                boost_factor *= 1.10
+            elif laterality_mismatch:
+                boost_factor *= 0.85
+                
+            if encounter_bonus > 0:
+                boost_factor *= 1.08
+            elif encounter_mismatch:
+                boost_factor *= 0.90
+                
+            if fracture_subtype_bonus > 0 and not fracture_subtype_mismatch:
+                boost_factor *= 1.15
+            elif fracture_subtype_mismatch:
+                boost_factor *= 0.82
+                
+            # Base combined score (same as before)
+            base_score = (0.60 * cross_score) + (0.40 * consistency_score)
+            # Apply boost factor (soft multiplicative boosting)
+            final_score = base_score * boost_factor
             final_score *= cand["col_weight"]
             
+            forensic_data = {
+                "original_score": round(cross_score, 3),
+                "anatomy_bonus": round(anatomy_bonus, 3),
+                "laterality_bonus": round(laterality_bonus, 3),
+                "encounter_bonus": round(encounter_bonus, 3),
+                "fracture_subtype_bonus": round(fracture_subtype_bonus, 3),
+                "specificity_depth_bonus": round(specificity_depth_bonus, 3),
+                "family_penalty": round(family_penalty, 3),
+                "icd_prefix_bonus": round(icd_prefix_bonus, 3),
+                "consistency_base": round(consistency_score, 3),
+                "final_score": round(final_score, 3),
+                "col_weight": cand["col_weight"]
+            }
             results.append({
-                "doc": d_clean, "meta": meta, "score": round(final_score, 3), "normed_code": cand["code"],
+                "doc": d_clean,
+                "meta": meta,
+                "score": round(final_score, 3),
+                "normed_code": code,
                 "label": label,
-                "forensic": {
-                    "cross_encoder": round(cross_score, 3),
-                    "consistency": round(consistency_score, 3),
-                    "anatomy_match": trace["anatomy_match"],
-                    "proc_match": trace["proc_class_match"],
-                    "penalty": trace["device_penalty"],
-                    "col_weight": cand["col_weight"]
-                }
+                "forensic": forensic_data if os.getenv("FORENSIC_LOGGING") == "1" else None
             })
             
         results.sort(key=lambda x: x["score"], reverse=True)

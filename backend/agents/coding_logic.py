@@ -159,7 +159,7 @@ class CodingLogicAgent:
                     metas = raw.get("metadatas", [[]])[0]
                     # Use 'scores' (hybrid similarity from RAG engine, 0-1 range)
                     scores = raw.get("scores", [[]])[0]
-                    traces = raw.get("traces", [[]])[0]
+                    traces = raw.get("forensics", [[]])[0]
 
                     # If scores unavailable, fallback to equal weight per result
                     if not scores:

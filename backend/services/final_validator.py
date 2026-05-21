@@ -178,6 +178,26 @@ from services.clinical_reasoning_engine import ClinicalReasoningEngine, build_re
 
 logger = logging.getLogger(__name__)
 
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Namespace Helpers: Unified CPT/ICD type detection
+# ─────────────────────────────────────────────────────────────────────────────
+
+def is_cpt_type(t: str) -> bool:
+    """Return True if the type string represents a CPT code type.
+    Handles 'CPT', 'cpt', 'CPT4', etc. Case-insensitive.
+    """
+    return (t or "").strip().upper() in ("CPT", "CPT4", "CPT-4")
+
+
+def is_icd_type(t: str) -> bool:
+    """Return True if the type string represents any ICD code type.
+    Handles 'ICD', 'ICD-10', 'ICD-10-CM', 'ICD-9', 'ICD9', 'ICD10', etc.
+    Case-insensitive.
+    """
+    norm = (t or "").strip().upper()
+    return norm in ("ICD", "ICD-10", "ICD-10-CM", "ICD-9", "ICD9", "ICD10", "ICD-9-CM")
+
 # Singleton — re-used across calls
 _reasoning_engine = ClinicalReasoningEngine()
 
@@ -589,15 +609,43 @@ def run_final_validation(codes: list[dict], note_text: str) -> tuple[list[dict],
         current_args = (codes,) + original_args[1:]
         
         pre_count = len(codes)
+        # Snapshot code keys before this pass to detect per-pass suppressions
+        pre_codes_by_key = {c.get("code", ""): c for c in codes if c.get("code")}
+        
         codes = apply_pipeline_safety_wrapper(func, current_args, codes, execution_map)
         post_count = len(codes)
         
         if post_count < pre_count:
             logger.error(f"  -> FV Pass {func.__name__}: {pre_count} -> {post_count} survivors")
             
+            # ── SUPPRESSION TRACKING: build rejection traces for dropped codes ──
+            # Critical: without this, the ZERO_SURVIVOR rescue has no grounded candidates to revive.
+            post_codes_keys = {c.get("code", "") for c in codes if c.get("code")}
+            dropped_keys = set(pre_codes_by_key.keys()) - post_codes_keys
+            for dropped_key in dropped_keys:
+                dropped_c = pre_codes_by_key.get(dropped_key, {})
+                if not dropped_c:
+                    continue
+                rt = build_rejection_trace(
+                    code=dropped_key,
+                    description=dropped_c.get("description", ""),
+                    rejection_stage=f"governance_pass:{func.__name__}",
+                    rejection_reason=f"SUPPRESSED_BY_{func.__name__.upper()}",
+                    failed_dimension="governance",
+                    actual_score=float(dropped_c.get("confidence") or dropped_c.get("evidence_strength") or 0.0),
+                )
+                # Preserve source and scoring metadata for rescue quality sorting
+                rt["source"] = dropped_c.get("source", "rag")
+                rt["type"] = dropped_c.get("type", "ICD-10")
+                rt["section_dominant"] = dropped_c.get("section_dominant", "full_note")
+                rt["rag_score"] = float(dropped_c.get("rag_score") or 0.0)
+                rt["confidence"] = float(dropped_c.get("confidence") or 0.0)
+                all_rejected_traces.append(rt)
+            
         if len(codes) == 0:
             logger.error(f"FinalValidator: Pipeline exhausted at {func.__name__}")
             break
+
 
     # ── Task: Final Pipeline Health Assertion ────────────────────────
     if len(codes) > 0:
@@ -631,10 +679,13 @@ def run_final_validation(codes: list[dict], note_text: str) -> tuple[list[dict],
     for rc in all_rejected_traces:
         _build_waterfall(rc)
 
-    if not final_pass_completed or execution_map["failed_passes"] or len(codes) == 0:
-        # Minimal fallback still applied for safety
-        logger.error("FinalValidator: Pipeline collapsed or unstable. Applying MINIMAL_FALLBACK_GOVERNANCE.")
+    if len(codes) == 0:
+        # Only activate emergency rescue when truly zero survivors remain.
+        # Do NOT trigger based on failed_passes — a failed pass means codes passed through
+        # unmodified, not that they were eliminated.
+        logger.error("FinalValidator: ZERO_SURVIVOR triggered. Applying MINIMAL_FALLBACK_GOVERNANCE.")
         codes = apply_minimal_fallback_governance(codes, note_text, all_rejected_traces)
+
         for c in codes:
             c.setdefault("audit_traces", []).append("FALLBACK_GOVERNANCE_ACTIVATED")
             c.setdefault("audit_traces", []).append("GOVERNANCE_PARTIALLY_APPLIED")
@@ -2037,8 +2088,13 @@ def apply_final_procedural_integrity(codes: list[dict], note_text: str) -> list[
         is_realistic = grounding >= 0.50 and family_stability >= 0.50
         
         # v18: Orthopedic Sanctuary - Protect fractures from procedural realism penalties
-        code_str = (c.get("code") or "").upper()
-        if code_str.startswith("M80") or code_str.startswith("S72"):
+        has_ortho_dx = any(
+            (other.get("type") or "").upper() != "CPT" and 
+            ((other.get("code") or "").upper().startswith("M80") or 
+             (other.get("code") or "").upper().startswith("S72"))
+            for other in codes
+        )
+        if has_ortho_dx:
             is_realistic = True
             c.setdefault("audit_traces", []).append("ORTHOPEDIC_SANCTUARY_APPLIED")
         
@@ -2404,7 +2460,7 @@ def apply_final_intervention_governance(codes: list[dict], note_text: str) -> li
         # Preserve procedures that are coherently linked to dominant diagnoses
         has_coherent_diag = False
         for other in codes:
-            if (other.get("type") or "").upper() == "ICD":
+            if is_icd_type(other.get("type") or ""):
                 if compute_procedure_diagnosis_coherence(other, note_text, codes) >= 0.65:
                     has_coherent_diag = True
                     break
@@ -2723,7 +2779,7 @@ def apply_integral_symptom_terminal_suppression(codes: list[dict], note_text: st
     """
     if not codes: return codes
     
-    definitive_codes = [c for c in codes if not (c.get("code") or "").startswith("R") and (c.get("type") or "").upper() == "ICD-10"]
+    definitive_codes = [c for c in codes if not (c.get("code") or "").startswith("R") and is_icd_type(c.get("type") or "")]
     if not definitive_codes: return codes
     
     passed = []
@@ -3202,7 +3258,7 @@ def apply_v49_targeted_evidence_gating(codes: list[dict], note_text: str) -> lis
     HISTORY_SECTIONS = {"history", "pmh", "past medical", "prior encounter", "history of"}
 
     has_definitive_dx = any(
-        c.get("type") == "ICD-10" and not c.get("code", "").startswith("R") 
+        is_icd_type(c.get("type") or "") and not c.get("code", "").startswith("R") 
         for c in codes if c.get("confidence", 0) > 0.70
     )
 
@@ -3310,8 +3366,13 @@ def apply_pipeline_recovery_mode(codes, note_text):
 def apply_minimal_fallback_governance(codes, note_text, rejected_traces):
     """
     🚨 EMERGENCY SAFEGUARD: Task 29.
-    If the pipeline suppresses EVERYTHING, revive the top-ranked grounded candidate
+    If the pipeline suppresses EVERYTHING, revive the top-ranked grounded candidates
     to prevent zero-emission benchmarks.
+
+    Priority order for revival:
+    1. Governance-pass suppressed codes with high RAG/confidence scores (≥ 0.50)
+    2. Any RAG-sourced rejection with a positive score
+    3. Any rejection with a real code string (last resort)
     """
     if len(codes) > 0:
         return codes
@@ -3320,29 +3381,60 @@ def apply_minimal_fallback_governance(codes, note_text, rejected_traces):
         logger.error("MINIMAL_FALLBACK_FAILURE: No rejected traces to revive.")
         return []
 
-    # Filter for candidates that were rejected for 'evidence' or 'threshold' reasons,
-    # not hard clinical rejections like 'negation' or 'anatomy mismatch'.
-    soft_rejections = [
-        rt for rt in rejected_traces 
-        if rt.get("rejection_stage") in ["final_gate", "pre_computed_gate", "final_grounding_gate"]
-        and rt.get("failed_dimension") == "evidence"
-    ]
-    
-    if not soft_rejections:
-        # Fallback to ANY grounded retrieval
-        soft_rejections = [rt for rt in rejected_traces if rt.get("source") == "rag"]
+    # Known low-quality garbage codes that should never be revived
+    GARBAGE_CODES = {"E039", "R52", "K819", "Z009", "Z0000", "Z0001", "R69", "Z99"}
 
-    if not soft_rejections:
+    def _revival_score(rt):
+        """Composite score for sorting revival candidates (higher = better to revive)."""
+        rag = float(rt.get("rag_score") or 0.0)
+        conf = float(rt.get("actual_score") or rt.get("confidence") or 0.0)
+        return max(rag, conf)
+
+    # 1. Best candidates: governance-pass suppressed codes with meaningful scores
+    governance_rejections = [
+        rt for rt in rejected_traces
+        if rt.get("rejection_stage", "").startswith("governance_pass:")
+        and _revival_score(rt) >= 0.40
+        and (rt.get("code") or "").replace(".", "").upper() not in GARBAGE_CODES
+    ]
+
+    # 2. Fallback: any RAG-sourced rejection with a real score
+    if not governance_rejections:
+        governance_rejections = [
+            rt for rt in rejected_traces
+            if rt.get("source") == "rag"
+            and _revival_score(rt) >= 0.30
+            and (rt.get("code") or "").replace(".", "").upper() not in GARBAGE_CODES
+        ]
+
+    # 3. Last resort: any rejection with a code at all
+    if not governance_rejections:
+        governance_rejections = [
+            rt for rt in rejected_traces
+            if rt.get("code")
+            and (rt.get("code") or "").replace(".", "").upper() not in GARBAGE_CODES
+        ]
+
+    if not governance_rejections:
+        logger.error("MINIMAL_FALLBACK_EXHAUSTED: All rejected traces are garbage codes or empty.")
         return []
 
-    # Sort by actual score or confidence to find the "best" rejected candidate
-    soft_rejections.sort(key=lambda x: float(x.get("actual_score") or x.get("confidence") or 0), reverse=True)
+    # Sort by revival score descending, revive top-3 at most
+    governance_rejections.sort(key=_revival_score, reverse=True)
     
-    revived = soft_rejections[0]
-    revived["confidence"] = max(0.51, float(revived.get("confidence") or 0.51))
-    revived["audit_traces"] = revived.get("audit_traces", []) + ["EMERGENCY_REVIVAL: MINIMAL_FALLBACK"]
-    revived["protected"] = True
+    revived_list = []
+    for revived in governance_rejections[:3]:
+        revived["confidence"] = max(0.51, float(revived.get("confidence") or revived.get("actual_score") or 0.51))
+        revived.setdefault("audit_traces", [])
+        revived["audit_traces"] = [t for t in revived["audit_traces"] if t] + ["EMERGENCY_REVIVAL: MINIMAL_FALLBACK"]
+        revived["protected"] = True
+        revived_list.append(revived)
+        logger.error(
+            "MINIMAL_FALLBACK_SUCCESS: Revived code %s (stage=%s, score=%.2f)",
+            revived.get("code"),
+            revived.get("rejection_stage", "unknown"),
+            _revival_score(revived),
+        )
     
-    logger.error("MINIMAL_FALLBACK_SUCCESS: Revived code %s (score %.2f)", revived.get("code"), revived.get("actual_score"))
-    return [revived]
+    return revived_list
 

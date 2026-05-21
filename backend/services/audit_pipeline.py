@@ -373,11 +373,12 @@ class AuditPipeline:
         duration_step_sel = (time.time() - t_sel) * 1000.0
         lifecycle_counts["post_competition"] = len(ai_codes)
 
-        # ── Step 1b: Rule Engine (Clinical Rules + CPT + Final Validation) ──
+        # ── Step 1b: Rule Engine (Clinical Rules only — lightweight) ──────
+        # NOTE: Full final_validator governance runs ONCE in Section 6 below.
+        # Do NOT call run_final_validation here — that causes double-governance
+        # which fires 35+ suppression passes twice and exhausts all candidates.
         t0 = time.time()
         try:
-            diag_c, proc_c, _ = await loop.run_in_executor(None, lambda: run_final_validation(ai_codes, masked_note))
-            ai_codes = diag_c + proc_c
             ai_codes = await loop.run_in_executor(None, lambda: RuleEngine.apply_final_validation(ai_codes))
         except Exception as exc:
             logger.error("RuleEngine failed in direct path: %s", exc)
@@ -643,20 +644,18 @@ class AuditPipeline:
         yield {"event": "step_end", "data": step_sel.to_dict()}
         yield {"event": "lifecycle_trace", "data": lifecycle_counts}
 
-        # ── Step 1b: Rule Engine (Clinical Rules + CPT + Final Validation) ──
+        # ── Step 1b: Rule Engine (Clinical Rules only — lightweight) ──────
+        # NOTE: Full final_validator governance runs ONCE in Section 6 below.
+        # Do NOT call run_final_validation here — that causes double-governance
+        # which fires 35+ suppression passes twice and exhausts all candidates.
         step1b = PipelineStep("RuleEngine", "Applying Clinical Coding Rules")
         yield {"event": "step_start", "data": step1b.to_dict()}
         t0 = time.time()
         try:
-            # TERMINAL SAFETY GATE (Task 78/79 parity)
-            # This gate encompasses clinical reasoning, CPT validation, and governance.
-            diag_c, proc_c, _ = await loop.run_in_executor(None, lambda: run_final_validation(ai_codes, masked_note))
-            ai_codes = diag_c + proc_c
-            
             ai_codes = await loop.run_in_executor(None, lambda: RuleEngine.apply_final_validation(ai_codes))
             step1b.duration_ms = (time.time() - t0) * 1000
             step1b.status = "success"
-            logger.info("RuleEngine complete: %d validated codes", len(ai_codes))
+            logger.info("RuleEngine complete: %d codes", len(ai_codes))
         except Exception as exc:
             step1b.duration_ms = (time.time() - t0) * 1000
             step1b.status = "failed"

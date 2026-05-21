@@ -331,7 +331,16 @@ class CodingDecisionEngine:
             
             # Family prefix
             if code_type == "ICD":
-                group_key = code[:3] # S72.xxx -> S72
+                desc = (cand.get("doc") or cand.get("description", "")).lower()
+                meta = cand.get("meta") or {}
+                anatomy_val = meta.get("anatomy")
+                if not isinstance(anatomy_val, str):
+                    anatomy_site = "general"
+                else:
+                    anatomy_site = anatomy_val.lower().strip()
+                primary_site = anatomy_site.split(",")[0].strip()
+                laterality = "left" if "left" in desc else ("right" if "right" in desc else "bilateral" if "bilateral" in desc else "unspecified")
+                group_key = f"{code[:3]}_{primary_site}_{laterality}"
             else:
                 # CPT is more specific. Only collapse near-identical procedures (e.g. 27130 vs 27131)
                 # or keep full code to preserve specificity.
@@ -403,7 +412,7 @@ class CodingDecisionEngine:
         """
         conflicts = []
         doc = cand.get("doc", "").lower()
-        meta = cand.get("meta", {})
+        meta = cand.get("meta") or {}
         
         # 1. Sex Mismatch (Task 10.4)
         sex = decomp["demographics"]["sex"]
@@ -543,9 +552,11 @@ class CodingDecisionEngine:
 
     def _link_procedures(self, cpt_cands: List[Dict], icd_cands: List[Dict]) -> List[Dict]:
         for cpt in cpt_cands:
-            cpt_anatomy = str(cpt.get("meta", {}).get("anatomy", "")).lower()
+            cpt_meta = cpt.get("meta") or {}
+            cpt_anatomy = str(cpt_meta.get("anatomy") or "").lower()
             for icd in icd_cands:
-                icd_anatomy = str(icd.get("meta", {}).get("anatomy", "")).lower()
+                icd_meta = icd.get("meta") or {}
+                icd_anatomy = str(icd_meta.get("anatomy") or "").lower()
                 if cpt_anatomy != "general" and icd_anatomy != "general" and (cpt_anatomy in icd_anatomy or icd_anatomy in cpt_anatomy):
                     cpt["decision_score"] += 0.15
                     cpt["linked_to"] = icd.get("normed_code")

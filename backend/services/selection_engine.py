@@ -313,7 +313,11 @@ class SelectionEngine:
         for sc in pool:
             # 1. Component Extraction
             semantic = sc.rag_score
-            terminology = 1.0 if sc.description.lower() in note_lower else 0.0
+            
+            # Use aggregated features from extra if present, otherwise fallback to exact-match logic
+            terminology = sc.extra.get("terminology_overlap")
+            if terminology is None:
+                terminology = 1.0 if sc.description.lower() in note_lower else 0.0
             
             # Evidence Component (0.38)
             evidence = 0.6 * terminology + 0.4 * semantic
@@ -322,15 +326,22 @@ class SelectionEngine:
             section = min(sc.section_priority / 10.0, 1.0)
             
             # Anatomy Component (0.15)
-            code_anat = get_code_anatomy(sc.code, sc.description)
-            anatomy = 1.0 if (code_anat and note_anatomy and (code_anat & note_anatomy)) else 0.0
+            anatomy = sc.extra.get("anatomy_overlap")
+            if anatomy is None:
+                code_anat = get_code_anatomy(sc.code, sc.description)
+                anatomy = 1.0 if (code_anat and note_anatomy and (code_anat & note_anatomy)) else 0.0
             
             # Procedure Component (0.10)
-            procedure = 0.0
-            for dx_pfx, procs in DX_PROC_LINKS.items():
-                if sc.code.startswith(dx_pfx) and any(p in active_cpts for p in procs):
-                    procedure = 1.0
-                    break
+            procedure = sc.extra.get("procedure_linkage")
+            if procedure is None:
+                procedure = 0.0
+                for dx_pfx, procs in DX_PROC_LINKS.items():
+                    if sc.code.startswith(dx_pfx) and any(p in active_cpts for p in procs):
+                        procedure = 1.0
+                        break
+            
+            # Soft cap on procedure linkage contribution to prevent CPT linkage dominance
+            procedure = min(procedure, 0.25)
             
             # Specificity Component (0.10)
             spec_val = min(sc.specificity / 8.0, 1.0)

@@ -1,0 +1,1232 @@
+[
+  {
+    "case_id": "ORTHO-001",
+    "category": "orthopedic_operative",
+    "gold_code": "S72012A",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "PREOPERATIVE DIAGNOSIS: Displaced left femoral neck fracture. POSTOPERATIVE DIAGNOSIS: Displaced left femoral neck fracture. PROCEDURE: Left total hip arthroplasty. Patient is a 74-year-old female who sustained a displaced femoral neck fracture after a fall."
+  },
+  {
+    "case_id": "ORTHO-002",
+    "category": "orthopedic_operative",
+    "gold_code": "M80012A",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "POSTOPERATIVE DIAGNOSIS: Pathological fracture left femoral neck due to age-related osteoporosis. PROCEDURE: Left cemented total hip arthroplasty. Patient has known osteoporosis."
+  },
+  {
+    "case_id": "ORTHO-003",
+    "category": "orthopedic_operative",
+    "gold_code": "S72141A",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "PREOPERATIVE DIAGNOSIS: Right displaced intertrochanteric femur fracture. PROCEDURE: Right hip ORIF with intramedullary nail fixation. No history of pathological fracture."
+  },
+  {
+    "case_id": "ORTHO-003",
+    "category": "orthopedic_operative",
+    "gold_code": "27245",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "PREOPERATIVE DIAGNOSIS: Right displaced intertrochanteric femur fracture. PROCEDURE: Right hip ORIF with intramedullary nail fixation. No history of pathological fracture."
+  },
+  {
+    "case_id": "ORTHO-004",
+    "category": "orthopedic_operative",
+    "gold_code": "M1711",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "Patient presents with bilateral knee pain and crepitus. POSTOPERATIVE DIAGNOSIS: Severe bilateral primary osteoarthritis of knees. PROCEDURE: Left total knee arthroplasty. Right knee to be addressed in staged procedure."
+  },
+  {
+    "case_id": "ORTHO-004",
+    "category": "orthopedic_operative",
+    "gold_code": "M1712",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "Patient presents with bilateral knee pain and crepitus. POSTOPERATIVE DIAGNOSIS: Severe bilateral primary osteoarthritis of knees. PROCEDURE: Left total knee arthroplasty. Right knee to be addressed in staged procedure."
+  },
+  {
+    "case_id": "CARDIO-001",
+    "category": "cardiology",
+    "gold_code": "I2102",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.209 < 0.65)] ",
+    "score": 0.209,
+    "forensic": {},
+    "note_snippet": "ASSESSMENT: Patient admitted with acute ST-elevation myocardial infarction of left anterior descending artery. Underwent emergent PCI with drug-eluting stent placement to LAD."
+  },
+  {
+    "case_id": "CARDIO-001",
+    "category": "cardiology",
+    "gold_code": "92928",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "ASSESSMENT: Patient admitted with acute ST-elevation myocardial infarction of left anterior descending artery. Underwent emergent PCI with drug-eluting stent placement to LAD."
+  },
+  {
+    "case_id": "CARDIO-002",
+    "category": "cardiology",
+    "gold_code": "I5021",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.172 < 0.65)]  [CARDIOLOGY_DOM_BOOST]",
+    "score": 0.172,
+    "forensic": {},
+    "note_snippet": "DIAGNOSIS: Systolic heart failure due to hypertensive heart disease, current exacerbation. Patient has longstanding hypertension with now decompensated systolic HF."
+  },
+  {
+    "case_id": "CARDIO-002",
+    "category": "cardiology",
+    "gold_code": "I110",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.093 < 0.65)] ",
+    "score": 0.093,
+    "forensic": {},
+    "note_snippet": "DIAGNOSIS: Systolic heart failure due to hypertensive heart disease, current exacerbation. Patient has longstanding hypertension with now decompensated systolic HF."
+  },
+  {
+    "case_id": "CARDIO-003",
+    "category": "cardiology",
+    "gold_code": "3610",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "HISTORY: Patient has a history of coronary artery disease. MEDICATIONS: Aspirin, atorvastatin, metoprolol, and DVT prophylaxis with enoxaparin. Patient is admitted for elective CABG."
+  },
+  {
+    "case_id": "DIABETES-001",
+    "category": "diabetes_chronic",
+    "gold_code": "N1832",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "ASSESSMENT: Type 2 diabetes mellitus with diabetic chronic kidney disease, stage 3b. Patient also has essential hypertension managed with lisinopril."
+  },
+  {
+    "case_id": "DIABETES-001",
+    "category": "diabetes_chronic",
+    "gold_code": "I10",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.16 < 0.65)] ",
+    "score": 0.16,
+    "forensic": {},
+    "note_snippet": "ASSESSMENT: Type 2 diabetes mellitus with diabetic chronic kidney disease, stage 3b. Patient also has essential hypertension managed with lisinopril."
+  },
+  {
+    "case_id": "DIABETES-001",
+    "category": "diabetes_chronic",
+    "gold_code": "E1165",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "ASSESSMENT: Type 2 diabetes mellitus with diabetic chronic kidney disease, stage 3b. Patient also has essential hypertension managed with lisinopril."
+  },
+  {
+    "case_id": "DIABETES-002",
+    "category": "diabetes_chronic",
+    "gold_code": "E103211",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "Patient with known type 1 diabetes presents with diabetic peripheral neuropathy affecting bilateral lower extremities. Also has mild diabetic retinopathy, right eye."
+  },
+  {
+    "case_id": "DIABETES-002",
+    "category": "diabetes_chronic",
+    "gold_code": "E1040",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "Patient with known type 1 diabetes presents with diabetic peripheral neuropathy affecting bilateral lower extremities. Also has mild diabetic retinopathy, right eye."
+  },
+  {
+    "case_id": "POSTOP-001",
+    "category": "postop_note",
+    "gold_code": "K3580",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.164 < 0.65)] ",
+    "score": 0.164,
+    "forensic": {},
+    "note_snippet": "POSTOPERATIVE DIAGNOSIS: Acute appendicitis without rupture. PROCEDURE PERFORMED: Laparoscopic appendectomy. No evidence of perforation intraoperatively. Patient doing well postoperatively."
+  },
+  {
+    "case_id": "POSTOP-001",
+    "category": "postop_note",
+    "gold_code": "44950",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "POSTOPERATIVE DIAGNOSIS: Acute appendicitis without rupture. PROCEDURE PERFORMED: Laparoscopic appendectomy. No evidence of perforation intraoperatively. Patient doing well postoperatively."
+  },
+  {
+    "case_id": "POSTOP-002",
+    "category": "postop_note",
+    "gold_code": "K8000",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.281 < 0.65)] ",
+    "score": 0.281,
+    "forensic": {},
+    "note_snippet": "POSTOPERATIVE DIAGNOSIS: Cholelithiasis with acute cholecystitis. PROCEDURE: Laparoscopic cholecystectomy. Gallbladder was inflamed, stones confirmed. Patient tolerated procedure well."
+  },
+  {
+    "case_id": "HISTORY-HEAVY-002",
+    "category": "history_heavy",
+    "gold_code": "C7951",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "PAST MEDICAL HISTORY: Breast cancer (treated, in remission 3 years). CURRENT DIAGNOSIS: Pathological fracture lumbar vertebra L2 secondary to metastatic disease. Known bone metastases from prior breast cancer."
+  },
+  {
+    "case_id": "HISTORY-HEAVY-002",
+    "category": "history_heavy",
+    "gold_code": "M84552A",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "PAST MEDICAL HISTORY: Breast cancer (treated, in remission 3 years). CURRENT DIAGNOSIS: Pathological fracture lumbar vertebra L2 secondary to metastatic disease. Known bone metastases from prior breast cancer."
+  },
+  {
+    "case_id": "HISTORY-HEAVY-002",
+    "category": "history_heavy",
+    "gold_code": "Z853",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "PAST MEDICAL HISTORY: Breast cancer (treated, in remission 3 years). CURRENT DIAGNOSIS: Pathological fracture lumbar vertebra L2 secondary to metastatic disease. Known bone metastases from prior breast cancer."
+  },
+  {
+    "case_id": "MED-HEAVY-001",
+    "category": "medication_heavy",
+    "gold_code": "M1711",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "MEDICATIONS: Warfarin for atrial fibrillation, metformin for type 2 diabetes, lisinopril for hypertension, enoxaparin DVT prophylaxis perioperatively, proton pump inhibitor. ASSESSMENT: Admitted for elective right knee replacement."
+  },
+  {
+    "case_id": "MED-HEAVY-001",
+    "category": "medication_heavy",
+    "gold_code": "I4819",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "MEDICATIONS: Warfarin for atrial fibrillation, metformin for type 2 diabetes, lisinopril for hypertension, enoxaparin DVT prophylaxis perioperatively, proton pump inhibitor. ASSESSMENT: Admitted for elective right knee replacement."
+  },
+  {
+    "case_id": "CONFLICT-001",
+    "category": "conflicting_diagnoses",
+    "gold_code": "M80012A",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "Patient has pathological fracture of the left femoral neck due to osteoporosis. Also has history of osteoporosis without fracture per old records. Current imaging confirms acute pathological fracture."
+  },
+  {
+    "case_id": "SYMPTOM-001",
+    "category": "symptom_only",
+    "gold_code": "M25552",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "Patient presents with acute hip pain, left side. X-ray does not show fracture. MRI deferred. ASSESSMENT: Left hip pain, etiology unclear. Rule out labral tear vs early OA."
+  },
+  {
+    "case_id": "PROPHYLAXIS-001",
+    "category": "prophylaxis_vs_active",
+    "gold_code": "Z7901",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "Patient received DVT prophylaxis with sequential compression devices and enoxaparin 40mg daily postoperatively following total hip arthroplasty. No clinical or radiological evidence of DVT."
+  },
+  {
+    "case_id": "PROPHYLAXIS-002",
+    "category": "prophylaxis_vs_active",
+    "gold_code": "I82412",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "Patient with confirmed bilateral DVT by ultrasound, treated with therapeutic anticoagulation. Heparin drip started, transitioned to warfarin. DVT confirmed in bilateral femoral veins."
+  },
+  {
+    "case_id": "PROPHYLAXIS-002",
+    "category": "prophylaxis_vs_active",
+    "gold_code": "I82411",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "Patient with confirmed bilateral DVT by ultrasound, treated with therapeutic anticoagulation. Heparin drip started, transitioned to warfarin. DVT confirmed in bilateral femoral veins."
+  },
+  {
+    "case_id": "COMBINATION-001",
+    "category": "combination_code",
+    "gold_code": "E1151",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "ASSESSMENT: Type 2 diabetes mellitus with diabetic peripheral angiopathy without gangrene. Patient has rest pain in bilateral feet, ABI 0.6, confirmed peripheral arterial disease secondary to diabetes."
+  },
+  {
+    "case_id": "COMBINATION-002",
+    "category": "combination_code",
+    "gold_code": "E113312",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "DIAGNOSIS: Type 2 diabetes with nonproliferative diabetic retinopathy, moderate severity, left eye, with macular edema."
+  },
+  {
+    "case_id": "NEGATION-001",
+    "category": "negation",
+    "gold_code": "K4090",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "Patient denies chest pain. No shortness of breath. No fever or chills. ASSESSMENT: No evidence of pneumonia on chest X-ray. Patient admitted for elective hernia repair."
+  },
+  {
+    "case_id": "NEGATION-002",
+    "category": "negation",
+    "gold_code": "N10",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "HISTORY: No history of diabetes. Not a known hypertensive. ASSESSMENT: Admitted for acute pyelonephritis. Urine culture positive for E. coli."
+  },
+  {
+    "case_id": "NEGATION-002",
+    "category": "negation",
+    "gold_code": "B9620",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "HISTORY: No history of diabetes. Not a known hypertensive. ASSESSMENT: Admitted for acute pyelonephritis. Urine culture positive for E. coli."
+  },
+  {
+    "case_id": "LATERALITY-001",
+    "category": "laterality_conflict",
+    "gold_code": "M75122",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "PREOPERATIVE DIAGNOSIS: Left shoulder rotator cuff tear, full thickness. POSTOPERATIVE DIAGNOSIS: Full-thickness tear of left supraspinatus tendon confirmed arthroscopically. PROCEDURE: Left shoulder arthroscopic rotator cuff repair."
+  },
+  {
+    "case_id": "LATERALITY-001",
+    "category": "laterality_conflict",
+    "gold_code": "29827",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "PREOPERATIVE DIAGNOSIS: Left shoulder rotator cuff tear, full thickness. POSTOPERATIVE DIAGNOSIS: Full-thickness tear of left supraspinatus tendon confirmed arthroscopically. PROCEDURE: Left shoulder arthroscopic rotator cuff repair."
+  },
+  {
+    "case_id": "LATERALITY-002",
+    "category": "laterality_conflict",
+    "gold_code": "S52501A",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "Patient sustained injury to right wrist. X-ray shows displaced fracture of distal radius, right side. PROCEDURE: ORIF right distal radius."
+  },
+  {
+    "case_id": "LATERALITY-002",
+    "category": "laterality_conflict",
+    "gold_code": "25600",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "Patient sustained injury to right wrist. X-ray shows displaced fracture of distal radius, right side. PROCEDURE: ORIF right distal radius."
+  },
+  {
+    "case_id": "MULTI-FRACTURE-001",
+    "category": "multiple_fractures",
+    "gold_code": "S72302A",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "Patient involved in MVC. INJURIES: Displaced left femoral shaft fracture, non-displaced right tibial shaft fracture. Both treated surgically. PROCEDURES: Left femur IM nail, Right tibia IM nail."
+  },
+  {
+    "case_id": "MULTI-FRACTURE-001",
+    "category": "multiple_fractures",
+    "gold_code": "27759",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "Patient involved in MVC. INJURIES: Displaced left femoral shaft fracture, non-displaced right tibial shaft fracture. Both treated surgically. PROCEDURES: Left femur IM nail, Right tibia IM nail."
+  },
+  {
+    "case_id": "MULTI-FRACTURE-001",
+    "category": "multiple_fractures",
+    "gold_code": "S82231A",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "Patient involved in MVC. INJURIES: Displaced left femoral shaft fracture, non-displaced right tibial shaft fracture. Both treated surgically. PROCEDURES: Left femur IM nail, Right tibia IM nail."
+  },
+  {
+    "case_id": "MULTI-FRACTURE-001",
+    "category": "multiple_fractures",
+    "gold_code": "27506",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "Patient involved in MVC. INJURIES: Displaced left femoral shaft fracture, non-displaced right tibial shaft fracture. Both treated surgically. PROCEDURES: Left femur IM nail, Right tibia IM nail."
+  },
+  {
+    "case_id": "PROCEDURE-LINK-001",
+    "category": "procedure_diagnosis_link",
+    "gold_code": "63047",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "POSTOPERATIVE DIAGNOSIS: Lumbar spinal stenosis L4-L5 with neurogenic claudication. PROCEDURE: L4-L5 lumbar decompression laminectomy. Patient had significant leg pain and weakness preoperatively."
+  },
+  {
+    "case_id": "PROCEDURE-LINK-001",
+    "category": "procedure_diagnosis_link",
+    "gold_code": "M4806",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "POSTOPERATIVE DIAGNOSIS: Lumbar spinal stenosis L4-L5 with neurogenic claudication. PROCEDURE: L4-L5 lumbar decompression laminectomy. Patient had significant leg pain and weakness preoperatively."
+  },
+  {
+    "case_id": "SEPSIS-001",
+    "category": "cardiology",
+    "gold_code": "J13",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.176 < 0.65)] ",
+    "score": 0.176,
+    "forensic": {},
+    "note_snippet": "ASSESSMENT: Sepsis due to pneumonia caused by Streptococcus pneumoniae. Patient meets sepsis criteria \u00e2\u20ac\u201d SIRS + suspected infection source. Blood cultures positive."
+  },
+  {
+    "case_id": "SEPSIS-001",
+    "category": "cardiology",
+    "gold_code": "A403",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.195 < 0.65)] ",
+    "score": 0.195,
+    "forensic": {},
+    "note_snippet": "ASSESSMENT: Sepsis due to pneumonia caused by Streptococcus pneumoniae. Patient meets sepsis criteria \u00e2\u20ac\u201d SIRS + suspected infection source. Blood cultures positive."
+  },
+  {
+    "case_id": "SUSPECTED-001",
+    "category": "negation",
+    "gold_code": "R0989",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "IMPRESSION: Possible pulmonary embolism. CT pulmonary angiography ordered but results pending. Patient started on anticoagulation empirically pending confirmation. Rule out PE cannot be excluded."
+  },
+  {
+    "case_id": "SPINAL-001",
+    "category": "orthopedic_operative",
+    "gold_code": "M5116",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "POSTOPERATIVE DIAGNOSIS: L4-L5 disc herniation with radiculopathy, left. PROCEDURE: L4-L5 left microdiscectomy. Patient had 3 months of left leg sciatica with positive straight leg raise."
+  },
+  {
+    "case_id": "SPINAL-001",
+    "category": "orthopedic_operative",
+    "gold_code": "63030",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "POSTOPERATIVE DIAGNOSIS: L4-L5 disc herniation with radiculopathy, left. PROCEDURE: L4-L5 left microdiscectomy. Patient had 3 months of left leg sciatica with positive straight leg raise."
+  },
+  {
+    "case_id": "ORTHO-EXP-001",
+    "category": "orthopedic_operative",
+    "gold_code": "S72301A",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "PREOPERATIVE DIAGNOSIS: Displaced right femoral shaft fracture. PROCEDURE: IM nailing of right femur. Patient was involved in a motor vehicle accident."
+  },
+  {
+    "case_id": "ORTHO-EXP-001",
+    "category": "orthopedic_operative",
+    "gold_code": "27506",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "PREOPERATIVE DIAGNOSIS: Displaced right femoral shaft fracture. PROCEDURE: IM nailing of right femur. Patient was involved in a motor vehicle accident."
+  },
+  {
+    "case_id": "ORTHO-EXP-002",
+    "category": "orthopedic_operative",
+    "gold_code": "27244",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "POSTOPERATIVE DIAGNOSIS: Left subtrochanteric femur fracture, displaced. PROCEDURE: Left hip ORIF. Patient has a history of a previous fall."
+  },
+  {
+    "case_id": "ORTHO-EXP-002",
+    "category": "orthopedic_operative",
+    "gold_code": "S7222XA",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "POSTOPERATIVE DIAGNOSIS: Left subtrochanteric femur fracture, displaced. PROCEDURE: Left hip ORIF. Patient has a history of a previous fall."
+  },
+  {
+    "case_id": "ORTHO-EXP-003",
+    "category": "orthopedic_operative",
+    "gold_code": "S82001A",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "DIAGNOSIS: Nondisplaced fracture of right patella. Treatment plan: Knee immobilizer and non-weight bearing."
+  },
+  {
+    "case_id": "ORTHO-EXP-004",
+    "category": "orthopedic_operative",
+    "gold_code": "M160",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.445 < 0.65)] ",
+    "score": 0.445,
+    "forensic": {},
+    "note_snippet": "Patient with bilateral hip osteoarthritis. Admitted for right total hip arthroplasty."
+  },
+  {
+    "case_id": "CARDIO-EXP-001",
+    "category": "cardiology",
+    "gold_code": "I214",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.292 < 0.65)]  [CARDIOLOGY_DOM_BOOST]",
+    "score": 0.292,
+    "forensic": {},
+    "note_snippet": "ASSESSMENT: Acute NSTEMI. Patient with chest pain, troponin elevation to 2.4. Coronary angiography shows multi-vessel disease."
+  },
+  {
+    "case_id": "CARDIO-EXP-002",
+    "category": "cardiology",
+    "gold_code": "I129",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Negation detected (e.g. 'no evidence of')] ",
+    "score": 0.431,
+    "forensic": {},
+    "note_snippet": "DIAGNOSIS: Hypertensive chronic kidney disease stage 4 with heart failure. Patient has baseline HTN and CKD."
+  },
+  {
+    "case_id": "CARDIO-EXP-003",
+    "category": "cardiology",
+    "gold_code": "I4821",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.0 < 0.65)] ",
+    "score": 0.0,
+    "forensic": {},
+    "note_snippet": "ASSESSMENT: Permanent atrial fibrillation. Patient on long-term warfarin for stroke prevention."
+  },
+  {
+    "case_id": "CARDIO-EXP-003",
+    "category": "cardiology",
+    "gold_code": "Z7901",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "ASSESSMENT: Permanent atrial fibrillation. Patient on long-term warfarin for stroke prevention."
+  },
+  {
+    "case_id": "NEPHRO-EXP-001",
+    "category": "nephrology",
+    "gold_code": "Z992",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "ASSESSMENT: End-stage renal disease on hemodialysis. Admitted for dialysis catheter replacement."
+  },
+  {
+    "case_id": "NEPHRO-EXP-001",
+    "category": "nephrology",
+    "gold_code": "N186",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "ASSESSMENT: End-stage renal disease on hemodialysis. Admitted for dialysis catheter replacement."
+  },
+  {
+    "case_id": "NEPHRO-EXP-002",
+    "category": "nephrology",
+    "gold_code": "N040",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.268 < 0.65)] ",
+    "score": 0.268,
+    "forensic": {},
+    "note_snippet": "DIAGNOSIS: Nephrotic syndrome due to minimal change disease. Patient has significant peripheral edema."
+  },
+  {
+    "case_id": "GI-EXP-001",
+    "category": "gi_surgery",
+    "gold_code": "49507",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "POSTOPERATIVE DIAGNOSIS: Incarcerated inguinal hernia, right side. PROCEDURE: Open right inguinal hernia repair with mesh."
+  },
+  {
+    "case_id": "GI-EXP-001",
+    "category": "gi_surgery",
+    "gold_code": "K4030",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "POSTOPERATIVE DIAGNOSIS: Incarcerated inguinal hernia, right side. PROCEDURE: Open right inguinal hernia repair with mesh."
+  },
+  {
+    "case_id": "GI-EXP-002",
+    "category": "gi_surgery",
+    "gold_code": "K8001",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.281 < 0.65)] ",
+    "score": 0.281,
+    "forensic": {},
+    "note_snippet": "DIAGNOSIS: Acute cholecystitis with cholelithiasis and obstruction. Underwent laparoscopic cholecystectomy."
+  },
+  {
+    "case_id": "GI-EXP-003",
+    "category": "gi_surgery",
+    "gold_code": "K3530",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.281 < 0.65)] ",
+    "score": 0.281,
+    "forensic": {},
+    "note_snippet": "ASSESSMENT: Acute appendicitis with localized peritonitis. Underwent appendectomy."
+  },
+  {
+    "case_id": "ENDOC-EXP-001",
+    "category": "endocrine",
+    "gold_code": "E1142",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "DIAGNOSIS: Type 2 diabetes with diabetic polyneuropathy. Metformin and gabapentin managed."
+  },
+  {
+    "case_id": "ENDOC-EXP-002",
+    "category": "endocrine",
+    "gold_code": "E103513",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.506 < 0.65)]  [ENDOCRINE_DOM_BOOST]",
+    "score": 0.506,
+    "forensic": {},
+    "note_snippet": "ASSESSMENT: Type 1 diabetes with proliferative retinopathy, bilateral, with macular edema."
+  },
+  {
+    "case_id": "ENDOC-EXP-003",
+    "category": "endocrine",
+    "gold_code": "E0501",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "DIAGNOSIS: Graves disease with thyrotoxic crisis. Patient admitted to ICU."
+  },
+  {
+    "case_id": "SEPSIS-EXP-001",
+    "category": "sepsis",
+    "gold_code": "A4151",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.204 < 0.65)] ",
+    "score": 0.204,
+    "forensic": {},
+    "note_snippet": "ASSESSMENT: Sepsis due to Escherichia coli UTI. Patient is hypotensive and meeting qSOFA criteria."
+  },
+  {
+    "case_id": "SEPSIS-EXP-001",
+    "category": "sepsis",
+    "gold_code": "N390",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "ASSESSMENT: Sepsis due to Escherichia coli UTI. Patient is hypotensive and meeting qSOFA criteria."
+  },
+  {
+    "case_id": "SEPSIS-EXP-002",
+    "category": "sepsis",
+    "gold_code": "R6521",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.216 < 0.65)] ",
+    "score": 0.216,
+    "forensic": {},
+    "note_snippet": "DIAGNOSIS: Septic shock secondary to aspiration pneumonia. Vasopressor support required."
+  },
+  {
+    "case_id": "SEPSIS-EXP-002",
+    "category": "sepsis",
+    "gold_code": "J690",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "DIAGNOSIS: Septic shock secondary to aspiration pneumonia. Vasopressor support required."
+  },
+  {
+    "case_id": "MIXED-EXP-001",
+    "category": "mixed_comorbidity",
+    "gold_code": "N1830",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.167 < 0.65)] ",
+    "score": 0.167,
+    "forensic": {},
+    "note_snippet": "78-year-old male with T2DM, CKD stage 3, and hypertension admitted for acute systolic heart failure exacerbation."
+  },
+  {
+    "case_id": "MIXED-EXP-001",
+    "category": "mixed_comorbidity",
+    "gold_code": "I5021",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "78-year-old male with T2DM, CKD stage 3, and hypertension admitted for acute systolic heart failure exacerbation."
+  },
+  {
+    "case_id": "MIXED-EXP-001",
+    "category": "mixed_comorbidity",
+    "gold_code": "E119",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "78-year-old male with T2DM, CKD stage 3, and hypertension admitted for acute systolic heart failure exacerbation."
+  },
+  {
+    "case_id": "MIXED-EXP-001",
+    "category": "mixed_comorbidity",
+    "gold_code": "I129",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "78-year-old male with T2DM, CKD stage 3, and hypertension admitted for acute systolic heart failure exacerbation."
+  },
+  {
+    "case_id": "ORTHO-GEN-5",
+    "category": "orthopedic_operative",
+    "gold_code": "S42322A",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "Fracture case 5: Displaced left humerus shaft fracture."
+  },
+  {
+    "case_id": "ORTHO-GEN-6",
+    "category": "orthopedic_operative",
+    "gold_code": "S42322A",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "Fracture case 6: Displaced left humerus shaft fracture."
+  },
+  {
+    "case_id": "ORTHO-GEN-7",
+    "category": "orthopedic_operative",
+    "gold_code": "S42322A",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "Fracture case 7: Displaced left humerus shaft fracture."
+  },
+  {
+    "case_id": "ORTHO-GEN-8",
+    "category": "orthopedic_operative",
+    "gold_code": "S42322A",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "Fracture case 8: Displaced left humerus shaft fracture."
+  },
+  {
+    "case_id": "ORTHO-GEN-9",
+    "category": "orthopedic_operative",
+    "gold_code": "S42322A",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "Fracture case 9: Displaced left humerus shaft fracture."
+  },
+  {
+    "case_id": "ORTHO-GEN-10",
+    "category": "orthopedic_operative",
+    "gold_code": "S42322A",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "Fracture case 10: Displaced left humerus shaft fracture."
+  },
+  {
+    "case_id": "ORTHO-GEN-11",
+    "category": "orthopedic_operative",
+    "gold_code": "S42322A",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "Fracture case 11: Displaced left humerus shaft fracture."
+  },
+  {
+    "case_id": "ORTHO-GEN-12",
+    "category": "orthopedic_operative",
+    "gold_code": "S42322A",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "Fracture case 12: Displaced left humerus shaft fracture."
+  },
+  {
+    "case_id": "ORTHO-GEN-13",
+    "category": "orthopedic_operative",
+    "gold_code": "S42322A",
+    "status": "selection_rejected",
+    "reason": "Pruned by sibling specificity discrimination",
+    "score": 0.706,
+    "forensic": {},
+    "note_snippet": "Fracture case 13: Displaced left humerus shaft fracture."
+  },
+  {
+    "case_id": "ORTHO-GEN-14",
+    "category": "orthopedic_operative",
+    "gold_code": "S42322A",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "Fracture case 14: Displaced left humerus shaft fracture."
+  },
+  {
+    "case_id": "ORTHO-GEN-15",
+    "category": "orthopedic_operative",
+    "gold_code": "S42322A",
+    "status": "selection_rejected",
+    "reason": "Pruned by sibling specificity discrimination",
+    "score": 0.706,
+    "forensic": {},
+    "note_snippet": "Fracture case 15: Displaced left humerus shaft fracture."
+  },
+  {
+    "case_id": "ORTHO-GEN-16",
+    "category": "orthopedic_operative",
+    "gold_code": "S42322A",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "Fracture case 16: Displaced left humerus shaft fracture."
+  },
+  {
+    "case_id": "ORTHO-GEN-17",
+    "category": "orthopedic_operative",
+    "gold_code": "S42322A",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "Fracture case 17: Displaced left humerus shaft fracture."
+  },
+  {
+    "case_id": "ORTHO-GEN-18",
+    "category": "orthopedic_operative",
+    "gold_code": "S42322A",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "Fracture case 18: Displaced left humerus shaft fracture."
+  },
+  {
+    "case_id": "ORTHO-GEN-19",
+    "category": "orthopedic_operative",
+    "gold_code": "S42322A",
+    "status": "selection_rejected",
+    "reason": "Pruned by sibling specificity discrimination",
+    "score": 0.706,
+    "forensic": {},
+    "note_snippet": "Fracture case 19: Displaced left humerus shaft fracture."
+  },
+  {
+    "case_id": "CARDIO-GEN-5",
+    "category": "cardiology",
+    "gold_code": "I5032",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.312 < 0.65)]  [CARDIOLOGY_DOM_BOOST]",
+    "score": 0.312,
+    "forensic": {},
+    "note_snippet": "Cardio case 5: Chronic diastolic heart failure."
+  },
+  {
+    "case_id": "CARDIO-GEN-6",
+    "category": "cardiology",
+    "gold_code": "I5032",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.309 < 0.65)]  [CARDIOLOGY_DOM_BOOST]",
+    "score": 0.309,
+    "forensic": {},
+    "note_snippet": "Cardio case 6: Chronic diastolic heart failure."
+  },
+  {
+    "case_id": "CARDIO-GEN-7",
+    "category": "cardiology",
+    "gold_code": "I5032",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.311 < 0.65)]  [CARDIOLOGY_DOM_BOOST]",
+    "score": 0.311,
+    "forensic": {},
+    "note_snippet": "Cardio case 7: Chronic diastolic heart failure."
+  },
+  {
+    "case_id": "CARDIO-GEN-8",
+    "category": "cardiology",
+    "gold_code": "I5032",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.309 < 0.65)]  [CARDIOLOGY_DOM_BOOST]",
+    "score": 0.309,
+    "forensic": {},
+    "note_snippet": "Cardio case 8: Chronic diastolic heart failure."
+  },
+  {
+    "case_id": "CARDIO-GEN-9",
+    "category": "cardiology",
+    "gold_code": "I5032",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.31 < 0.65)]  [CARDIOLOGY_DOM_BOOST]",
+    "score": 0.31,
+    "forensic": {},
+    "note_snippet": "Cardio case 9: Chronic diastolic heart failure."
+  },
+  {
+    "case_id": "CARDIO-GEN-10",
+    "category": "cardiology",
+    "gold_code": "I5032",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.311 < 0.65)]  [CARDIOLOGY_DOM_BOOST]",
+    "score": 0.311,
+    "forensic": {},
+    "note_snippet": "Cardio case 10: Chronic diastolic heart failure."
+  },
+  {
+    "case_id": "CARDIO-GEN-11",
+    "category": "cardiology",
+    "gold_code": "I5032",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.311 < 0.65)]  [CARDIOLOGY_DOM_BOOST]",
+    "score": 0.311,
+    "forensic": {},
+    "note_snippet": "Cardio case 11: Chronic diastolic heart failure."
+  },
+  {
+    "case_id": "CARDIO-GEN-12",
+    "category": "cardiology",
+    "gold_code": "I5032",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.311 < 0.65)]  [CARDIOLOGY_DOM_BOOST]",
+    "score": 0.311,
+    "forensic": {},
+    "note_snippet": "Cardio case 12: Chronic diastolic heart failure."
+  },
+  {
+    "case_id": "CARDIO-GEN-13",
+    "category": "cardiology",
+    "gold_code": "I5032",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.309 < 0.65)]  [CARDIOLOGY_DOM_BOOST]",
+    "score": 0.309,
+    "forensic": {},
+    "note_snippet": "Cardio case 13: Chronic diastolic heart failure."
+  },
+  {
+    "case_id": "CARDIO-GEN-14",
+    "category": "cardiology",
+    "gold_code": "I5032",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.311 < 0.65)]  [CARDIOLOGY_DOM_BOOST]",
+    "score": 0.311,
+    "forensic": {},
+    "note_snippet": "Cardio case 14: Chronic diastolic heart failure."
+  },
+  {
+    "case_id": "CARDIO-GEN-15",
+    "category": "cardiology",
+    "gold_code": "I5032",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.311 < 0.65)]  [CARDIOLOGY_DOM_BOOST]",
+    "score": 0.311,
+    "forensic": {},
+    "note_snippet": "Cardio case 15: Chronic diastolic heart failure."
+  },
+  {
+    "case_id": "CARDIO-GEN-16",
+    "category": "cardiology",
+    "gold_code": "I5032",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.309 < 0.65)]  [CARDIOLOGY_DOM_BOOST]",
+    "score": 0.309,
+    "forensic": {},
+    "note_snippet": "Cardio case 16: Chronic diastolic heart failure."
+  },
+  {
+    "case_id": "CARDIO-GEN-17",
+    "category": "cardiology",
+    "gold_code": "I5032",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.312 < 0.65)]  [CARDIOLOGY_DOM_BOOST]",
+    "score": 0.312,
+    "forensic": {},
+    "note_snippet": "Cardio case 17: Chronic diastolic heart failure."
+  },
+  {
+    "case_id": "CARDIO-GEN-18",
+    "category": "cardiology",
+    "gold_code": "I5032",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.309 < 0.65)]  [CARDIOLOGY_DOM_BOOST]",
+    "score": 0.309,
+    "forensic": {},
+    "note_snippet": "Cardio case 18: Chronic diastolic heart failure."
+  },
+  {
+    "case_id": "CARDIO-GEN-19",
+    "category": "cardiology",
+    "gold_code": "I5032",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.31 < 0.65)]  [CARDIOLOGY_DOM_BOOST]",
+    "score": 0.31,
+    "forensic": {},
+    "note_snippet": "Cardio case 19: Chronic diastolic heart failure."
+  },
+  {
+    "case_id": "GI-GEN-4",
+    "category": "gi_surgery",
+    "gold_code": "K810",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.179 < 0.65)] ",
+    "score": 0.179,
+    "forensic": {},
+    "note_snippet": "GI case 4: Acute cholecystitis."
+  },
+  {
+    "case_id": "GI-GEN-5",
+    "category": "gi_surgery",
+    "gold_code": "K810",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.154 < 0.65)] ",
+    "score": 0.154,
+    "forensic": {},
+    "note_snippet": "GI case 5: Acute cholecystitis."
+  },
+  {
+    "case_id": "GI-GEN-6",
+    "category": "gi_surgery",
+    "gold_code": "K810",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.146 < 0.65)] ",
+    "score": 0.146,
+    "forensic": {},
+    "note_snippet": "GI case 6: Acute cholecystitis."
+  },
+  {
+    "case_id": "GI-GEN-7",
+    "category": "gi_surgery",
+    "gold_code": "K810",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.185 < 0.65)] ",
+    "score": 0.185,
+    "forensic": {},
+    "note_snippet": "GI case 7: Acute cholecystitis."
+  },
+  {
+    "case_id": "GI-GEN-8",
+    "category": "gi_surgery",
+    "gold_code": "K810",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.198 < 0.65)] ",
+    "score": 0.198,
+    "forensic": {},
+    "note_snippet": "GI case 8: Acute cholecystitis."
+  },
+  {
+    "case_id": "GI-GEN-9",
+    "category": "gi_surgery",
+    "gold_code": "K810",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.192 < 0.65)] ",
+    "score": 0.192,
+    "forensic": {},
+    "note_snippet": "GI case 9: Acute cholecystitis."
+  },
+  {
+    "case_id": "GI-GEN-10",
+    "category": "gi_surgery",
+    "gold_code": "K810",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.196 < 0.65)] ",
+    "score": 0.196,
+    "forensic": {},
+    "note_snippet": "GI case 10: Acute cholecystitis."
+  },
+  {
+    "case_id": "GI-GEN-11",
+    "category": "gi_surgery",
+    "gold_code": "K810",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.214 < 0.65)] ",
+    "score": 0.214,
+    "forensic": {},
+    "note_snippet": "GI case 11: Acute cholecystitis."
+  },
+  {
+    "case_id": "GI-GEN-12",
+    "category": "gi_surgery",
+    "gold_code": "K810",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.188 < 0.65)] ",
+    "score": 0.188,
+    "forensic": {},
+    "note_snippet": "GI case 12: Acute cholecystitis."
+  },
+  {
+    "case_id": "GI-GEN-13",
+    "category": "gi_surgery",
+    "gold_code": "K810",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.182 < 0.65)] ",
+    "score": 0.182,
+    "forensic": {},
+    "note_snippet": "GI case 13: Acute cholecystitis."
+  },
+  {
+    "case_id": "GI-GEN-14",
+    "category": "gi_surgery",
+    "gold_code": "K810",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.147 < 0.65)] ",
+    "score": 0.147,
+    "forensic": {},
+    "note_snippet": "GI case 14: Acute cholecystitis."
+  },
+  {
+    "case_id": "GI-GEN-15",
+    "category": "gi_surgery",
+    "gold_code": "K810",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.131 < 0.65)] ",
+    "score": 0.131,
+    "forensic": {},
+    "note_snippet": "GI case 15: Acute cholecystitis."
+  },
+  {
+    "case_id": "GI-GEN-16",
+    "category": "gi_surgery",
+    "gold_code": "K810",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.127 < 0.65)] ",
+    "score": 0.127,
+    "forensic": {},
+    "note_snippet": "GI case 16: Acute cholecystitis."
+  },
+  {
+    "case_id": "GI-GEN-17",
+    "category": "gi_surgery",
+    "gold_code": "K810",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.159 < 0.65)] ",
+    "score": 0.159,
+    "forensic": {},
+    "note_snippet": "GI case 17: Acute cholecystitis."
+  },
+  {
+    "case_id": "GI-GEN-18",
+    "category": "gi_surgery",
+    "gold_code": "K810",
+    "status": "never_retrieved",
+    "reason": "RAG retrieval missed it completely",
+    "score": null,
+    "forensic": {},
+    "note_snippet": "GI case 18: Acute cholecystitis."
+  },
+  {
+    "case_id": "GI-GEN-19",
+    "category": "gi_surgery",
+    "gold_code": "K810",
+    "status": "selection_rejected",
+    "reason": "[REJECTED: Insufficient grounding (0.114 < 0.65)] ",
+    "score": 0.114,
+    "forensic": {},
+    "note_snippet": "GI case 19: Acute cholecystitis."
+  }
+]

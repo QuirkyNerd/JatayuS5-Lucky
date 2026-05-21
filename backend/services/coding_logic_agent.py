@@ -32,7 +32,7 @@ class CodingLogicAgent:
         docs = raw_retrieval.get("documents", [[]])[0]
         metas = raw_retrieval.get("metadatas", [[]])[0]
         scores = raw_retrieval.get("scores", [[]])[0]
-        traces = raw_retrieval.get("traces", [[]])[0]
+        traces = raw_retrieval.get("forensics", [[]])[0]
 
         for doc, meta, score, trace in zip(docs, metas, scores, traces):
             retrieved_chunks.append({

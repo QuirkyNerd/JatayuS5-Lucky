@@ -117,7 +117,8 @@ class SemanticOntologyValidator:
                 
             cand["score"] = round(new_score, 3)
             # Unified Forensic Trace (Task 1)
-            if "forensic" not in cand: cand["forensic"] = {}
+            if cand.get("forensic") is None:
+                cand["forensic"] = {}
             cand["forensic"].update({
                 "sapbert_score": round(sap_score, 3),
                 "ontology_penalty": round(family_penalty, 3),
