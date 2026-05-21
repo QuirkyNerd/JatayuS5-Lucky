@@ -43,9 +43,11 @@ api.interceptors.response.use(
       console.warn('[API] 401 received — session invalid or expired. Clearing auth state.');
 
       // Preserve theme, clear everything else
+      sessionStorage.clear();
       const theme = localStorage.getItem('theme');
       localStorage.clear();
       if (theme) localStorage.setItem('theme', theme);
+      window.dispatchEvent(new CustomEvent('app:session-reset'));
 
       // Fire event so React UI can show a toast before redirect
       window.dispatchEvent(new CustomEvent('auth:expired'));
@@ -111,7 +113,8 @@ export const authApi = {
 export const auditApi = {
   runAudit: (data) => `${BASE_URL}/audit`,
   submitFeedback: (data) => api.post("/feedback", data),
-  evaluate: (force = false) => api.get("/evaluation", { params: { force_refresh: force } }),
+  evaluate: (force = true) => api.get("/evaluation", { params: { force_refresh: force } }),
+  evaluationStatus: () => api.get("/evaluation/status"),
   health: () => api.get("/health"),
 };
 

@@ -579,15 +579,11 @@ export default function AuditResults({ result, noteHash }) {
   const avgConfidence  = totalCodes > 0 ? Math.round(ai_codes.reduce((s, c) => s + c.confidence, 0) / totalCodes * 100) : 0;
 
   const TABS = [
-    { id: 'explanation', label: `Summary` },
-    { id: 'codes',       label: `Codes (${totalCodes})` },
-    { id: 'impact',      label: `Financial Impact` },
-    { id: 'simulation',  label: `What-if Analysis` },
-    { id: 'explainability', label: `Explainability` },
-    { id: 'removed',     label: `Removed (${removed_codes.length})` },
-    { id: 'trace',       label: `Trace` },
-    { id: 'discrepancies', label: `Adjustments` },
-    { id: 'evidence',    label: `Evidence` },
+    { id: 'explanation', label: 'Summary' },
+    { id: 'codes', label: `Codes (${totalCodes})` },
+    { id: 'explainability', label: 'Explainability' },
+    { id: 'removed', label: `Removed (${removed_codes.length})` },
+    { id: 'evidence', label: 'Evidence' },
   ];
 
   return (
@@ -666,31 +662,12 @@ export default function AuditResults({ result, noteHash }) {
           </div>
         )}
 
-        {activeTab === 'impact' && (
-          <FinancialImpactPanel metrics={impact_metrics} />
-        )}
-
-        {activeTab === 'simulation' && (
-          <SimulationPanel originalCodes={ai_codes.map(c => c.code)} />
-        )}
-
         {activeTab === 'explainability' && (
           <CodeExplainabilityPanel codes={ai_codes} />
         )}
 
         {activeTab === 'removed' && (
           <RemovedCodesPanel removed={removed_codes} />
-        )}
-
-        {activeTab === 'trace' && (
-          <PipelineTracePanel trace={pipeline_trace} />
-        )}
-
-        {activeTab === 'discrepancies' && (
-          <div>
-            {discrepancies.length === 0 && <p className="empty-state">No discrepancies found.</p>}
-            {discrepancies.map((d, i) => <DiscrepancyCard key={i} disc={d} />)}
-          </div>
         )}
 
         {activeTab === 'evidence' && (

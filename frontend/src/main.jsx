@@ -156,19 +156,27 @@ function AuthProvider({ children }) {
   }, []);
 
   const login = useCallback((userData, newToken) => {
+    sessionStorage.clear();
     localStorage.setItem('access_token', newToken);
     localStorage.setItem('user', JSON.stringify(userData));
     setUser(userData);
     setToken(newToken);
     setSessionToast(false);
+    window.dispatchEvent(new CustomEvent('app:session-reset'));
   }, []);
 
-  const logout = useCallback(() => {
-    const theme = localStorage.getItem('theme');  // preserve theme
+  const logout = useCallback(async () => {
+    sessionStorage.clear();
+    const theme = localStorage.getItem('theme');
     localStorage.clear();
     if (theme) localStorage.setItem('theme', theme);
+    try {
+      const { default: api } = await import('./services/api.js');
+      delete api.defaults.headers.common['Authorization'];
+    } catch { /* ignore */ }
     setUser(null);
     setToken(null);
+    window.dispatchEvent(new CustomEvent('app:session-reset'));
   }, []);
 
   const [isDemoEnabled, setIsDemoEnabled] = useState(true);

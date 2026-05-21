@@ -91,6 +91,21 @@ export default function Dashboard() {
     }
   }, [noteText, humanCodes, pipelineSteps, auditResult]);
 
+  useEffect(() => {
+    const resetWorkspace = () => {
+      setNoteText('');
+      setHumanCodes([]);
+      setAuditResult(null);
+      setPipelineSteps([]);
+      setFile(null);
+      setAuditError('');
+      setIsRunning(false);
+      sessionStorage.removeItem('audit_state');
+    };
+    window.addEventListener('app:session-reset', resetWorkspace);
+    return () => window.removeEventListener('app:session-reset', resetWorkspace);
+  }, [setNoteText, setHumanCodes, setAuditResult, setPipelineSteps, setFile, setAuditError, setIsRunning]);
+
   const handleRunAudit = useCallback(() => {
     if (!noteText.trim() && !file) return;
     setAuditResult(null);

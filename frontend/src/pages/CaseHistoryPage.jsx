@@ -269,7 +269,7 @@ function ReviewerActionPanel({ caseData, onActionComplete }) {
 }
 
 export default function CaseHistoryPage() {
-  const { user } = useAuth();
+  const { user, isCoder } = useAuth();
   const isReviewer = user?.role === 'REVIEWER';
   const isAdmin    = user?.role === 'ADMIN';
   const navigate = useNavigate();
@@ -809,12 +809,14 @@ export default function CaseHistoryPage() {
                   </button>
                 )}
                 
-                <button
-                  className="new-analysis-btn"
-                  onClick={() => navigate('/', { state: { caseData: selected } })}
-                >
-                  Re-open in editor
-                </button>
+                {isCoder && selected.status === 'draft' && (
+                  <button
+                    className="new-analysis-btn"
+                    onClick={() => navigate('/', { state: { caseData: selected } })}
+                  >
+                    Re-open in editor
+                  </button>
+                )}
               </div>
             </div>
           </div>

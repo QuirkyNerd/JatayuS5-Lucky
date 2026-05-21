@@ -1,8 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Sidebar from '../components/Sidebar.jsx';
 import TopBar from '../components/TopBar.jsx';
 import { auditApi } from '../services/api.js';
 import '../styles/dashboard.css';
+
+const STATE_LABELS = {
+  NOT_STARTED: 'Not started',
+  PRELOADING: 'Preloading models…',
+  RUNNING: 'Benchmark running…',
+  COMPLETED: 'Completed',
+  FAILED: 'Failed',
+};
 
 function MetricCard({ label, value, gain, positive }) {
   return (
@@ -22,21 +30,62 @@ export default function Evaluation() {
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState(null);
   const [error, setError] = useState(null);
+  const [benchmarkState, setBenchmarkState] = useState('NOT_STARTED');
+  const [progress, setProgress] = useState({ cases_done: 0, cases_total: 0, percent: 0 });
+  const [statusMessage, setStatusMessage] = useState('');
+  const pollRef = useRef(null);
 
-  const runEvaluation = async (force = false) => {
+  const applyResults = (data) => {
+    if (data.status === 'error') {
+      throw new Error(data.message || 'Evaluation failed');
+    }
+    if (data.status === 'running') {
+      setBenchmarkState(data.benchmark_state || 'RUNNING');
+      setProgress(data.progress || { cases_done: 0, cases_total: 0, percent: 0 });
+      setStatusMessage(data.message || 'Benchmark running…');
+      return false;
+    }
+    if (data.status === 'success') {
+      const ts = data.timestamp
+        ? new Date(data.timestamp * 1000).toLocaleString()
+        : new Date().toLocaleString();
+      setResults({
+        ...data,
+        last_updated: ts,
+        run_duration_sec: data.duration,
+        from_cache: data.from_cache === true,
+        benchmark_state: data.benchmark_state || 'COMPLETED',
+      });
+      setBenchmarkState(data.benchmark_state || 'COMPLETED');
+      return true;
+    }
+    return false;
+  };
+
+  const fetchStatus = useCallback(async () => {
+    try {
+      const res = await auditApi.evaluationStatus();
+      const s = res.data;
+      setBenchmarkState(s.benchmark_state || 'NOT_STARTED');
+      setStatusMessage(s.message || '');
+      if (s.progress) setProgress(s.progress);
+      return s;
+    } catch (err) {
+      console.warn('Status poll failed:', err);
+      return null;
+    }
+  }, []);
+
+  const loadEvaluation = async (force = false) => {
     setLoading(true);
     setError(null);
     try {
-      console.log(`Fetching evaluation data (force=${force})...`);
       const response = await auditApi.evaluate(force);
       const data = response.data;
-      console.log('Evaluation response:', data);
-
-      if (data.status === 'error') {
-        throw new Error(data.message || 'Evaluation failed');
+      const done = applyResults(data);
+      if (!done && (data.status === 'running' || data.benchmark_state === 'RUNNING')) {
+        startPolling();
       }
-
-      setResults({ ...data, last_updated: new Date().toLocaleTimeString() });
     } catch (err) {
       console.error('Evaluation Error:', err);
       setError('Failed to load evaluation data: ' + (err.response?.data?.detail || err.message));
@@ -45,16 +94,61 @@ export default function Evaluation() {
     }
   };
 
+  const startPolling = useCallback(() => {
+    if (pollRef.current) return;
+    pollRef.current = setInterval(async () => {
+      const s = await fetchStatus();
+      if (!s) return;
+      if (s.benchmark_state === 'COMPLETED' && s.has_results) {
+        clearInterval(pollRef.current);
+        pollRef.current = null;
+        await loadEvaluation(false);
+      } else if (s.benchmark_state === 'FAILED') {
+        clearInterval(pollRef.current);
+        pollRef.current = null;
+        setError(s.error || 'Benchmark failed');
+        setLoading(false);
+      }
+    }, 2500);
+  }, [fetchStatus]);
+
   useEffect(() => {
-    runEvaluation();
+    (async () => {
+      const s = await fetchStatus();
+      if (s?.benchmark_state === 'COMPLETED' && s?.has_results) {
+        await loadEvaluation(false);
+      } else if (s?.benchmark_state === 'RUNNING' || s?.benchmark_state === 'PRELOADING') {
+        setLoading(true);
+        startPolling();
+      } else if (s?.benchmark_state === 'NOT_STARTED') {
+        await loadEvaluation(false);
+      } else {
+        await loadEvaluation(false);
+      }
+    })();
+    return () => {
+      if (pollRef.current) clearInterval(pollRef.current);
+    };
   }, []);
 
   const renderContent = () => {
-    if (loading && !results) {
+    const isRunning = benchmarkState === 'RUNNING' || benchmarkState === 'PRELOADING';
+
+    if (loading || isRunning) {
+      const pct = progress.percent ?? 0;
       return (
         <div className="eval-loading-state">
           <div className="eval-spinner" />
-          <p>Running evaluation benchmark…</p>
+          <p>{STATE_LABELS[benchmarkState] || 'Loading evaluation…'}</p>
+          {statusMessage && <p style={{ color: 'var(--clr-text-muted)', fontSize: '0.85rem' }}>{statusMessage}</p>}
+          {progress.cases_total > 0 && (
+            <p style={{ marginTop: '0.5rem' }}>
+              Progress: {progress.cases_done} / {progress.cases_total} ({pct}%)
+            </p>
+          )}
+          <p style={{ color: 'var(--clr-text-muted)', fontSize: '0.8rem', marginTop: '0.75rem' }}>
+            Target runtime: 60–120 seconds. Cross-encoder reranking active on top candidates.
+          </p>
         </div>
       );
     }
@@ -218,6 +312,9 @@ export default function Evaluation() {
     return null;
   };
 
+  const stateBadge = STATE_LABELS[benchmarkState] || benchmarkState;
+  const liveLabel = results?.from_cache ? 'cached' : 'live';
+
   return (
     <div className="dashboard-layout">
       <Sidebar />
@@ -233,19 +330,27 @@ export default function Evaluation() {
                 Evaluation metrics are computed against a curated clinical benchmark dataset and reflect
                 system performance under controlled conditions.
               </p>
-              {results && results.status === 'success' && (
-                <div className="eval-meta">
-                  <span>📊 Evaluated on <strong>{results.dataset_size}</strong> cases</span>
-                  <span style={{ marginLeft: '1.5rem' }}>🕒 Last updated: {results.last_updated}</span>
-                </div>
-              )}
+              <div className="eval-meta" style={{ marginTop: '0.5rem' }}>
+                <span>Status: <strong>{stateBadge}</strong></span>
+                {results && results.status === 'success' && (
+                  <>
+                    <span style={{ marginLeft: '1.5rem' }}>📊 <strong>{results.dataset_size}</strong> cases</span>
+                    <span style={{ marginLeft: '1.5rem' }}>🕒 {results.last_updated}</span>
+                    {results.run_duration_sec != null && (
+                      <span style={{ marginLeft: '1.5rem' }}>
+                        ⏱ <strong>{Number(results.run_duration_sec).toFixed(1)}s</strong> ({liveLabel})
+                      </span>
+                    )}
+                  </>
+                )}
+              </div>
             </div>
             <button
               className="new-analysis-btn"
-              onClick={() => runEvaluation(true)}
-              disabled={loading}
+              onClick={() => loadEvaluation(true)}
+              disabled={loading || benchmarkState === 'RUNNING'}
             >
-              {loading ? 'Running…' : 'Run Full Evaluation'}
+              {loading || benchmarkState === 'RUNNING' ? 'Running…' : 'Run Full Evaluation'}
             </button>
           </div>
 
