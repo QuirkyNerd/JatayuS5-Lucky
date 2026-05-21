@@ -69,6 +69,26 @@ ANATOMY_HIERARCHY: Dict[str, List[str]] = {
     "CHEST": ["rib", "sternum", "lung", "pulmonary", "thorax", "thoracic cavity"]
 }
 
+_last_error_time = {}
+_error_counts = {}
+
+def log_retrieval_failure(label: str, err: Exception, context: str = ""):
+    now = time.perf_counter()
+    key = (label, type(err).__name__, str(err))
+    
+    # Track counts
+    _error_counts[key] = _error_counts.get(key, 0) + 1
+    last_time = _last_error_time.get(key, 0.0)
+    
+    # Rate limit: log at WARNING level at most once every 10 seconds per unique error
+    if now - last_time > 10.0:
+        logger.warning(
+            "RAG_RETRIEVAL_FAILURE | label=%s | context=%s | err_type=%s | err=%s | count=%d",
+            label, context, type(err).__name__, err, _error_counts[key],
+            exc_info=True
+        )
+        _last_error_time[key] = now
+
 class FastBM25:
     """Scipy-accelerated BM25 using CSR matrix for sub-10ms retrieval (Task 11)."""
     def __init__(self, tokenized_corpus, k1=1.5, b=0.75):
@@ -412,16 +432,16 @@ class RAGEngine:
                         settings.chroma_collection_guidelines if col_label == "guidelines" else
                         settings.chroma_collection_symptoms
                     )
-                    search_res = await loop.run_in_executor(None, lambda: self.q_client.search(
+                    query_res = await loop.run_in_executor(None, lambda: self.q_client.query_points(
                         collection_name=col_name,
-                        query_vector=query_vector,
+                        query=query_vector,
                         limit=k_dense,
                         with_payload=True
                     ))
                     docs = []
                     metas = []
                     distances = []
-                    for point in search_res:
+                    for point in query_res.points:
                         payload = point.payload or {}
                         doc_text = payload.get("document") or payload.get("_document") or payload.get("text") or payload.get("description") or ""
                         docs.append(doc_text)
@@ -452,10 +472,7 @@ class RAGEngine:
                     "sub_timings": {"dense_ms": d_ms, "sparse_ms": s_ms}
                 }
             except Exception as e:
-                import traceback
-                logger.error("RAG_FETCH_ERROR for %s: %s", col_label, e)
-                traceback.print_exc()
-                logger.exception("FULL_TRACEBACK")
+                log_retrieval_failure(col_label, e, context="fetch")
                 return None
 
         tasks = [fetch(col, k, weight, label) for col, k, weight, label in query_plan]
@@ -787,29 +804,44 @@ class RAGEngine:
                 logger.info(f"QDRANT_BATCH_QUERY_START | label={label} | batch_size={len(vectors)}")
                 start_time = time.perf_counter()
                 loop = asyncio.get_event_loop()
-                # Schedule individual searches in thread pool executor only for valid queries
-                tasks = []
-                for i, v in enumerate(vectors):
-                    if i in valid_indices:
-                        tasks.append(loop.run_in_executor(
-                            None,
-                            lambda v=v: self.q_client.search(
-                                collection_name=col_name,
-                                query_vector=v,
+                
+                try:
+                    from qdrant_client.models import QueryRequest
+                    requests = []
+                    req_idx_to_orig_idx = []
+                    for i, v in enumerate(vectors):
+                        if i in valid_indices:
+                            requests.append(QueryRequest(
+                                query=v,
                                 limit=n_results,
-                                with_payload=True,
-                            ),
-                        ))
+                                with_payload=True
+                            ))
+                            req_idx_to_orig_idx.append(i)
+                    
+                    if requests:
+                        batch_res_raw = await loop.run_in_executor(
+                            None,
+                            lambda: self.q_client.query_batch_points(
+                                collection_name=col_name,
+                                requests=requests
+                            )
+                        )
                     else:
-                        tasks.append(asyncio.sleep(0, result=[]))
-                        
-                batch_res = await asyncio.gather(*tasks)
+                        batch_res_raw = []
+                    
+                    batch_res = [None] * len(vectors)
+                    for req_i, orig_i in enumerate(req_idx_to_orig_idx):
+                        batch_res[orig_i] = batch_res_raw[req_i]
+                except Exception as e:
+                    log_retrieval_failure(label, e, context=f"batch_query_col={col_name}")
+                    batch_res = [None] * len(vectors)
+                    
                 # Build combined result structure
                 res = {"documents": [], "metadatas": [], "distances": []}
-                for search_res in batch_res:
+                for query_res in batch_res:
                     docs, metas, dists = [], [], []
-                    if search_res is not None:
-                        for point in search_res:
+                    if query_res is not None:
+                        for point in query_res.points:
                             payload = point.payload or {}
                             doc_text = payload.get("document") or payload.get("_document") or payload.get("text") or payload.get("description") or ""
                             docs.append(doc_text)

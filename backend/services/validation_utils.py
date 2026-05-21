@@ -4868,7 +4868,7 @@ def build_clinical_relationship_graph(codes: list[dict], note_text: str) -> dict
 
             for rel_type, phrases in _RELATIONSHIP_PATTERNS.items():
                 for phrase in phrases:
-                    pattern = f"{o_desc[:15]}.*{phrase}.*{desc[:15]}"
+                    pattern = f"{re.escape(o_desc[:15])}.*{re.escape(phrase)}.*{re.escape(desc[:15])}"
                     if re.search(pattern, text):
                         graph[code]["supported_by"].append(o_code)
                         graph[code]["rel_types"].append(rel_type)
