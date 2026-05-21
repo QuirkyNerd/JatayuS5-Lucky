@@ -1,0 +1,106 @@
+{
+  "base": "http://161.118.217.29:8000/api/v1",
+  "at": "2026-05-21T19:43:40.973138+00:00",
+  "steps": [
+    {
+      "name": "demo_login_admin",
+      "request": {
+        "role": "admin"
+      },
+      "http_code": 200,
+      "response": {
+        "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Iiwicm9sZSI6IkFETUlOIiwiZW1haWwiOiJhZG1pbl9kZW1vQGNvZGVwZXJmZWN0LmRlbW8iLCJleHAiOjE3NzkzOTM1MjEsInR5cGUiOiJhY2Nlc3MifQ.7rCRZevxatPEV-_2VXImUB86W3aMbe8bAYO2ElqmBIs",
+        "token_type": "bearer",
+        "role": "ADMIN",
+        "user": {
+          "id": 6,
+          "name": "Demo Admin",
+          "email": "admin_demo@codeperfect.demo",
+          "role": "ADMIN"
+        },
+        "demo_session": true
+      }
+    },
+    {
+      "name": "list_cases",
+      "request": null,
+      "http_code": 200,
+      "response": {
+        "total": 1
+      }
+    },
+    {
+      "name": "admin_in_review",
+      "request": {
+        "status": "in_review"
+      },
+      "http_code": 400,
+      "response": {
+        "detail": "Invalid status value."
+      }
+    },
+    {
+      "name": "admin_approved",
+      "request": {
+        "status": "approved"
+      },
+      "http_code": 200,
+      "response": {
+        "message": "Case 1 status updated to 'approved'."
+      }
+    },
+    {
+      "name": "admin_rejected_requires_feedback",
+      "request": {
+        "status": "rejected"
+      },
+      "http_code": 200,
+      "response": {
+        "message": "Case 1 status updated to 'rejected'."
+      }
+    },
+    {
+      "name": "admin_rejected_ok",
+      "request": {
+        "status": "rejected",
+        "feedback": "VERIFY_SCRIPT: Incorrect CPT linkage and fracture laterality."
+      },
+      "http_code": 200,
+      "response": {
+        "message": "Case 1 status updated to 'rejected'."
+      }
+    },
+    {
+      "name": "get_case_after_flow",
+      "request": null,
+      "http_code": 200,
+      "response": {
+        "status": "rejected"
+      }
+    },
+    {
+      "name": "reviewer_in_review",
+      "request": {
+        "status": "in_review"
+      },
+      "http_code": 400,
+      "response": {
+        "detail": "Invalid status value."
+      }
+    },
+    {
+      "name": "coder_blocked",
+      "request": {
+        "status": "approved"
+      },
+      "http_code": 403,
+      "response": {
+        "detail": "Coders cannot update case status."
+      }
+    }
+  ],
+  "case_id": 1,
+  "final_status": "rejected",
+  "reviewer_notes": null,
+  "pass": false
+}

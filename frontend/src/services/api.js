@@ -1,4 +1,5 @@
 import axios from "axios";
+import { LEGACY_API_STATUS_MAP } from "../constants/caseStatus.js";
 
 const BASE_URL =
   import.meta.env.VITE_API_URL || "http://161.118.217.29:8000/api/v1";
@@ -7,6 +8,36 @@ const api = axios.create({
   baseURL: BASE_URL,
   withCredentials: false,
 });
+
+/** null = unknown; true = canonical in_review schema; false = legacy pending-only PATCH */
+let caseStatusApiV2 = null;
+
+export async function detectCaseStatusApiVersion() {
+  if (caseStatusApiV2 !== null) return caseStatusApiV2;
+  try {
+    const root = BASE_URL.replace(/\/api\/v1\/?$/, "");
+    const { data } = await axios.get(`${root}/openapi.json`, { timeout: 8000 });
+    const props = data?.components?.schemas?.CaseStatusUpdate?.properties || {};
+    caseStatusApiV2 = Boolean(props.feedback || props.rejection_reason);
+  } catch {
+    caseStatusApiV2 = false;
+  }
+  console.info("[caseApi] status API v2 (canonical in_review):", caseStatusApiV2);
+  return caseStatusApiV2;
+}
+
+function listStatusParam(uiStatus) {
+  if (!uiStatus) return uiStatus;
+  if (uiStatus === "in_review" && caseStatusApiV2 === false) return "pending";
+  return uiStatus;
+}
+
+function patchStatusBody(data) {
+  if (!data?.status || caseStatusApiV2 !== false) return data;
+  const legacy = LEGACY_API_STATUS_MAP[data.status];
+  if (legacy && legacy !== data.status) return { ...data, status: legacy };
+  return data;
+}
 
 const getToken = () => localStorage.getItem("access_token");
 
@@ -119,10 +150,36 @@ export const auditApi = {
 };
 
 export const caseApi = {
-  list: (params) => api.get("/cases", { params }),
+  list: (params) => {
+    const p = { ...params };
+    if (p.status) p.status = listStatusParam(p.status);
+    return api.get("/cases", { params: p });
+  },
   get: (id) => api.get(`/cases/${id}`),
   update: (id, data) => api.patch(`/cases/${id}`, data),
-  updateStatus: (id, data) => api.patch(`/cases/${id}/status`, data),
+  updateStatus: async (id, data) => {
+    await detectCaseStatusApiVersion();
+    const url = `/cases/${id}/status`;
+    const body = patchStatusBody(data);
+    console.info("[caseApi.updateStatus]", { method: "PATCH", url, body });
+    try {
+      return await api.patch(url, body);
+    } catch (err) {
+      const detail = err.response?.data?.detail;
+      const isInvalidStatus =
+        err.response?.status === 400 &&
+        typeof detail === "string" &&
+        detail.toLowerCase().includes("invalid status");
+      const legacyStatus = data?.status && LEGACY_API_STATUS_MAP[data.status];
+      if (isInvalidStatus && legacyStatus && legacyStatus !== data.status) {
+        const legacyBody = { ...data, status: legacyStatus };
+        console.warn("[caseApi.updateStatus] Legacy server retry:", legacyBody);
+        caseStatusApiV2 = false;
+        return await api.patch(url, legacyBody);
+      }
+      throw err;
+    }
+  },
   submit: (id) => api.post(`/cases/${id}/submit`),
   approve: (id, confidence) => api.post(`/cases/${id}/approve`, null, { params: { review_confidence: confidence } }),
   reject: (id, justification, confidence) => api.post(`/cases/${id}/reject`, { justification, review_confidence: confidence }),

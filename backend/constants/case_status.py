@@ -1,15 +1,36 @@
 """Canonical case lifecycle statuses (API + DB)."""
+from enum import Enum
 
-CANONICAL_STATUSES = ("draft", "submitted", "in_review", "approved", "rejected")
 
-# Legacy / UI aliases → canonical
+class CaseStatus(str, Enum):
+    draft = "draft"
+    submitted = "submitted"
+    in_review = "in_review"
+    approved = "approved"
+    rejected = "rejected"
+
+
+CANONICAL_STATUSES = tuple(s.value for s in CaseStatus)
+
+# Legacy / UI aliases → canonical value
 STATUS_ALIASES = {
-    "under_review": "in_review",
-    "in review": "in_review",
-    "in-review": "in_review",
-    "pending": "submitted",
-    "review": "in_review",
-    "reviewed": "in_review",
+    "under_review": CaseStatus.in_review.value,
+    "in review": CaseStatus.in_review.value,
+    "in-review": CaseStatus.in_review.value,
+    "pending": CaseStatus.submitted.value,
+    "review": CaseStatus.in_review.value,
+    "reviewed": CaseStatus.in_review.value,
+}
+
+# Role → allowed target statuses (PATCH /cases/{id}/status)
+ROLE_ALLOWED_STATUSES: dict[str, frozenset[str]] = {
+    "ADMIN": frozenset(CANONICAL_STATUSES),
+    "REVIEWER": frozenset({
+        CaseStatus.in_review.value,
+        CaseStatus.approved.value,
+        CaseStatus.rejected.value,
+    }),
+    "CODER": frozenset(),  # coders use POST /submit only
 }
 
 
@@ -26,10 +47,23 @@ def normalize_status(raw: str) -> str:
 
 
 def status_for_response(stored: str | None) -> str:
-    """Normalize DB value for API responses."""
     if not stored:
-        return "draft"
+        return CaseStatus.draft.value
     s = stored.strip().lower()
     if s == "under_review":
-        return "in_review"
-    return s
+        return CaseStatus.in_review.value
+    if s in CANONICAL_STATUSES:
+        return s
+    return normalize_status(s) if s else CaseStatus.draft.value
+
+
+def assert_role_may_set(role: str, new_status: str) -> None:
+    allowed = ROLE_ALLOWED_STATUSES.get(role, frozenset())
+    if new_status not in allowed:
+        if role == "REVIEWER":
+            raise ValueError(
+                "Reviewers may only set status to: in_review, approved, rejected."
+            )
+        if role == "CODER":
+            raise ValueError("Coders cannot update case status via this endpoint.")
+        raise ValueError(f"Role {role} cannot set status to '{new_status}'.")

@@ -9,8 +9,18 @@ export const CASE_STATUS = {
 
 const ALIASES = {
   under_review: CASE_STATUS.IN_REVIEW,
-  pending: CASE_STATUS.SUBMITTED,
+  /** Legacy production API stores in-queue cases as "pending". */
+  pending: CASE_STATUS.IN_REVIEW,
   review: CASE_STATUS.IN_REVIEW,
+};
+
+/** Map canonical UI status → legacy production API (pre-deploy). Remove after backend redeploy. */
+export const LEGACY_API_STATUS_MAP = {
+  [CASE_STATUS.DRAFT]: 'pending',
+  [CASE_STATUS.SUBMITTED]: 'pending',
+  [CASE_STATUS.IN_REVIEW]: 'pending',
+  [CASE_STATUS.APPROVED]: 'approved',
+  [CASE_STATUS.REJECTED]: 'rejected',
 };
 
 /** Map legacy/DB values to canonical enum for UI + API. */
@@ -36,14 +46,17 @@ export const STATUS_COLORS = {
   [CASE_STATUS.REJECTED]: '#ef4444',
 };
 
-/** Admin/reviewer dropdown options (canonical values only). */
-export const REVIEW_STATUS_OPTIONS = [
-  { value: CASE_STATUS.DRAFT, label: 'Draft' },
-  { value: CASE_STATUS.SUBMITTED, label: 'Submitted' },
-  { value: CASE_STATUS.IN_REVIEW, label: 'In Review' },
-  { value: CASE_STATUS.APPROVED, label: 'Approved' },
-  { value: CASE_STATUS.REJECTED, label: 'Rejected' },
+/** Single source of truth for dropdown — value is always lowercase API enum. */
+export const STATUS_OPTIONS = [
+  { label: 'Draft', value: CASE_STATUS.DRAFT },
+  { label: 'Submitted', value: CASE_STATUS.SUBMITTED },
+  { label: 'In Review', value: CASE_STATUS.IN_REVIEW },
+  { label: 'Approved', value: CASE_STATUS.APPROVED },
+  { label: 'Rejected', value: CASE_STATUS.REJECTED },
 ];
+
+/** Admin/reviewer dropdown options (canonical values only). */
+export const REVIEW_STATUS_OPTIONS = STATUS_OPTIONS;
 
 export const FILTER_STATUS_OPTIONS = [
   { label: 'All', value: '' },

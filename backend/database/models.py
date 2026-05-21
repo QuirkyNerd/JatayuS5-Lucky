@@ -106,7 +106,7 @@ class Case(Base):
     model_used        = Column(String(100), default="llama-3.3-70b-versatile")
     embedding_version = Column(String(50), default="all-MiniLM-L6-v2")
     summary           = Column(Text, default="")
-    status            = Column(String(20), default="draft") # draft | submitted | under_review | approved | rejected
+    status            = Column(String(20), default="draft") # draft | submitted | in_review | approved | rejected
     tokens_used       = Column(Integer, default=0)
     cost_estimate     = Column(String(50), default="$0.000")
 

@@ -1,0 +1,30 @@
+{
+  "verified_at": "2026-05-21T19:50:00Z",
+  "production_api": "http://161.118.217.29:8000/api/v1",
+  "endpoint": "PATCH /api/v1/cases/{case_id}/status",
+  "root_cause": "Production backend only accepts PATCH statuses: pending, approved, rejected. Frontend sends canonical in_review/submitted/draft which return 400 Invalid status value.",
+  "canonical_enum_after_deploy": ["draft", "submitted", "in_review", "approved", "rejected"],
+  "legacy_production_patch_whitelist": ["pending", "approved", "rejected"],
+  "manual_tests": {
+    "admin_workflow_with_legacy_compat": {
+      "pass": true,
+      "steps": [
+        {"action": "PATCH in_review (mapped to pending)", "http": 200, "message": "Case 1 status updated to 'pending'."},
+        {"action": "PATCH approved", "http": 200, "message": "Case 1 status updated to 'approved'."},
+        {"action": "PATCH rejected + feedback", "http": 200, "message": "Case 1 status updated to 'rejected'."}
+      ],
+      "final_db_status": "rejected"
+    },
+    "coder_blocked": {
+      "pass": true,
+      "http": 403,
+      "detail": "Coders cannot update case status."
+    },
+    "in_review_without_compat": {
+      "pass": false,
+      "http": 400,
+      "detail": "Invalid status value."
+    }
+  },
+  "deploy_required": "Rebuild and restart backend container on VPS so CaseStatus enum + in_review validation is live. Until then, frontend auto-maps to legacy pending on 400."
+}

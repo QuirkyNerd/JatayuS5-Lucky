@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Sidebar.jsx';
 import TopBar, { FullPageLoader } from '../components/TopBar.jsx';
-import { caseApi, authApi } from '../services/api.js';
+import { caseApi, authApi, detectCaseStatusApiVersion } from '../services/api.js';
 import { useAuth } from '../main.jsx';
 import { generatePdf } from '../utils/generatePdfReport.js';
 import { Download, Activity } from 'lucide-react';
@@ -415,6 +415,10 @@ export default function CaseHistoryPage() {
       setLoading(false);
     }
   }, [page, status, minRisk, fromDate, toDate, assignedOnly, isDemoSession, isReviewer]);
+
+  useEffect(() => {
+    detectCaseStatusApiVersion().catch(() => {});
+  }, []);
 
   useEffect(() => { fetchCases(); }, [fetchCases]);
 

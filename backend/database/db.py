@@ -40,6 +40,11 @@ async def init_db() -> None:
     try:
         async with engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
+            # Migrate legacy status values to canonical in_review
+            from sqlalchemy import text
+            await conn.execute(
+                text("UPDATE cases SET status = 'in_review' WHERE status = 'under_review'")
+            )
 
         # 🚀 Seed initial data (Local import to avoid circular dependency)
         try:
