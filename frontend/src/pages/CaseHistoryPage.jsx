@@ -2,59 +2,147 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Sidebar.jsx';
 import TopBar, { FullPageLoader } from '../components/TopBar.jsx';
-import { caseApi } from '../services/api.js';
+import { caseApi, authApi } from '../services/api.js';
 import { useAuth } from '../main.jsx';
 import { generatePdf } from '../utils/generatePdfReport.js';
-import { Download, ChevronDown, ChevronUp, Activity, ShieldCheck, AlertTriangle } from 'lucide-react';
+import { Download, Activity } from 'lucide-react';
 import '../styles/dashboard.css';
 import { CodeExplainabilityPanel, RemovedCodesPanel } from '../components/AuditResults.jsx';
+import {
+  CASE_STATUS,
+  STATUS_COLORS,
+  STATUS_LABELS,
+  REVIEW_STATUS_OPTIONS,
+  FILTER_STATUS_OPTIONS,
+  normalizeCaseStatus,
+} from '../constants/caseStatus.js';
+import { useToast, ToastContainer } from '../hooks/useToast.jsx';
+import { formatApiError } from '../utils/apiErrors.js';
 
-const STATUS_COLORS = {
-  draft:        '#94a3b8',
-  pending:      '#f59e0b',
-  submitted:    '#6366f1',
-  under_review: '#8b5cf6',
-  approved:     '#10b981',
-  rejected:     '#ef4444',
-};
+function RejectFeedbackModal({ open, onClose, onSubmit, busy }) {
+  const [rejectionReason, setRejectionReason] = useState('');
+  const [correctionNotes, setCorrectionNotes] = useState('');
+  const [reviewerComments, setReviewerComments] = useState('');
+  const [error, setError] = useState('');
 
-const STATUS_LABELS = {
-  draft:        'Draft',
-  pending:      'Pending',
-  submitted:    'Submitted',
-  under_review: 'In Review',
-  approved:     'Approved',
-  rejected:     'Rejected',
-};
+  useEffect(() => {
+    if (open) {
+      setRejectionReason('');
+      setCorrectionNotes('');
+      setReviewerComments('');
+      setError('');
+    }
+  }, [open]);
 
-import { authApi } from '../services/api.js';
+  if (!open) return null;
 
-function StatusSelect({ caseId, currentStatus, onUpdate }) {
+  const handleSubmit = () => {
+    if (!rejectionReason.trim()) {
+      setError('Rejection reason is required.');
+      return;
+    }
+    if (!reviewerComments.trim()) {
+      setError('Reviewer comments are required.');
+      return;
+    }
+    onSubmit({
+      rejection_reason: rejectionReason.trim(),
+      correction_notes: correctionNotes.trim(),
+      feedback: reviewerComments.trim(),
+    });
+  };
+
+  return (
+    <div className="drawer-overlay" role="dialog" aria-modal="true" aria-label="Rejection feedback">
+      <div className="drawer" style={{ maxWidth: 480 }} onClick={e => e.stopPropagation()}>
+        <div className="drawer-header">
+          <h3>Reject Case</h3>
+          <button type="button" onClick={onClose} aria-label="Close">✕</button>
+        </div>
+        <div className="drawer-body">
+          <p style={{ fontSize: '0.85rem', color: 'var(--clr-text-muted)', marginTop: 0 }}>
+            Provide feedback for the coder. All rejection fields marked required must be filled.
+          </p>
+          {error && (
+            <div className="error-banner" role="alert" style={{ marginBottom: '1rem' }}>{error}</div>
+          )}
+          <label style={{ display: 'block', marginBottom: '0.75rem' }}>
+            <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>Rejection reason *</span>
+            <textarea
+              value={rejectionReason}
+              onChange={e => setRejectionReason(e.target.value)}
+              rows={2}
+              style={{ width: '100%', marginTop: '0.35rem', padding: '0.6rem', borderRadius: '8px', border: '1px solid var(--clr-border)', background: 'var(--clr-surface-2)', color: 'var(--clr-text-primary)' }}
+              placeholder="e.g. Incorrect fracture laterality coding"
+            />
+          </label>
+          <label style={{ display: 'block', marginBottom: '0.75rem' }}>
+            <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>Correction notes</span>
+            <textarea
+              value={correctionNotes}
+              onChange={e => setCorrectionNotes(e.target.value)}
+              rows={2}
+              style={{ width: '100%', marginTop: '0.35rem', padding: '0.6rem', borderRadius: '8px', border: '1px solid var(--clr-border)', background: 'var(--clr-surface-2)', color: 'var(--clr-text-primary)' }}
+              placeholder="What should the coder fix?"
+            />
+          </label>
+          <label style={{ display: 'block', marginBottom: '1rem' }}>
+            <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>Reviewer comments *</span>
+            <textarea
+              value={reviewerComments}
+              onChange={e => setReviewerComments(e.target.value)}
+              rows={3}
+              style={{ width: '100%', marginTop: '0.35rem', padding: '0.6rem', borderRadius: '8px', border: '1px solid var(--clr-border)', background: 'var(--clr-surface-2)', color: 'var(--clr-text-primary)' }}
+              placeholder="Detailed feedback for the coder"
+            />
+          </label>
+          <div style={{ display: 'flex', gap: '0.75rem' }}>
+            <button type="button" className="reject-btn" onClick={handleSubmit} disabled={busy} style={{ flex: 1 }}>
+              {busy ? 'Submitting…' : 'Submit rejection'}
+            </button>
+            <button type="button" onClick={onClose} disabled={busy} style={{ flex: 1, padding: '0.75rem', borderRadius: '8px' }}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function StatusSelect({ caseId, currentStatus, onStatusChange, onRejectRequest }) {
   const [busy, setBusy] = useState(false);
+  const normalized = normalizeCaseStatus(currentStatus);
+
   const handleChange = async (e) => {
     const newStatus = e.target.value;
-    if (newStatus === currentStatus) return;
+    if (newStatus === normalized) return;
+    if (newStatus === CASE_STATUS.REJECTED) {
+      onRejectRequest(caseId, normalized);
+      e.target.value = normalized;
+      return;
+    }
     setBusy(true);
-    await onUpdate(caseId, newStatus);
+    await onStatusChange(caseId, newStatus);
     setBusy(false);
   };
+
   return (
     <select
       className="status-select"
-      value={currentStatus}
+      value={normalized}
       onChange={handleChange}
       disabled={busy}
       aria-label={`Change case ${caseId} status`}
     >
-      <option value="submitted">Submitted</option>
-      <option value="under_review">In Review</option>
-      <option value="approved">Approved</option>
-      <option value="rejected">Rejected</option>
+      {REVIEW_STATUS_OPTIONS.map(({ value, label }) => (
+        <option key={value} value={value}>{label}</option>
+      ))}
     </select>
   );
 }
 
-function ReviewerAssignmentPanel({ caseData, onActionComplete }) {
+function ReviewerAssignmentPanel({ caseData, onActionComplete, toast }) {
   const [reviewers, setReviewers] = useState([]);
   const [selectedReviewer, setSelectedReviewer] = useState(caseData.assigned_to || '');
   const [busy, setBusy] = useState(false);
@@ -73,7 +161,7 @@ function ReviewerAssignmentPanel({ caseData, onActionComplete }) {
       await caseApi.assign(caseData.id, selectedReviewer);
       onActionComplete();
     } catch (e) {
-      alert(e.response?.data?.detail || 'Assignment failed');
+      toast(formatApiError(e, 'Assignment failed'), 'error');
     } finally {
       setBusy(false);
     }
@@ -111,11 +199,12 @@ function ReviewerAssignmentPanel({ caseData, onActionComplete }) {
   );
 }
 
-function ReviewerActionPanel({ caseData, onActionComplete }) {
+function ReviewerActionPanel({ caseData, onActionComplete, onRejectRequest, toast }) {
   const [notes, setNotes] = useState(caseData.reviewer_notes || '');
   const [confidence, setConfidence] = useState(caseData.review_confidence || 1.0);
   const [busy, setBusy] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const status = normalizeCaseStatus(caseData.status);
   const [finalCodes, setFinalCodes] = useState(
     caseData.final_code_set && caseData.final_code_set.length > 0
       ? caseData.final_code_set
@@ -125,29 +214,18 @@ function ReviewerActionPanel({ caseData, onActionComplete }) {
   const handleApprove = async () => {
     setBusy(true);
     try {
-      await caseApi.approve(caseData.id, confidence);
-      onActionComplete();
+      const res = await caseApi.updateStatus(caseData.id, { status: CASE_STATUS.APPROVED });
+      toast(res.data?.message || 'Case approved successfully', 'success');
+      onActionComplete(res.data?.case);
     } catch (e) {
-      alert(e.response?.data?.detail || 'Approval failed');
+      toast(formatApiError(e, 'Approval failed'), 'error');
     } finally {
       setBusy(false);
     }
   };
 
-  const handleReject = async () => {
-    if (!notes.trim()) {
-      alert('Justification is required for rejection.');
-      return;
-    }
-    setBusy(true);
-    try {
-      await caseApi.reject(caseData.id, notes, confidence);
-      onActionComplete();
-    } catch (e) {
-      alert(e.response?.data?.detail || 'Rejection failed');
-    } finally {
-      setBusy(false);
-    }
+  const handleReject = () => {
+    onRejectRequest(caseData.id, status);
   };
 
   const handleUpdateCodes = async () => {
@@ -161,7 +239,7 @@ function ReviewerActionPanel({ caseData, onActionComplete }) {
       setIsEditing(false);
       onActionComplete();
     } catch (e) {
-      alert(e.response?.data?.detail || 'Update failed');
+      toast(formatApiError(e, 'Update failed'), 'error');
     } finally {
       setBusy(false);
     }
@@ -178,7 +256,7 @@ function ReviewerActionPanel({ caseData, onActionComplete }) {
     }
   };
 
-  if (caseData.status === 'approved' || caseData.status === 'rejected') {
+  if (status === CASE_STATUS.APPROVED || status === CASE_STATUS.REJECTED) {
     return (
       <div className="reviewer-panel completed">
         <h4>Review Decision: <span className={caseData.status}>{caseData.status.toUpperCase()}</span></h4>
@@ -269,14 +347,16 @@ function ReviewerActionPanel({ caseData, onActionComplete }) {
 }
 
 export default function CaseHistoryPage() {
-  const { user, isCoder } = useAuth();
+  const { user } = useAuth();
   const isReviewer = user?.role === 'REVIEWER';
   const isAdmin    = user?.role === 'ADMIN';
   const navigate = useNavigate();
   const isDemoSession = localStorage.getItem('demo_session') === 'true';
-
+  const { toasts, add: toast } = useToast();
 
   const [cases,   setCases]   = useState([]);
+  const [rejectTarget, setRejectTarget] = useState(null);
+  const [rejectBusy, setRejectBusy] = useState(false);
   const [total,   setTotal]   = useState(0);
   const [page,    setPage]    = useState(1);
   const [loading, setLoading] = useState(true);
@@ -338,23 +418,50 @@ export default function CaseHistoryPage() {
 
   useEffect(() => { fetchCases(); }, [fetchCases]);
 
+  const patchCaseInList = useCallback((caseId, patch) => {
+    setCases(prev => prev.map(c => (c.id === caseId ? { ...c, ...patch } : c)));
+    setSelected(sel => (sel?.id === caseId ? { ...sel, ...patch } : sel));
+  }, []);
+
   const handleStatusChange = useCallback(async (caseId, newStatus) => {
+    const prev = cases.find(c => c.id === caseId);
+    const prevStatus = normalizeCaseStatus(prev?.status);
+    patchCaseInList(caseId, { status: newStatus });
     try {
-      if (newStatus === 'approved') {
-        await caseApi.approve(caseId, 1.0);  // confidence required by backend
-      } else if (newStatus === 'rejected') {
-        const comment = window.prompt('Enter justification for rejection:') || 'No justification provided';
-        await caseApi.reject(caseId, comment, 1.0);  // justification + confidence required
-      } else {
-        await caseApi.update(caseId, { status: newStatus });
-      }
+      const res = await caseApi.updateStatus(caseId, { status: newStatus });
+      const updated = res.data?.case || { status: newStatus };
+      patchCaseInList(caseId, updated);
+      toast(res.data?.message || 'Case status updated', 'success');
+    } catch (e) {
+      if (prev) patchCaseInList(caseId, { status: prevStatus });
+      toast(formatApiError(e, 'Failed to update status'), 'error');
+    }
+  }, [cases, patchCaseInList, toast]);
+
+  const handleRejectRequest = useCallback((caseId) => {
+    setRejectTarget({ caseId });
+  }, []);
+
+  const submitRejection = useCallback(async (payload) => {
+    if (!rejectTarget) return;
+    setRejectBusy(true);
+    const { caseId } = rejectTarget;
+    try {
+      const res = await caseApi.updateStatus(caseId, {
+        status: CASE_STATUS.REJECTED,
+        ...payload,
+      });
+      const updated = res.data?.case || { status: CASE_STATUS.REJECTED, reviewer_notes: payload.feedback };
+      patchCaseInList(caseId, updated);
+      toast(res.data?.message || 'Review feedback submitted', 'success');
+      setRejectTarget(null);
       fetchCases();
     } catch (e) {
-      const detail = e.response?.data?.detail;
-      const msg = typeof detail === 'string' ? detail : JSON.stringify(detail) || e.message || 'Unknown error';
-      alert('Failed to update status: ' + msg);
+      toast(formatApiError(e, 'Rejection failed'), 'error');
+    } finally {
+      setRejectBusy(false);
     }
-  }, [fetchCases]);
+  }, [rejectTarget, patchCaseInList, toast, fetchCases]);
 
   const handleSelectCase = useCallback(async (c) => {
     setSelected(c);
@@ -363,11 +470,10 @@ export default function CaseHistoryPage() {
     // Fetch audit trail
     caseApi.getAuditTrail(c.id).then(res => setAuditTrail(res.data)).catch(console.error);
 
-    if (isReviewer && c.status === 'submitted') {
+    if (isReviewer && normalizeCaseStatus(c.status) === CASE_STATUS.SUBMITTED) {
       try {
         const res = await caseApi.get(c.id);
         setSelected(res.data);
-        // Refresh list to show 'under_review'
         fetchCases();
       } catch (e) {
         console.error('Failed to auto-transition case:', e);
@@ -471,9 +577,9 @@ export default function CaseHistoryPage() {
                   <td>
                     <span
                       className="status-badge"
-                      style={{ background: STATUS_COLORS[c.status] || '#64748b' }}
+                      style={{ background: STATUS_COLORS[normalizeCaseStatus(c.status)] || '#64748b' }}
                     >
-                      {STATUS_LABELS[c.status] || c.status}
+                      {STATUS_LABELS[normalizeCaseStatus(c.status)] || c.status}
                     </span>
                   </td>
                   {(isReviewer || isAdmin) && (
@@ -481,7 +587,8 @@ export default function CaseHistoryPage() {
                       <StatusSelect
                         caseId={c.id}
                         currentStatus={c.status}
-                        onUpdate={handleStatusChange}
+                        onStatusChange={handleStatusChange}
+                        onRejectRequest={handleRejectRequest}
                       />
                     </td>
                   )}
@@ -527,13 +634,7 @@ export default function CaseHistoryPage() {
           {/* Filter bar */}
           <div className="filter-bar" role="group" aria-label="Case filters">
             {/* Status filter buttons — use real backend status values */}
-            {[
-              { label: 'All',         value: '' },
-              { label: 'Submitted',   value: 'submitted' },
-              { label: 'In Review',   value: 'under_review' },
-              { label: 'Approved',    value: 'approved' },
-              { label: 'Rejected',    value: 'rejected' },
-            ].map(({ label, value }) => (
+            {FILTER_STATUS_OPTIONS.map(({ label, value }) => (
               <button
                 key={value || 'all'}
                 style={{
@@ -717,9 +818,10 @@ export default function CaseHistoryPage() {
               )}
               
               {/* Reviewer assignment panel — hidden in demo (auto-assigned) */}
-              {isAdmin && !isDemoSession && selected.status === 'submitted' && (
+              {isAdmin && !isDemoSession && normalizeCaseStatus(selected.status) === CASE_STATUS.SUBMITTED && (
                 <ReviewerAssignmentPanel 
                   caseData={selected}
+                  toast={toast}
                   onActionComplete={() => {
                     fetchCases();
                     caseApi.get(selected.id).then(res => setSelected(res.data));
@@ -730,18 +832,25 @@ export default function CaseHistoryPage() {
               {isReviewer ? (
                 <ReviewerActionPanel
                   caseData={selected}
-                  onActionComplete={() => {
+                  toast={toast}
+                  onRejectRequest={handleRejectRequest}
+                  onActionComplete={(updated) => {
                     fetchCases();
-                    caseApi.get(selected.id).then(res => setSelected(res.data));
+                    if (updated) setSelected(updated);
+                    else caseApi.get(selected.id).then(res => setSelected(res.data));
                   }}
                 />
               ) : (
-                selected.reviewer_notes && (
+                (selected.reviewer_notes || selected.review_feedback) && (
                   <div style={{ marginTop: '0.75rem', padding: '0.9rem', background: 'var(--clr-surface-2)', borderRadius: '8px', borderLeft: '3px solid #6366f1' }}>
                     <p style={{ color: 'var(--clr-text-muted)', marginBottom: '0.25rem', fontSize: '0.75rem' }}>
-                      Reviewer Notes {selected.reviewed_at ? `(${new Date(selected.reviewed_at).toLocaleDateString()})` : ''}
+                      Review feedback
+                      {selected.reviewed_at ? ` · ${new Date(selected.reviewed_at).toLocaleString()}` : ''}
+                      {selected.reviewer_name && selected.reviewer_name !== 'Unassigned' ? ` · ${selected.reviewer_name}` : ''}
                     </p>
-                    <p style={{ color: 'var(--clr-text-primary)' }}>{selected.reviewer_notes}</p>
+                    <p style={{ color: 'var(--clr-text-primary)', whiteSpace: 'pre-wrap' }}>
+                      {selected.reviewer_notes || selected.review_feedback}
+                    </p>
                   </div>
                 )
               )}
@@ -788,7 +897,7 @@ export default function CaseHistoryPage() {
               )}
 
               <div className="drawer-actions">
-                {isAdmin && (selected.status === 'approved' || selected.status === 'rejected') && (
+                {isAdmin && [CASE_STATUS.APPROVED, CASE_STATUS.REJECTED].includes(normalizeCaseStatus(selected.status)) && (
                   <button 
                     className="reopen-btn"
                     onClick={async () => {
@@ -800,7 +909,7 @@ export default function CaseHistoryPage() {
                         } catch (e) {
                           const detail = e.response?.data?.detail;
                           const msg = typeof detail === 'string' ? detail : JSON.stringify(detail) || e.message || 'Re-open failed';
-                          alert('Re-open failed: ' + msg);
+                          toast(formatApiError(e, 'Re-open failed'), 'error');
                         }
                       }
                     }}
@@ -809,7 +918,7 @@ export default function CaseHistoryPage() {
                   </button>
                 )}
                 
-                {isCoder && selected.status === 'draft' && (
+                {user?.role === 'CODER' && normalizeCaseStatus(selected.status) === CASE_STATUS.DRAFT && (
                   <button
                     className="new-analysis-btn"
                     onClick={() => navigate('/', { state: { caseData: selected } })}
@@ -822,6 +931,14 @@ export default function CaseHistoryPage() {
           </div>
         </div>
       )}
+
+      <RejectFeedbackModal
+        open={!!rejectTarget}
+        onClose={() => setRejectTarget(null)}
+        onSubmit={submitRejection}
+        busy={rejectBusy}
+      />
+      <ToastContainer toasts={toasts} />
     </div>
   );
 }

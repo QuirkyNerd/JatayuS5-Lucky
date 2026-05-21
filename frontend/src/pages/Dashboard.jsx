@@ -7,6 +7,7 @@ import AuditResults from '../components/AuditResults.jsx';
 import TopBar, { FullPageLoader } from '../components/TopBar.jsx';
 import { useAudit, useAuth } from '../main.jsx';
 import { authApi, caseApi } from '../services/api.js';
+import { CASE_STATUS, STATUS_LABELS, normalizeCaseStatus } from '../constants/caseStatus.js';
 import '../styles/dashboard.css';
 
 const BASE = import.meta.env.VITE_API_URL || 'http://161.118.217.29:8000/api/v1';
@@ -48,7 +49,9 @@ export default function Dashboard() {
   const resultsRef = useRef(null);
   const location = useLocation();
   const caseData = location.state?.caseData;
-  const isLocked = caseData && caseData.status !== 'draft';
+  const caseStatus = normalizeCaseStatus(caseData?.status);
+  const isLocked = caseData && caseStatus !== CASE_STATUS.DRAFT;
+  const reviewFeedback = caseData?.reviewer_notes || caseData?.review_feedback;
 
   const isInitialMount = useRef(true);
 
@@ -218,7 +221,8 @@ export default function Dashboard() {
       const resVal = await caseApi.get(caseId);
       const latestCase = resVal.data;
       
-      if (latestCase.status !== 'submitted' && latestCase.status !== 'under_review') {
+      const latestStatus = normalizeCaseStatus(latestCase.status);
+      if (latestStatus !== CASE_STATUS.SUBMITTED && latestStatus !== CASE_STATUS.IN_REVIEW) {
         throw new Error('Case not in submitted state');
       }
       if (!latestCase.assigned_to) {
@@ -280,7 +284,7 @@ export default function Dashboard() {
           New Session
         </button>
       )}
-      {caseData && caseData.status === 'draft' && auditResult && (
+      {caseData && caseStatus === CASE_STATUS.DRAFT && auditResult && (
         <button
           className="new-analysis-btn"
           style={{ background: 'var(--clr-primary)' }}
@@ -324,10 +328,34 @@ export default function Dashboard() {
             </div>
           )}
 
+          {caseStatus === CASE_STATUS.REJECTED && reviewFeedback && (
+            <div
+              className="error-banner"
+              role="status"
+              style={{
+                borderLeft: '4px solid #ef4444',
+                background: 'rgba(239, 68, 68, 0.08)',
+                color: 'var(--clr-text-primary)',
+                marginBottom: '1.5rem',
+                padding: '1rem',
+                borderRadius: '8px',
+              }}
+            >
+              <strong style={{ display: 'block', marginBottom: '0.35rem' }}>Review feedback</strong>
+              {caseData.reviewed_at && (
+                <p style={{ fontSize: '0.75rem', color: 'var(--clr-text-muted)', margin: '0 0 0.5rem' }}>
+                  {new Date(caseData.reviewed_at).toLocaleString()}
+                  {caseData.reviewer_name && caseData.reviewer_name !== 'Unassigned' ? ` · ${caseData.reviewer_name}` : ''}
+                </p>
+              )}
+              <p style={{ margin: 0, whiteSpace: 'pre-wrap', fontSize: '0.88rem' }}>{reviewFeedback}</p>
+            </div>
+          )}
+
           {isLocked && (
             <div className="error-banner" style={{ borderLeft: '4px solid var(--clr-primary)', background: 'var(--clr-surface-2)', color: 'var(--clr-text-primary)', marginBottom: '1.5rem', padding: '1rem', borderRadius: '8px' }}>
               <span style={{ marginRight: '0.5rem' }}>🔒</span>
-              This case has been {caseData.status} and is locked for editing.
+              This case is {STATUS_LABELS?.[caseStatus] || caseStatus} and is locked for editing.
             </div>
           )}
 
@@ -382,7 +410,11 @@ export default function Dashboard() {
             });
             
             // Show if either the auditResult was just submitted OR the case is already under review
-            const isSubmitted = auditResult.status === 'submitted' || caseData?.status === 'submitted' || caseData?.status === 'under_review';
+            const auditStatus = normalizeCaseStatus(auditResult.status);
+            const isSubmitted =
+              auditStatus === CASE_STATUS.SUBMITTED ||
+              caseStatus === CASE_STATUS.SUBMITTED ||
+              caseStatus === CASE_STATUS.IN_REVIEW;
             
             if (isSubmitted) {
               return (

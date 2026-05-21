@@ -122,6 +122,7 @@ export const caseApi = {
   list: (params) => api.get("/cases", { params }),
   get: (id) => api.get(`/cases/${id}`),
   update: (id, data) => api.patch(`/cases/${id}`, data),
+  updateStatus: (id, data) => api.patch(`/cases/${id}/status`, data),
   submit: (id) => api.post(`/cases/${id}/submit`),
   approve: (id, confidence) => api.post(`/cases/${id}/approve`, null, { params: { review_confidence: confidence } }),
   reject: (id, justification, confidence) => api.post(`/cases/${id}/reject`, { justification, review_confidence: confidence }),

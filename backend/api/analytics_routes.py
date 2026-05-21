@@ -85,7 +85,7 @@ async def analytics_overview(
     overcoding       = 0  # unsupported_code discrepancies
     correct_codes    = 0
     accuracy_sum     = 0.0
-    status_counts    = {"draft": 0, "submitted": 0, "under_review": 0, "approved": 0, "rejected": 0}
+    status_counts    = {"draft": 0, "submitted": 0, "in_review": 0, "approved": 0, "rejected": 0}
     processing_times = []
 
     for ai_json, disc_json, risk, revenue, acc, status, processing_time in rows:
@@ -134,8 +134,9 @@ async def analytics_overview(
         total_revenue_impact += revenue or 0.0
         accuracy_sum += acc or 0.0
         
-        # Governance
-        status_counts[status] = status_counts.get(status, 0) + 1
+        # Governance — normalize legacy under_review → in_review
+        norm = "in_review" if status == "under_review" else (status or "draft")
+        status_counts[norm] = status_counts.get(norm, 0) + 1
         if processing_time:
             processing_times.append(processing_time)
 
@@ -173,7 +174,7 @@ async def analytics_overview(
         select(User.name, func.count(Case.id))
         .join(Case, Case.assigned_to == User.id)
         .where(and_(
-            Case.status.in_(["submitted", "under_review"]), 
+            Case.status.in_(["submitted", "in_review", "under_review"]), 
             User.is_demo == current_user.is_demo,
             *filters
         ))
