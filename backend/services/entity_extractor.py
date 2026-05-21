@@ -824,7 +824,10 @@ class EntityExtractor:
         code = ontology_entry.get("code", "")
         description = ontology_entry.get("description", "")
         # Query combines entity name + code description for maximum hit rate
-        return f"{entity} {description}".strip()
+        query = f"{entity} {description}".strip()
+        from config import settings
+        from services.rag_engine import truncate_query_safely
+        return truncate_query_safely(query, settings.max_query_chars)
 
     def _split_sentences(self, text: str) -> list[str]:
         sentences = re.split(r'(?<=[.!?])\s+|(?<=\n)\s*|\n[-–•]\s*', text.strip())

@@ -448,7 +448,8 @@ class AuditPipeline:
         try:
             # TERMINAL SAFETY GATE (Task 78/79 parity)
             # This gate encompasses clinical reasoning, CPT validation, and governance.
-            ai_codes, _ = await loop.run_in_executor(None, lambda: run_final_validation(ai_codes, masked_note))
+            diag_c, proc_c, _ = await loop.run_in_executor(None, lambda: run_final_validation(ai_codes, masked_note))
+            ai_codes = diag_c + proc_c
             
             ai_codes = await loop.run_in_executor(None, lambda: RuleEngine.apply_final_validation(ai_codes))
             step1b.duration_ms = (time.time() - t0) * 1000
@@ -545,11 +546,14 @@ class AuditPipeline:
 
         # ── Section 6: Final Sanity Check + Terminal Evidence Gate ────────
         all_final_rejections = []
+        diagnosis_codes = []
+        procedure_codes = []
         print(f"TRACE_STAGE_PRE_VALIDATOR: {len(ai_codes)}")
         try:
             pre_gate_count = len(ai_codes)
             logger.error(f"VALIDATOR_INPUT_COUNT: {len(ai_codes)}")
-            ai_codes, all_final_rejections = run_final_validation(ai_codes, masked_note)
+            diagnosis_codes, procedure_codes, all_final_rejections = run_final_validation(ai_codes, masked_note)
+            ai_codes = diagnosis_codes + procedure_codes
             print(f"TRACE_STAGE_POST_VALIDATOR: {len(ai_codes)}")
             if len(ai_codes) < pre_gate_count:
                 logger.info(
@@ -559,6 +563,8 @@ class AuditPipeline:
                 )
         except Exception as exc:
             logger.warning("AuditPipeline[terminal_gate]: gate failed (%s) — skipping", exc)
+            diagnosis_codes = [c for c in ai_codes if (c.get('type') or '').upper() != 'CPT']
+            procedure_codes = [c for c in ai_codes if (c.get('type') or '').upper() == 'CPT']
         
         lifecycle_counts["post_validator"] = len(ai_codes)
         lifecycle_counts["final_output"] = len(ai_codes)
@@ -568,9 +574,9 @@ class AuditPipeline:
 
         # ── Step 9: Deterministic Trace Output ────────────────────────
         # Sort for stable audit trail ordering
-        # ── Step 9: Deterministic Trace Output ────────────────────────
-        # Sort for stable audit trail ordering
         ai_codes             = sorted(ai_codes, key=lambda x: x.get("code", ""))
+        diagnosis_codes      = sorted(diagnosis_codes, key=lambda x: x.get("code", ""))
+        procedure_codes      = sorted(procedure_codes, key=lambda x: x.get("code", ""))
         logger.error(f"FINAL_EMISSION_COUNT: {len(ai_codes)}")
         for ac in ai_codes[:5]: logger.error(f"  EMITTED: {ac.get('code')}")
         all_final_rejections = sorted(all_final_rejections, key=lambda x: x.get("code", ""))
@@ -619,6 +625,8 @@ class AuditPipeline:
             "event": "complete",
             "data": {
                 "ai_codes": ai_codes,
+                "diagnosis_codes": diagnosis_codes,
+                "procedure_codes": procedure_codes,
                 "low_confidence_codes": [],
                 "discrepancies": discrepancies,
                 "evidence": evidence,

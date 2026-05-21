@@ -330,8 +330,8 @@ class CodingLogicAgent:
         # ── EMERGENCY SIGNAL RECOVERY (Task 14 Restoration) ────────────────
         if not rag_queries and note_text:
             logger.warning("v14: No entities extracted. Running broad fallback query.")
-            # Use first 500 chars as a broad search query
-            rag_queries = [note_text[:500].replace("\n", " ")]
+            from services.rag_engine import truncate_query_safely
+            rag_queries = [truncate_query_safely(note_text.replace("\n", " "), settings.max_query_chars)]
 
         # ── NEW v14: Entity Classification + Pre-RAG Clinical Filter ────────
         # Convert confirmed_entities to dicts for the filter
@@ -389,7 +389,8 @@ class CodingLogicAgent:
                 expanded_queries.append(f"ICD-10 symptoms for {sk}")
 
         # 4. Summary Query
-        expanded_queries.append(note_text[:400].replace("\n", " "))
+        from services.rag_engine import truncate_query_safely
+        expanded_queries.append(truncate_query_safely(note_text.replace("\n", " "), settings.max_query_chars))
         
         # Deduplicate and limit
         expanded_queries = list(dict.fromkeys(expanded_queries))[:50]
@@ -429,7 +430,8 @@ class CodingLogicAgent:
         # 🚨 TASK 25: MINIMUM SURVIVAL GUARANTEE
         if len(candidate_pool) < 20 and note_text:
             logger.warning("CANDIDATE_STARVATION_DETECTED: pool size %d < 20. Running broad fallback recovery.", len(candidate_pool))
-            fallback_query = [note_text[:500].replace("\n", " ")]
+            from services.rag_engine import truncate_query_safely
+            fallback_query = [truncate_query_safely(note_text.replace("\n", " "), settings.max_query_chars)]
             fallback_rag_codes, _ = await self._layer2_rag_entity_level(
                 fallback_query, [], domain_bias=domain_bias, gold_codes=gold_codes
             )

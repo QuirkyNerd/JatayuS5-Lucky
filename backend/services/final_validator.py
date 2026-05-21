@@ -24,6 +24,7 @@ import re
 import logging
 import time
 import copy
+import os
 import traceback
 
 from services.validation_utils import (
@@ -420,13 +421,19 @@ def apply_final_evidence_gate(
     return passed, rejected_traces
 
 
-def run_final_validation(codes: list[dict], note_text: str) -> tuple[list[dict], list[dict]]:
-    """
-    Convenience wrapper: full validation pipeline.
-    Returns (final_codes, all_rejected_traces).
-    """
+def run_final_validation(codes: list[dict], note_text: str) -> tuple[list[dict], list[dict], list[dict]]:
+    """Convenience wrapper: full validation pipeline. Returns (diagnosis_codes, procedure_codes, all_rejected_traces)."""
+    # Preserve original candidate list for potential rescue
+    _original_codes_snapshot = list(codes)
+    # Configurable rescue count for zero-survivor scenarios
+    _RESCUE_N = int(os.getenv("FINAL_VALIDATOR_PRESERVE_N", "3"))
+    # Initial forensic dump of incoming candidates
+    for c in _original_codes_snapshot:
+        logger.debug("FV_INPUT: code=%s conf=%s protected=%s evidence=%s", c.get("code"), c.get("confidence"), c.get("protected"), c.get("evidence_strength"))
     if not note_text or not note_text.strip():
-        return codes, []
+        diagnosis_codes = [c for c in codes if (c.get('type') or '').upper() != 'CPT']
+        procedure_codes = [c for c in codes if (c.get('type') or '').upper() == 'CPT']
+        return diagnosis_codes, procedure_codes, []
     
     # 🚨 TRACE POINT 5 — FINAL VALIDATOR INPUT
     all_rejected_traces = []
@@ -660,7 +667,38 @@ def run_final_validation(codes: list[dict], note_text: str) -> tuple[list[dict],
             final_codes_set.add(c.get("code"))
             logger.info("FinalValidator: PROTECTED_CODE_RESCUED: %s", c.get("code"))
 
-    return codes, all_rejected_traces
+    # ── Task 2: CPT/ICD Namespace Separation (Allow limited overlap) ──
+    diagnosis_codes = []
+    procedure_codes = []
+    
+    for c in codes:
+        code_str = (c.get("code") or "").strip().upper()
+        code_type = (c.get("type") or "").upper()
+        
+        is_numeric = bool(re.match(r"^\d+$", code_str))
+        
+        if code_type == "CPT":
+            procedure_codes.append(c)
+        elif code_type in ("ICD", "ICD-10", "ICD-10-CM", "ICD-9"):
+            if is_numeric and len(code_str) == 5:
+                c["type"] = "CPT"
+                procedure_codes.append(c)
+                logger.warning("CODE_NAMESPACE_TRACE: Reclassified numeric-only 5-digit code %s from diagnosis to CPT procedure", code_str)
+            else:
+                diagnosis_codes.append(c)
+        else:
+            if is_numeric and len(code_str) == 5:
+                c["type"] = "CPT"
+                procedure_codes.append(c)
+                logger.warning("CODE_NAMESPACE_TRACE: Reclassified untyped numeric-only 5-digit code %s as CPT procedure", code_str)
+            else:
+                diagnosis_codes.append(c)
+                if is_numeric:
+                    logger.info("CODE_NAMESPACE_TRACE: Permitted numeric code %s in diagnosis list under limited overlap", code_str)
+
+    logger.info("CODE_NAMESPACE_TRACE: Split completed. Diagnosis: %d, Procedure: %d", len(diagnosis_codes), len(procedure_codes))
+
+    return diagnosis_codes, procedure_codes, all_rejected_traces
 
 
 def apply_authoritative_evidence_priority(codes: list[dict], note_text: str) -> list[dict]:
@@ -2103,28 +2141,59 @@ def apply_encounter_driver_centralization(codes: list[dict], note_text: str) -> 
     """
     Step 7 — Final Encounter Centralization.
     Ensures final output is centered around principal encounter drivers.
+    Added forensic logging for input parameters and decision outcomes.
+    Implements a safeguard to prevent zero‑survivor scenarios by preserving top N candidates.
     """
+    # Forensic snapshot of incoming candidates (truncated for brevity)
+    snapshot = [(c.get("code"), c.get("confidence"), c.get("driver_score", 0)) for c in codes]
+    logger.debug(
+        "FORensic_LOG_START apply_encounter_driver_centralization",
+        extra={
+            "stage": "pre",
+            "snapshot": snapshot,
+            "note_length": len(note_text or ""),
+            "candidate_count": len(codes),
+        },
+    )
+
     to_suppress = set()
-    
     # Identify primary drivers
     drivers = [c for c in codes if float(c.get("ENCOUNTER_DRIVER_DOMINANCE_VAL") or 0) >= 0.75]
-    
+
     for c in codes:
-        if c in drivers: continue
-        
+        if c in drivers:
+            continue
         driver_dom = float(c.get("ENCOUNTER_DRIVER_DOMINANCE_VAL") or 0)
         grounding = float(c.get("DIRECT_GROUNDING_AUTHORITY") or 0)
         sev_conv = float(c.get("SEVERITY_CONVERGENCE_VAL") or 0)
-        
         # Suppress vague semantic abstractions with low driver dominance
         if driver_dom < 0.35 and grounding < 0.30 and sev_conv < 0.40:
-            if any(m in (c.get("description") or "").lower() for m in ["unspecified", "nos", "other"]):
+            description = (c.get("description") or "").lower()
+            if any(m in description for m in ["unspecified", "nos", "other"]):
                 to_suppress.add(c.get("code"))
                 c.setdefault("audit_traces", []).append("ENCOUNTER_DRIVER_CENTRALIZED")
                 c.setdefault("audit_traces", []).append("FINAL_REPRESENTATION_STABILIZED")
 
-    return [c for c in codes if c.get("code") not in to_suppress]
+    # Apply suppression
+    result = [c for c in codes if c.get("code") not in to_suppress]
 
+    # Zero‑survivor safeguard: if no candidates survive, retain top N by confidence
+    if not result:
+        N = int(os.getenv("FINAL_VALIDATOR_PRESERVE_N", "3"))
+        rescued = sorted(codes, key=lambda x: float(x.get("confidence") or 0), reverse=True)[:N]
+        for c in rescued:
+            c.setdefault("audit_traces", []).append("ZERO_SURVIVOR_RESCUE")
+        logger.warning("FinalValidator: ZERO_SURVIVOR triggered – rescued top %d candidates", N)
+        result = rescued
+
+    logger.debug(
+        "FORensic_LOG_END apply_encounter_driver_centralization",
+        extra={
+            "stage": "post",
+            "result_count": len(result),
+        },
+    )
+    return result
 
 def apply_rare_domain_abstraction_suppression(codes: list[dict], note_text: str) -> list[dict]:
     """

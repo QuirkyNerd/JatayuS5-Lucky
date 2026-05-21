@@ -75,6 +75,7 @@ class Settings(BaseSettings):
     rag_top_k: int = Field(default=10, env="RAG_TOP_K")
     min_code_confidence: float = Field(default=0.65, env="MIN_CODE_CONFIDENCE")
     agent_max_retries: int = Field(default=2, env="AGENT_MAX_RETRIES")
+    max_query_chars: int = Field(default=384, env="MAX_QUERY_CHARS")
     
     # Embedding Ingestion Hardening
     use_local_embeddings: bool = Field(default=True, env="USE_LOCAL_EMBEDDINGS")

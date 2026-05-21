@@ -36,6 +36,28 @@ from services.coding_decision_engine import CodingDecisionEngine
 
 logger = _logging.get_logger(__name__)
 
+def truncate_query_safely(query: str, max_chars: int) -> str:
+    """
+    Safely truncates query to max_chars.
+    If query is longer than max_chars, it truncates at a whitespace boundary to avoid cutting words.
+    """
+    if not query:
+        return ""
+    if len(query) <= max_chars:
+        return query
+    
+    truncated = query[:max_chars]
+    last_space = -1
+    for i in range(len(truncated) - 1, -1, -1):
+        if truncated[i].isspace():
+            last_space = i
+            break
+            
+    if last_space != -1:
+        return truncated[:last_space].rstrip()
+    
+    return truncated
+
 # Phase 9: Anatomical Hierarchy Map
 ANATOMY_HIERARCHY: Dict[str, List[str]] = {
     "UPPER_EXTREMITY": ["shoulder", "humerus", "humeral", "elbow", "radius", "radial", "ulna", "ulnar", "wrist", "hand", "finger", "thumb", "clavicle", "scapula"],
@@ -321,6 +343,15 @@ class RAGEngine:
         High-Precision Clinical Retrieval Query with Phase 9 Anatomical Precision.
         Supports Dual Pipeline comparison for Phase 14 measurable validation.
         """
+        # Truncate query text safely and validate minimum length
+        query_text = truncate_query_safely(query_text, settings.max_query_chars)
+        if len(query_text) < 30:
+            logger.warning(
+                "RAG_QUERY_ABORTED | query='%s' | length=%d | reason=length_less_than_30",
+                query_text, len(query_text)
+            )
+            intent_scores = self._analyze_medical_intent(query_text, code_type)
+            return {**self._empty_result(intent_scores), "timings": {"total_query_ms": 0.0}}
         if is_benchmark:
             # Optimization: Use tighter shortlists for benchmark speed (Task 9)
             rerank_k = 10
@@ -708,8 +739,22 @@ class RAGEngine:
         import time
         t_start = time.perf_counter()
         
+        # Truncate queries and validate lengths
+        truncated_queries = []
+        valid_indices = []
+        for idx, q in enumerate(queries):
+            trunc_q = truncate_query_safely(q, settings.max_query_chars)
+            truncated_queries.append(trunc_q)
+            if len(trunc_q) < 30:
+                logger.warning(
+                    "RAG_BATCH_QUERY_ABORTED | index=%d | query='%s' | length=%d | reason=length_less_than_30",
+                    idx, trunc_q, len(trunc_q)
+                )
+            else:
+                valid_indices.append(idx)
+        
         # 1. Preprocessing (Sequential but fast)
-        normalized_queries = [self._normalize_medical_shorthand(normalize_clinical_terminology(q)) for q in queries]
+        normalized_queries = [self._normalize_medical_shorthand(normalize_clinical_terminology(q)) for q in truncated_queries]
         
         # 2. Batch Dense Retrieval
         # We query collections one by one but with all vectors at once
@@ -742,45 +787,68 @@ class RAGEngine:
                 logger.info(f"QDRANT_BATCH_QUERY_START | label={label} | batch_size={len(vectors)}")
                 start_time = time.perf_counter()
                 loop = asyncio.get_event_loop()
-                # Schedule individual searches in thread pool executor
-                tasks = [
-                    loop.run_in_executor(
-                        None,
-                        lambda v=v: self.q_client.search(
-                            collection_name=col_name,
-                            query_vector=v,
-                            limit=n_results,
-                            with_payload=True,
-                        ),
-                    )
-                    for v in vectors
-                ]
+                # Schedule individual searches in thread pool executor only for valid queries
+                tasks = []
+                for i, v in enumerate(vectors):
+                    if i in valid_indices:
+                        tasks.append(loop.run_in_executor(
+                            None,
+                            lambda v=v: self.q_client.search(
+                                collection_name=col_name,
+                                query_vector=v,
+                                limit=n_results,
+                                with_payload=True,
+                            ),
+                        ))
+                    else:
+                        tasks.append(asyncio.sleep(0, result=[]))
+                        
                 batch_res = await asyncio.gather(*tasks)
                 # Build combined result structure
                 res = {"documents": [], "metadatas": [], "distances": []}
-                total_candidates = 0
                 for search_res in batch_res:
                     docs, metas, dists = [], [], []
-                    for point in search_res:
-                        payload = point.payload or {}
-                        doc_text = payload.get("document") or payload.get("_document") or payload.get("text") or payload.get("description") or ""
-                        docs.append(doc_text)
-                        meta = dict(payload)
-                        meta["code"] = payload.get("code") or payload.get("id") or str(point.id)
-                        metas.append(meta)
-                        dists.append(1.0 - point.score)
+                    if search_res is not None:
+                        for point in search_res:
+                            payload = point.payload or {}
+                            doc_text = payload.get("document") or payload.get("_document") or payload.get("text") or payload.get("description") or ""
+                            docs.append(doc_text)
+                            meta = dict(payload)
+                            meta["code"] = payload.get("code") or payload.get("id") or str(point.id)
+                            metas.append(meta)
+                            dists.append(1.0 - point.score)
                     res["documents"].append(docs)
                     res["metadatas"].append(metas)
                     res["distances"].append(dists)
             else:
-                res = col.query(
-                    query_embeddings=vectors,
-                    n_results=n_results,
-                    include=["documents", "metadatas", "distances"]
-                )
+                # Chroma fallback query
+                if valid_indices:
+                    valid_vectors = [vectors[i] for i in valid_indices]
+                    res_subset = col.query(
+                        query_embeddings=valid_vectors,
+                        n_results=n_results,
+                        include=["documents", "metadatas", "distances"]
+                    )
+                    # Map back to full size
+                    res = {"documents": [], "metadatas": [], "distances": []}
+                    subset_idx = 0
+                    for i in range(len(queries)):
+                        if i in valid_indices:
+                            res["documents"].append(res_subset["documents"][subset_idx])
+                            res["metadatas"].append(res_subset["metadatas"][subset_idx])
+                            res["distances"].append(res_subset["distances"][subset_idx])
+                            subset_idx += 1
+                        else:
+                            res["documents"].append([])
+                            res["metadatas"].append([])
+                            res["distances"].append([])
+                else:
+                    res = {"documents": [[]]*len(queries), "metadatas": [[]]*len(queries), "distances": [[]]*len(queries)}
             
             # Blend with Sparse Search (Batch)
             for i, (q_norm, q_vec) in enumerate(zip(normalized_queries, vectors)):
+                if i not in valid_indices:
+                    continue
                 sparse_res = self._sparse_search(q_norm, label, n_results)
                 
                 # Simple Hybrid Blending
@@ -812,6 +880,9 @@ class RAGEngine:
             proc = self._extract_procedural_intent(q_norm)
             q_metadata.append((anatomy, proc))
             
+            if i not in valid_indices:
+                continue
+            
             cands = sorted(all_results[i], key=lambda x: x["score"], reverse=True)[:10]
             for c in cands:
                 all_rerank_pairs.append((q_norm, c["doc"]))
@@ -825,6 +896,8 @@ class RAGEngine:
             # Map scores back and apply clinical logic
             score_idx = 0
             for i, q_norm in enumerate(normalized_queries):
+                if i not in valid_indices:
+                    continue
                 anatomy, proc = q_metadata[i]
                 cands = all_results[i]
                 for c in cands:
@@ -835,6 +908,8 @@ class RAGEngine:
         # Collect all query-candidate pairs that need validation
         all_sap_candidates = []
         for i, q_norm in enumerate(normalized_queries):
+            if i not in valid_indices:
+                continue
             anatomy, proc = q_metadata[i]
             # Get reranked results
             reranked = self._clinical_rerank(q_norm, all_results[i], {"ICD": 0.5, "CPT": 0.5, "GUIDELINE": 0.1, "SYMPTOM": 0.1}, anatomy, proc)
@@ -843,6 +918,45 @@ class RAGEngine:
         # Batch encode ALL candidates across the benchmark
         # 5. Parallel Post-Processing (Task 12)
         async def process_one(idx, q_n):
+            if idx not in valid_indices:
+                return {
+                    "decision": {
+                        "principal_diagnosis": [],
+                        "secondary_diagnoses": [],
+                        "chronic_conditions": [],
+                        "procedures": [],
+                        "modifiers": [],
+                        "compliance_flags": [],
+                        "medical_necessity": {},
+                        "decomposition": {"acuity": "CHRONIC", "temporality": "unknown", "negated_entities": [], "laterality": "UNSPECIFIED", "encounter_type": "INITIAL", "demographics": {"sex": "UNKNOWN", "age_group": "ADULT"}},
+                        "causal_relationships": [],
+                        "guidelines_used": [],
+                        "suppressed_candidates": [],
+                        "confidence": {
+                            "score": 0.0,
+                            "level": "LOW",
+                            "review_required": True,
+                            "clinical_reasoning": "Query skipped (too short).",
+                            "compliance_score": 1.0
+                        },
+                        "audit_trace": {
+                            "engine_version": "Phase 14 (Ontology Constrained Platform)",
+                            "anatomy_grounding": {"primary": [], "regions": []},
+                            "procedural_intent": {"class": "GENERAL", "intervention": "unknown", "approach": "unknown"},
+                            "ontology_shift": [],
+                            "ncci_edits": [],
+                            "exclusion_logic": [],
+                            "semantic_validation": {
+                                "model": "SapBERT",
+                                "top_concept_match": 0.0,
+                                "ontology_precision": 1.0
+                            }
+                        }
+                    },
+                    "timings": {"batch_mode": True, "skipped": True},
+                    "comparison_trace": {"batch": True, "skipped": True}
+                }
+            
             ana, prc = q_metadata[idx]
             # Parallelize validation and decision making
             val = await loop.run_in_executor(None, self.ontology_validator.validate_candidates, q_n, all_results[idx])
