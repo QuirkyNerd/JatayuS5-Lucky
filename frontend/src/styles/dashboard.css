@@ -1119,17 +1119,56 @@
 .eval-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   gap: 1.5rem;
   margin-bottom: 2rem;
   background: var(--clr-surface-2);
-  padding: 1.5rem;
+  padding: 1.25rem 1.5rem;
   border-radius: 12px;
   border: 1px solid var(--clr-border);
   flex-wrap: wrap;
 }
 
-.eval-intro { max-width: 600px; }
+.eval-intro {
+  flex: 1;
+  min-width: 280px;
+  max-width: 640px;
+}
+
+.eval-header-desc {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--clr-text-muted);
+}
+
+.eval-header-status {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.eval-status-line,
+.eval-cases-line {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--clr-text-muted);
+}
+
+.eval-status-line strong {
+  color: var(--clr-text-primary);
+  font-weight: 600;
+}
+
+.eval-cases-line {
+  color: var(--clr-text-secondary);
+}
+
+.eval-run-btn {
+  flex-shrink: 0;
+  align-self: center;
+}
 
 .eval-meta {
   margin-top: 0.75rem;

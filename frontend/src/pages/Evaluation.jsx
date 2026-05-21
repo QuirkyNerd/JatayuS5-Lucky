@@ -46,14 +46,8 @@ export default function Evaluation() {
       return false;
     }
     if (data.status === 'success') {
-      const ts = data.timestamp
-        ? new Date(data.timestamp * 1000).toLocaleString()
-        : new Date().toLocaleString();
       setResults({
         ...data,
-        last_updated: ts,
-        run_duration_sec: data.duration,
-        from_cache: data.from_cache === true,
         benchmark_state: data.benchmark_state || 'COMPLETED',
       });
       setBenchmarkState(data.benchmark_state || 'COMPLETED');
@@ -158,7 +152,6 @@ export default function Evaluation() {
     if (results && results.status === 'empty') {
       return (
         <div className="eval-empty-state">
-          <div className="eval-empty-icon">📂</div>
           <h3>No benchmark dataset available</h3>
           <p>{results.message || 'The system requires a benchmark dataset to run evaluation.'}</p>
         </div>
@@ -313,7 +306,10 @@ export default function Evaluation() {
   };
 
   const stateBadge = STATE_LABELS[benchmarkState] || benchmarkState;
-  const liveLabel = results?.from_cache ? 'cached' : 'live';
+  const casesEvaluated =
+    results?.status === 'success' && results.dataset_size != null
+      ? results.dataset_size
+      : null;
 
   return (
     <div className="dashboard-layout">
@@ -326,31 +322,27 @@ export default function Evaluation() {
         <div className="dashboard-content">
           <div className="eval-header">
             <div className="eval-intro">
-              <p style={{ color: 'var(--clr-text-muted)', margin: 0, fontSize: '0.9rem' }}>
+              <p className="eval-header-desc">
                 Evaluation metrics are computed against a curated clinical benchmark dataset and reflect
                 system performance under controlled conditions.
               </p>
-              <div className="eval-meta" style={{ marginTop: '0.5rem' }}>
-                <span>Status: <strong>{stateBadge}</strong></span>
-                {results && results.status === 'success' && (
-                  <>
-                    <span style={{ marginLeft: '1.5rem' }}>📊 <strong>{results.dataset_size}</strong> cases</span>
-                    <span style={{ marginLeft: '1.5rem' }}>🕒 {results.last_updated}</span>
-                    {results.run_duration_sec != null && (
-                      <span style={{ marginLeft: '1.5rem' }}>
-                        ⏱ <strong>{Number(results.run_duration_sec).toFixed(1)}s</strong> ({liveLabel})
-                      </span>
-                    )}
-                  </>
+              <div className="eval-header-status">
+                <p className="eval-status-line">
+                  Status: <strong>{stateBadge}</strong>
+                </p>
+                {casesEvaluated != null && (
+                  <p className="eval-cases-line">{casesEvaluated} cases evaluated</p>
                 )}
               </div>
             </div>
             <button
-              className="new-analysis-btn"
+              className="new-analysis-btn eval-run-btn"
               onClick={() => loadEvaluation(true)}
-              disabled={loading || benchmarkState === 'RUNNING'}
+              disabled={loading || benchmarkState === 'RUNNING' || benchmarkState === 'PRELOADING'}
             >
-              {loading || benchmarkState === 'RUNNING' ? 'Running…' : 'Run Full Evaluation'}
+              {loading || benchmarkState === 'RUNNING' || benchmarkState === 'PRELOADING'
+                ? 'Running…'
+                : 'Run Full Evaluation'}
             </button>
           </div>
 
