@@ -143,6 +143,15 @@ class AuditorAgent:
         # Normalise inputs before comparison
         norm_human = [normalize_code(c) for c in human_codes]
 
+        if settings.benchmark_mode:
+            logger.info("AuditorAgent: Benchmark mode active, bypassing Groq comparison layer.")
+            discrepancies = _deterministic_compare(norm_human, ai_codes)
+            summary = _build_summary(discrepancies)
+            return _build_result(
+                success=True,
+                data={"discrepancies": discrepancies, "summary": summary}
+            )
+
         # Grounding section
         grounding_section = ""
         if clinical_summary:

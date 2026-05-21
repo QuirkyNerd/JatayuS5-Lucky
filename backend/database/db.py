@@ -65,13 +65,31 @@ async def get_db():
     """
     FastAPI dependency that yields an AsyncSession per request.
     """
+    from sqlalchemy.exc import InterfaceError, OperationalError
     async with AsyncSessionLocal() as session:
         try:
             yield session
-            await session.commit()
+            if session.is_active:
+                try:
+                    await session.commit()
+                except (InterfaceError, OperationalError) as conn_err:
+                    logger.warning(f"⚠️ Connection closed on commit: {conn_err}")
+        except (InterfaceError, OperationalError) as e:
+            logger.warning(f"⚠️ DB connection closed or timed out during request: {str(e)}")
         except Exception as e:
-            await session.rollback()
+            if session.is_active:
+                try:
+                    await session.rollback()
+                except (InterfaceError, OperationalError) as rollback_conn_err:
+                    logger.warning(f"⚠️ Connection closed on rollback: {rollback_conn_err}")
+                except Exception as rollback_err:
+                    logger.error(f"❌ DB rollback failed: {str(rollback_err)}")
             logger.error(f"❌ DB transaction failed: {str(e)}")
             raise
         finally:
-            await session.close()
+            try:
+                await session.close()
+            except (InterfaceError, OperationalError) as close_conn_err:
+                logger.warning(f"⚠️ Connection closed on session close: {close_conn_err}")
+            except Exception as close_err:
+                logger.warning(f"⚠️ Failed to close DB session cleanly: {str(close_err)}")

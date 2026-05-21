@@ -110,6 +110,14 @@ async def get_current_user(
 
     if not user:
         raise HTTPException(status_code=401, detail="User not found or deactivated.")
+    
+    # Release the DB connection back to the pool immediately
+    if db.is_active:
+        try:
+            await db.commit()
+        except Exception as e:
+            logger.warning(f"⚠️ Failed to commit session early in get_current_user: {e}")
+
     return user
 
 

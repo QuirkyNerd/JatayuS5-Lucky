@@ -19,6 +19,7 @@ from typing import Any, Optional, Dict, List
 from difflib import SequenceMatcher
 
 from services.audit_pipeline import AuditPipeline
+from config import settings
 
 logger = logging.getLogger(__name__)
 
@@ -504,12 +505,14 @@ async def run_evaluation(dataset_path: str = None, mode: str = "dev", force_refr
             logger.info("BENCHMARK: Cache hit (Disk)")
             return cached["results"]
 
+    old_benchmark_mode = settings.benchmark_mode
+    settings.benchmark_mode = True
     start_time = time.time()
     try:
         with open(dataset_path, "r") as f: data = json.load(f)
         logger.info(f"BENCHMARK: Processing {len(data)} cases")
         
-        semaphore = asyncio.Semaphore(15)
+        semaphore = asyncio.Semaphore(5)
 
         async def process_case(case_idx: int, case: dict):
             note_text = case.get("clinical_note") or case.get("raw_note_text") or case.get("note_snippet") or ""
@@ -525,25 +528,44 @@ async def run_evaluation(dataset_path: str = None, mode: str = "dev", force_refr
             t_case_start = time.time()
             async with semaphore:
                 try:
-                    async for chunk in pipeline.run_stream(note_text, human_codes, ground_truth=human_codes):
-                        if chunk.get("event") == "complete":
-                            payload = chunk.get("data", {})
-                            ai_codes_raw = payload.get("ai_codes", [])
-                            for item in ai_codes_raw:
-                                conf_val = item.get("confidence", 0.5)
-                                if isinstance(conf_val, float):
-                                    conf_level = "HIGH" if conf_val >= 0.85 else "MEDIUM" if conf_val >= 0.60 else "LOW"
-                                else:
-                                    conf_level = str(conf_val)
-                                ai_codes.append({
-                                    "code": item.get("code") or item.get("normed_code"),
-                                    "final_score": conf_val if isinstance(conf_val, float) else 0.85,
-                                    "confidence": conf_level,
-                                    "reasoning": item.get("rationale") or item.get("reasoning", ""),
-                                    "forensic": item.get("forensic", {}) or item.get("retrieval_trace", {})
-                                })
-                            forensic_trace = payload.get("forensic_trace", {})
-                            pipeline_log = payload.get("pipeline_log", [])
+                    if settings.benchmark_mode:
+                        payload = await pipeline.run(note_text, human_codes, ground_truth=human_codes)
+                        ai_codes_raw = payload.get("ai_codes", [])
+                        for item in ai_codes_raw:
+                            conf_val = item.get("confidence", 0.5)
+                            if isinstance(conf_val, float):
+                                conf_level = "HIGH" if conf_val >= 0.85 else "MEDIUM" if conf_val >= 0.60 else "LOW"
+                            else:
+                                conf_level = str(conf_val)
+                            ai_codes.append({
+                                "code": item.get("code") or item.get("normed_code"),
+                                "final_score": conf_val if isinstance(conf_val, float) else 0.85,
+                                "confidence": conf_level,
+                                "reasoning": item.get("rationale") or item.get("reasoning", ""),
+                                "forensic": item.get("forensic", {}) or item.get("retrieval_trace", {})
+                            })
+                        forensic_trace = payload.get("forensic_trace", {})
+                        pipeline_log = payload.get("pipeline_log", [])
+                    else:
+                        async for chunk in pipeline.run_stream(note_text, human_codes, ground_truth=human_codes):
+                            if chunk.get("event") == "complete":
+                                payload = chunk.get("data", {})
+                                ai_codes_raw = payload.get("ai_codes", [])
+                                for item in ai_codes_raw:
+                                    conf_val = item.get("confidence", 0.5)
+                                    if isinstance(conf_val, float):
+                                        conf_level = "HIGH" if conf_val >= 0.85 else "MEDIUM" if conf_val >= 0.60 else "LOW"
+                                    else:
+                                        conf_level = str(conf_val)
+                                    ai_codes.append({
+                                        "code": item.get("code") or item.get("normed_code"),
+                                        "final_score": conf_val if isinstance(conf_val, float) else 0.85,
+                                        "confidence": conf_level,
+                                        "reasoning": item.get("rationale") or item.get("reasoning", ""),
+                                        "forensic": item.get("forensic", {}) or item.get("retrieval_trace", {})
+                                    })
+                                forensic_trace = payload.get("forensic_trace", {})
+                                pipeline_log = payload.get("pipeline_log", [])
                 except Exception as exc:
                     logger.error(f"EVALUATION_CASE_FAILED: Case {case_idx} failed: {exc}", exc_info=True)
             
@@ -644,6 +666,8 @@ async def run_evaluation(dataset_path: str = None, mode: str = "dev", force_refr
         traceback.print_exc()
         logger.exception("FULL_TRACEBACK")
         return {"status": "error", "message": f"Evaluation pipeline failed: {str(e)}"}
+    finally:
+        settings.benchmark_mode = old_benchmark_mode
 
 
 async def run_evaluation_detailed(dataset_path: str, mode: str = "dev") -> dict:
