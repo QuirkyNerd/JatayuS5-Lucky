@@ -4,7 +4,7 @@ Clinical coding audit platform for ICD-10 and CPT validation using hybrid retrie
 
 ---
 
-## Deployment
+## 🚀 Deployment
 
 **Frontend**  
 http://161.118.217.29:3000/login
@@ -24,7 +24,7 @@ The system is built for **Revenue Integrity**: helping hospitals capture appropr
 
 ---
 
-# System Architecture Diagram
+## 🏗️ System Architecture
 
 <p align="center">
   <img src="assets/System Architecture.png" alt="System Architecture" width="1000"/>
@@ -32,7 +32,7 @@ The system is built for **Revenue Integrity**: helping hospitals capture appropr
 
 ---
 
-## Key Features
+## ✨ Key Features
 
 | Capability | Description |
 |------------|-------------|
@@ -48,41 +48,7 @@ The system is built for **Revenue Integrity**: helping hospitals capture appropr
 
 ---
 
-# Folder Architecture
-
-```text
-JatayuS5-Lucky/
-├── backend/                              # FastAPI application root (WORKDIR in Docker)
-│   ├── agents/                           # Coding, auditor, evidence agents
-│   ├── api/                              # HTTP route modules
-│   ├── constants/                        # Case status enum, normalization
-│   ├── data/                             # ICD/CPT CSVs, benchmarks, checkpoints
-│   ├── database/                         # SQLAlchemy models + async session
-│   ├── prompts/                          # LLM prompt templates
-│   ├── scratch/                          # Development / forensic scratch
-│   ├── scripts/                          # Backend-local eval & smoke scripts
-│   ├── security/                         # JWT auth dependencies
-│   ├── services/                         # Core pipeline services (RAG, validators, eval)
-│   └── utils/                            # PHI, logging, LLM client, normalizers
-│
-├── frontend/                             # React + Vite SPA
-│   └── src/
-│       ├── components/                   # Upload, audit results, sidebar
-│       ├── pages/                        # Dashboard, cases, analytics, evaluation
-│       ├── services/                     # Axios API client
-│       ├── data/                         # sampleNotes.js (Load Sample)
-│       └── styles/                       # CSS
-│
-├── scripts/                              # Root ingestion (ingest_guidelines.py)
-├── tests/                                # Pytest suite
-├── docker-compose.yml
-├── Dockerfile                            # Backend image
-├── requirements.txt                      # Python dependencies
-└── README.md
-```
----
-
-## Role-Based Access Control
+## 👥 Role-Based Access Control
 
 | Role | Responsibilities |
 |------|----------------|
@@ -92,7 +58,7 @@ JatayuS5-Lucky/
 
 ---
 
-## Quick Start
+## ⚡ Quick Start
 
 ### Clone Repository
 
@@ -194,7 +160,7 @@ On startup, the backend initializes the database and preloads retrieval models s
 ---
 
 
-## Retrieval-Augmented Generation (RAG)
+## 🧠 Retrieval-Augmented Generation (RAG)
 
 | Stage | Technology | Purpose |
 |-------|------------|---------|
@@ -208,7 +174,7 @@ On startup, the backend initializes the database and preloads retrieval models s
 Queries run **per extracted clinical entity**, improving precision versus whole-note embedding search.
 
 ---
-# Screenshots
+## 📸 Screenshots
 
 <p align="center">
   <img src="assets/Screenshot - 1.png" alt="Screenshot 1" width="1000"/>
@@ -220,7 +186,7 @@ Queries run **per extracted clinical entity**, improving precision versus whole-
   <img src="assets/Screenshot - 2.png" alt="Screenshot 2" width="1000"/>
 </p>
 
-## Medical Knowledge Ingestion
+## 📚 Medical Knowledge Ingestion
 
 Knowledge is loaded from structured datasets and guideline corpora into vector collections via `scripts/ingest_guidelines.py`, with safeguards against accidental overwrite of populated indexes.
 
@@ -233,7 +199,7 @@ Knowledge is loaded from structured datasets and guideline corpora into vector c
 | **Total Retrieval Knowledge Entries** | **121,541+** |
 
 
-## Complete Request Flow
+## 🔄 Complete Request Flow
 
 ```mermaid
 sequenceDiagram
@@ -286,16 +252,14 @@ Interactive documentation: **http://161.118.217.29:8000/docs**
 
 | File | Responsibility |
 |------|----------------|
-| `backend/services/audit_pipeline.py` | End-to-end audit orchestration (`run`, `run_stream`) |
-| `backend/services/rag_engine.py` | Hybrid retrieval, reranking, Qdrant/Chroma integration |
-| `backend/services/selection_engine.py` | Candidate competition and clinical scoring |
-| `backend/services/final_validator.py` | Terminal governance and evidence gates |
-| `backend/agents/coding_logic.py` | RAG-first coding agent |
-| `backend/agents/auditor.py` | Human vs AI discrepancy engine |
-| `backend/services/evaluation_engine.py` | Benchmark evaluation runner |
-| `backend/api/admin_routes.py` | Admin evaluation API |
-| `backend/api/case_routes.py` | Case workflow endpoints |
-| `frontend/src/services/api.js` | HTTP client, auth interceptors, SSE audit |
+| `backend/services/audit_pipeline.py` | End-to-end audit orchestration pipeline |
+| `backend/services/rag_engine.py` | Hybrid RAG retrieval, reranking, and vector search |
+| `backend/services/final_validator.py` | Final governance and evidence validation |
+| `backend/agents/coding_logic.py` | AI coding logic and clinical reasoning |
+| `backend/agents/auditor.py` | Human vs AI discrepancy analysis |
+| `backend/api/case_routes.py` | Case lifecycle and reviewer workflows |
+| `frontend/src/pages/CaseHistoryPage.jsx` | Reviewer/admin case management UI |
+| `frontend/src/services/api.js` | Frontend API communication layer |
 
 ---
 
@@ -304,23 +268,17 @@ Interactive documentation: **http://161.118.217.29:8000/docs**
 | Method | Endpoint | Access |
 |--------|----------|--------|
 | `POST` | `/api/v1/auth/login` | Public |
-| `POST` | `/api/v1/auth/refresh` | Authenticated |
-| `GET` | `/api/v1/auth/me` | Authenticated |
 | `POST` | `/api/v1/audit` | Coder / Admin |
 | `POST` | `/api/v1/audit/file` | Coder / Admin |
-| `POST` | `/api/v1/feedback` | Authenticated |
 | `GET` | `/api/v1/cases` | Authenticated |
-| `PATCH` | `/api/v1/cases/{id}/status` | Role-dependent |
-| `POST` | `/api/v1/cases/{id}/submit` | Coder |
-| `POST` | `/api/v1/cases/{id}/approve` | Reviewer |
-| `POST` | `/api/v1/cases/{id}/reject` | Reviewer |
+| `PATCH` | `/api/v1/cases/{id}/status` | Reviewer / Admin |
 | `GET` | `/api/v1/analytics/overview` | Reviewer / Admin |
 | `GET` | `/api/v1/evaluation` | Admin |
 | `GET` | `/api/v1/health/live` | Public |
 
 ---
 
-## License
+## 📄 License
 
 This project is developed for academic and research demonstration purposes under the MIT License.
 
