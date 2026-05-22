@@ -25,6 +25,7 @@ from utils.phi_masker import PHIMasker
 from config import settings
 from utils.logging import get_logger
 from utils.llm_client import generate_json_async
+from utils.public_labels import sanitize_audit_payload_for_api, sanitize_codes_list_for_api
 
 logger = get_logger(__name__)
 
@@ -483,7 +484,7 @@ class AuditPipeline:
         forensic_trace = result1["data"].get("forensic_trace", {}) if result1["success"] and result1["data"] else {}
         forensic_trace["terminal_rejections"] = all_final_rejections
 
-        return {
+        return sanitize_audit_payload_for_api({
             "ai_codes": ai_codes,
             "diagnosis_codes": diagnosis_codes,
             "procedure_codes": procedure_codes,
@@ -499,7 +500,7 @@ class AuditPipeline:
             "deterministic_codes_count": len(deterministic_codes),
             "forensic_trace": forensic_trace,
             "lifecycle_counts": lifecycle_counts,
-        }
+        })
 
     async def run_stream(
         self,
@@ -861,7 +862,7 @@ class AuditPipeline:
 
         yield {
             "event": "complete",
-            "data": {
+            "data": sanitize_audit_payload_for_api({
                 "ai_codes": ai_codes,
                 "diagnosis_codes": diagnosis_codes,
                 "procedure_codes": procedure_codes,
@@ -877,5 +878,5 @@ class AuditPipeline:
                 "deterministic_codes_count": len(deterministic_codes),
                 "forensic_trace": forensic_trace,
                 "lifecycle_counts": lifecycle_counts,
-            },
+            }),
         }

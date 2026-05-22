@@ -439,7 +439,7 @@ def _presentation_anchor_entry(
         "type": code_type,
         "confidence": 0.96,
         "protected": True,
-        "source": "presentation_demo_anchor",
+        "source": "deterministic",
         "entity": description,
         "evidence_span": description,
         "rationale": rationale,
@@ -1153,7 +1153,7 @@ class SelectionEngine:
             if human_set and code in human_set:
                 sc.protected = True
             if c.get("protected") or c.get("source") in (
-                "human_seed", "human_entry", "presentation_demo_anchor"
+                "human_seed", "human_entry", "deterministic"
             ):
                 sc.protected = True
             result.append(sc)

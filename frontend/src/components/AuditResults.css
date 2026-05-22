@@ -186,7 +186,8 @@
 }
 .code-source.deterministic { background: rgba(16,185,129,0.15); color: #6ee7b7; }
 .code-source.rag { background: rgba(99,102,241,0.15); color: #a5b4fc; }
-.code-source.llm { background: rgba(245,158,11,0.15); color: #fcd34d; }
+.code-source.hybrid { background: rgba(245,158,11,0.15); color: #fcd34d; }
+.code-source.validated { background: rgba(14,165,233,0.15); color: #7dd3fc; }
 
 .pipeline-step.partial { border-color: rgba(245,158,11,0.3); }
 

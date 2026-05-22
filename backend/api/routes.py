@@ -27,6 +27,7 @@ from utils.code_normalizer import deduplicate_codes
 from utils.logging import get_logger, set_request_context, new_request_id
 from utils.phi_encryptor import PHIEncryptor
 from utils.governance import log_governance
+from utils.public_labels import sanitize_audit_payload_for_api, sanitize_codes_list_for_api
 
 logger = get_logger(__name__)
 router = APIRouter()
@@ -138,7 +139,7 @@ async def run_audit(
         try:
             cached_data_str = await redis_client.get(cache_key)
             if cached_data_str:
-                cached = json.loads(cached_data_str)
+                cached = sanitize_audit_payload_for_api(json.loads(cached_data_str))
                 logger.info("Cache HIT for note_hash=%s.", note_hash[:12])
 
                 async def cached_stream():
@@ -173,6 +174,7 @@ async def run_audit(
         if final_payload:
             processing_time = (datetime.utcnow() - t_start).total_seconds()
 
+            final_payload = sanitize_audit_payload_for_api(final_payload)
             ai_codes     = final_payload.get("ai_codes", [])
             discrepancies = final_payload.get("discrepancies", [])
             tokens_used  = final_payload.get("tokens_used", 0)
@@ -309,14 +311,14 @@ async def run_audit(
             # ── Cache persist ──────────────────────────────────────────────
             if _CACHE_ENABLED and redis_client:
                 try:
-                    cache_val = {
+                    cache_val = sanitize_audit_payload_for_api({
                         "ai_codes":           ai_codes,
                         "low_confidence_codes": final_payload.get("low_confidence_codes", []),
                         "discrepancies":      discrepancies,
                         "evidence":           final_payload.get("evidence", []),
                         "summary":            final_payload.get("summary", ""),
                         "removed_codes":      final_payload.get("removed_codes", []),
-                    }
+                    })
                     await redis_client.setex(cache_key, 3600 * 24, json.dumps(cache_val))
                 except Exception as e:
                     logger.error("Redis cache error on SET: %s", e)

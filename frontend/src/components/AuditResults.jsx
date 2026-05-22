@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { auditApi } from '../services/api.js';
+import { sanitizePublicSource, sanitizeCodesForDisplay } from '../utils/publicLabels.js';
 import './AuditResults.css';
 
 
@@ -32,6 +33,7 @@ function CodeCard({ code, noteHash }) {
   };
 
   const typeColor = code.type === 'ICD-10' ? '#6366f1' : code.type === 'CPT' ? '#10b981' : '#f59e0b';
+  const displaySource = code.source ? sanitizePublicSource(code.source) : null;
 
   return (
     <div className={`code-card ${feedback ? `feedback-${feedback}` : ''}`}>
@@ -41,8 +43,8 @@ function CodeCard({ code, noteHash }) {
           <span className="code-type" style={{ background: `${typeColor}22`, color: typeColor, border: `1px solid ${typeColor}44` }}>
             {code.type}
           </span>
-          {code.source && (
-            <span className={`code-source ${code.source}`}>{code.source}</span>
+          {displaySource && (
+            <span className={`code-source ${displaySource}`}>{displaySource}</span>
           )}
         </div>
         <div className="feedback-btns">
@@ -561,8 +563,12 @@ export default function AuditResults({ result, noteHash }) {
 
   if (!result) return null;
 
-  const ai_codes             = Array.isArray(result.ai_codes)             ? result.ai_codes             : [];
-  const low_confidence_codes = Array.isArray(result.low_confidence_codes) ? result.low_confidence_codes : [];
+  const ai_codes             = sanitizeCodesForDisplay(
+    Array.isArray(result.ai_codes) ? result.ai_codes : []
+  );
+  const low_confidence_codes = sanitizeCodesForDisplay(
+    Array.isArray(result.low_confidence_codes) ? result.low_confidence_codes : []
+  );
   const discrepancies        = Array.isArray(result.discrepancies)        ? result.discrepancies        : [];
   const evidence             = Array.isArray(result.evidence)             ? result.evidence             : [];
   const summary              = result.summary       || '';

@@ -25,12 +25,14 @@ try:
     from backend.database.models import Case, User
     from backend.security.auth import get_current_user, require_admin, require_reviewer
     from backend.utils.logging import get_logger
+    from backend.utils.public_labels import sanitize_codes_list_for_api
 except ImportError:
     # When running from backend directory (Docker/production)
     from database.db import get_db
     from database.models import Case, User
     from security.auth import get_current_user, require_admin, require_reviewer
     from utils.logging import get_logger
+    from utils.public_labels import sanitize_codes_list_for_api
 
 logger = get_logger(__name__)
 router = APIRouter(prefix="/cases", tags=["cases"])
@@ -172,7 +174,7 @@ def _case_to_dict(c: Case) -> dict:
         "input_text":      c.input_text,
         "evidence":        json.loads(c.evidence or "[]"),
         "pipeline_log":    json.loads(c.pipeline_log or "[]"),
-        "ai_codes":        json.loads(c.ai_codes or "[]"),
+        "ai_codes":        sanitize_codes_list_for_api(json.loads(c.ai_codes or "[]")),
         "human_codes":     json.loads(c.human_codes or "[]"),
         "discrepancies":   json.loads(c.discrepancies or "[]"),
         "risk_score":      c.risk_score,

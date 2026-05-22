@@ -30,7 +30,7 @@ export default function UploadNote({
     clearFile();
     const idx = getNextSampleIndex(lastSampleIdx.current);
     lastSampleIdx.current = idx;
-    onChange(SAMPLE_NOTES[idx].note);
+    onChange(SAMPLE_NOTES[idx]);
   }, [clearFile, onChange]);
 
   return (
