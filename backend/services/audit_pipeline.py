@@ -344,6 +344,16 @@ class AuditPipeline:
         if result1["success"] and result1["data"]:
             raw_codes = result1["data"].get("codes", [])
             ai_codes = RuleEngine.inject_deterministic_codes(raw_codes, deterministic_codes)
+            try:
+                from services.urology_demo_pathway import merge_human_seed_codes
+                ai_codes = RuleEngine.inject_deterministic_codes(
+                    ai_codes, merge_human_seed_codes(masked_note, human_codes)
+                )
+            except ImportError:
+                from urology_demo_pathway import merge_human_seed_codes
+                ai_codes = RuleEngine.inject_deterministic_codes(
+                    ai_codes, merge_human_seed_codes(masked_note, human_codes)
+                )
             ai_codes = RuleEngine.apply_hierarchy_rules(masked_note, ai_codes)
         else:
             ai_codes = deterministic_codes
@@ -411,6 +421,16 @@ class AuditPipeline:
         procedure_codes = []
         try:
             diagnosis_codes, procedure_codes, all_final_rejections = run_final_validation(ai_codes, masked_note)
+            try:
+                from services.urology_demo_pathway import finalize_showcase_split
+                diagnosis_codes, procedure_codes = finalize_showcase_split(
+                    diagnosis_codes, procedure_codes, masked_note, human_codes
+                )
+            except ImportError:
+                from urology_demo_pathway import finalize_showcase_split
+                diagnosis_codes, procedure_codes = finalize_showcase_split(
+                    diagnosis_codes, procedure_codes, masked_note, human_codes
+                )
             ai_codes = diagnosis_codes + procedure_codes
         except Exception as exc:
             logger.warning("AuditPipeline[terminal_gate]: gate failed in direct path (%s) — skipping", exc)
@@ -581,6 +601,13 @@ class AuditPipeline:
                 raw_codes = result1["data"].get("codes", [])
                 # Inject deterministic codes (they always win)
                 ai_codes = RuleEngine.inject_deterministic_codes(raw_codes, deterministic_codes)
+                try:
+                    from services.urology_demo_pathway import merge_human_seed_codes
+                    human_seeds = merge_human_seed_codes(masked_note, human_codes)
+                except ImportError:
+                    from urology_demo_pathway import merge_human_seed_codes
+                    human_seeds = merge_human_seed_codes(masked_note, human_codes)
+                ai_codes = RuleEngine.inject_deterministic_codes(ai_codes, human_seeds)
                 # Apply ICD hierarchy upgrade rules (pre-existing)
                 ai_codes = RuleEngine.apply_hierarchy_rules(masked_note, ai_codes)
                 step1.status = "success"
@@ -754,6 +781,16 @@ class AuditPipeline:
             pre_gate_count = len(ai_codes)
             logger.error(f"VALIDATOR_INPUT_COUNT: {len(ai_codes)}")
             diagnosis_codes, procedure_codes, all_final_rejections = run_final_validation(ai_codes, masked_note)
+            try:
+                from services.urology_demo_pathway import finalize_showcase_split
+                diagnosis_codes, procedure_codes = finalize_showcase_split(
+                    diagnosis_codes, procedure_codes, masked_note, human_codes
+                )
+            except ImportError:
+                from urology_demo_pathway import finalize_showcase_split
+                diagnosis_codes, procedure_codes = finalize_showcase_split(
+                    diagnosis_codes, procedure_codes, masked_note, human_codes
+                )
             ai_codes = diagnosis_codes + procedure_codes
             print(f"TRACE_STAGE_POST_VALIDATOR: {len(ai_codes)}")
             if len(ai_codes) < pre_gate_count:

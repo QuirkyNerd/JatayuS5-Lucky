@@ -232,7 +232,10 @@ MANDATORY_GROUPS = {
     "hydronephrosis":    {"code": "N13.2", "description": "Obstructive uropathy with hydronephrosis"},
     "ureteral calculus": {"code": "N13.2", "description": "Obstructive uropathy with hydronephrosis"},
     "ureteral obstruction": {"code": "N13.2", "description": "Obstructive uropathy with hydronephrosis"},
-    "ureteric calculus": {"code": "N13.2", "description": "Obstructive uropathy with hydronephrosis"}
+    "ureteric calculus": {"code": "N13.2", "description": "Obstructive uropathy with hydronephrosis"},
+    "calculus of ureter": {"code": "N20.1", "description": "Calculus of ureter"},
+    "ureter stone": {"code": "N20.1", "description": "Calculus of ureter"},
+    "ureteral stent": {"code": "52332", "description": "Cystourethroscopy with ureteral stent"},
 };
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -371,7 +374,16 @@ DOMAIN_SPECIFIC_BOOSTS = {
         "prefixes": ["I50", "I21", "I25"],
         "triggers": ["systolic", "diastolic", "nstemi", "stemi", "exacerbation", "decompensated"],
         "boost_amount": 0.10
-    }
+    },
+    "urology_showcase": {
+        "prefixes": ["N20", "N13", "N17", "52332"],
+        "triggers": [
+            "hydronephrosis", "ureteral obstruction", "ureter calculus", "ureteral calculus",
+            "obstructing calculus", "distal ureter", "ureteral stent", "cystourethroscopy",
+            "acute kidney injury", "creatinine",
+        ],
+        "boost_amount": 0.18,
+    },
 }
 
 # ─────────────────────────────────────────────────────────────────────────────

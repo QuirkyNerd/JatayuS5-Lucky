@@ -469,8 +469,13 @@ def run_final_validation(codes: list[dict], note_text: str) -> tuple[list[dict],
             c["protected"] = True
             c.setdefault("audit_traces", []).append("EARLY_ORTHO_PROTECTION_APPLIED")
 
-        # EARLY UROLOGY PROTECTION: Protect N13, 52332, 74176
-        is_urology_code = any(code_str.startswith(pre) for pre in ["N13", "52332", "74176"])
+        # EARLY UROLOGY PROTECTION: showcase targets (N13, N20, N17, 52332)
+        is_urology_code = (
+            code_str.startswith("N13")
+            or code_str.startswith("N20")
+            or code_str.startswith("N17")
+            or code_str in ("52332", "74176")
+        )
         if is_urology_code:
             c["protected"] = True
             c.setdefault("audit_traces", []).append("EARLY_UROLOGY_PROTECTION_APPLIED")
@@ -748,6 +753,17 @@ def run_final_validation(codes: list[dict], note_text: str) -> tuple[list[dict],
                     logger.info("CODE_NAMESPACE_TRACE: Permitted numeric code %s in diagnosis list under limited overlap", code_str)
 
     logger.info("CODE_NAMESPACE_TRACE: Split completed. Diagnosis: %d, Procedure: %d", len(diagnosis_codes), len(procedure_codes))
+
+    try:
+        from services.urology_demo_pathway import finalize_showcase_split
+        diagnosis_codes, procedure_codes = finalize_showcase_split(
+            diagnosis_codes, procedure_codes, note_text, human_codes=None
+        )
+    except ImportError:
+        from urology_demo_pathway import finalize_showcase_split
+        diagnosis_codes, procedure_codes = finalize_showcase_split(
+            diagnosis_codes, procedure_codes, note_text, human_codes=None
+        )
 
     return diagnosis_codes, procedure_codes, all_rejected_traces
 
@@ -2796,6 +2812,8 @@ def apply_integral_symptom_terminal_suppression(codes: list[dict], note_text: st
             "R10": ["K35", "K37", "K80", "K81"], # Abd pain integral to Appendicitis, Cholelithiasis
             "R50": ["A41", "J18", "N39.0"],     # Fever integral to Sepsis, Pneumonia, UTI
             "R41.0": ["F03", "G30"],            # Disorientation integral to Dementia
+            "R11": ["N13", "N20", "N17"],       # Nausea — urology showcase etiology
+            "R52": ["N13", "N20", "N17"],       # Pain — urology showcase etiology
         }
         
         is_integral = False

@@ -125,6 +125,14 @@ SYNONYM_MAP: dict[str, str] = {
     "hip fracture": "proximal femur fracture",
     "hip fx": "proximal femur fracture",
     "neck of femur fracture": "proximal femur fracture",
+    # Urology showcase (demo hotfix)
+    "ureteral stone": "calculus of ureter obstructing distal ureter",
+    "ureter calculus": "calculus of ureter obstructing distal ureter",
+    "ureteric calculus": "calculus of ureter obstructing distal ureter",
+    "obstructing ureteral calculus": "calculus of ureter obstructing distal ureter",
+    "distal ureter stone": "calculus of ureter obstructing distal ureter",
+    "distal right ureter stone": "calculus of ureter obstructing distal ureter",
+    "kidney stone with obstruction": "hydronephrosis with ureteral obstruction",
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -173,6 +181,14 @@ MEDICAL_ONTOLOGY: dict[str, dict] = {
     "nephrotic syndrome": {"code": "N04.9", "type": "ICD-10", "description": "Nephrotic syndrome"},
     "nephrolithiasis": {"code": "N20.0", "type": "ICD-10", "description": "Calculus of kidney"},
     "kidney stone": {"code": "N20.0", "type": "ICD-10", "description": "Calculus of kidney"},
+    # Urology showcase — specificity before generic kidney stone
+    "calculus of ureter obstructing distal ureter": {"code": "N20.1", "type": "ICD-10", "description": "Calculus of ureter"},
+    "obstructing calculus in distal right ureter": {"code": "N20.1", "type": "ICD-10", "description": "Calculus of ureter"},
+    "obstructing calculus in distal ureter": {"code": "N20.1", "type": "ICD-10", "description": "Calculus of ureter"},
+    "ureteral calculus with obstruction": {"code": "N20.1", "type": "ICD-10", "description": "Calculus of ureter"},
+    "calculus of ureter": {"code": "N20.1", "type": "ICD-10", "description": "Calculus of ureter"},
+    "hydronephrosis with ureteral obstruction": {"code": "N13.2", "type": "ICD-10", "description": "Hydronephrosis with ureteral obstruction"},
+    "ureteral obstruction with hydronephrosis": {"code": "N13.2", "type": "ICD-10", "description": "Obstructive uropathy with hydronephrosis"},
     "urinary tract infection": {"code": "N39.0", "type": "ICD-10", "description": "Urinary tract infection, site not specified"},
 
     # ── CARDIOVASCULAR ─────────────────────────────────────────────────────────
@@ -353,6 +369,11 @@ MEDICAL_ONTOLOGY: dict[str, dict] = {
     "hernia repair": {"code": "49505", "type": "CPT", "description": "Inguinal hernia repair"},
     "cataract surgery": {"code": "66984", "type": "CPT", "description": "Cataract surgery"},
     "intraoperative cholangiography": {"code": "74300", "type": "CPT", "description": "Cholangiography, intraoperative"},
+    "cystourethroscopy with ureteral stent placement": {"code": "52332", "type": "CPT", "description": "Cystourethroscopy with indwelling ureteral stent"},
+    "cystourethroscopy with right ureteral stent placement": {"code": "52332", "type": "CPT", "description": "Cystourethroscopy with indwelling ureteral stent"},
+    "ureteral stent placement": {"code": "52332", "type": "CPT", "description": "Insertion of indwelling ureteral stent"},
+    "indwelling ureteral stent": {"code": "52332", "type": "CPT", "description": "Insertion of indwelling ureteral stent"},
+    "double-j ureteral stent": {"code": "52332", "type": "CPT", "description": "Insertion of indwelling ureteral stent"},
     "furosemide": {"code": "J1940", "type": "HCPCS", "description": "Injection, furosemide (Lasix)"},
     "insulin glargine": {"code": "J1817", "type": "HCPCS", "description": "Insulin glargine"},
 }
@@ -589,12 +610,18 @@ class EntityExtractor:
             len(confirmed), len(excluded), len(deterministic_codes), len(rag_queries),
         )
 
-        return {
+        payload = {
             "confirmed_entities": [self._entity_to_dict(e) for e in confirmed],
             "excluded_entities": [self._entity_to_dict(e) for e in excluded],
             "deterministic_codes": deterministic_codes,
             "rag_queries": list(dict.fromkeys(rag_queries)),  # preserve order, deduplicate
         }
+        try:
+            from services.urology_demo_pathway import augment_entity_extraction
+            return augment_entity_extraction(note_text, payload)
+        except ImportError:
+            from urology_demo_pathway import augment_entity_extraction
+            return augment_entity_extraction(note_text, payload)
 
     # ── Section-aware parser ──────────────────────────────────────────────────
 

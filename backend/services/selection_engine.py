@@ -210,6 +210,14 @@ class SelectionEngine:
         # ── Stage 2: Evidence-Dominant Ranking ──
         # Replaces complex penalty stacks with additive clinical evidence.
         pool = self._apply_evidence_scoring(pool, note_text)
+
+        # Urology showcase: downrank symptom noise when etiology present
+        try:
+            from services.urology_demo_pathway import downrank_symptom_noise_in_pool
+            downrank_symptom_noise_in_pool(pool, note_text)
+        except ImportError:
+            from urology_demo_pathway import downrank_symptom_noise_in_pool
+            downrank_symptom_noise_in_pool(pool, note_text)
         
         # ── Stage 3: Deterministic Evidence Gates ──
         # Rejects codes lacking explicit clinical signals.
@@ -418,6 +426,26 @@ class SelectionEngine:
             if grounded and self.is_negated(sc.description, note_norm):
                 grounded = False
                 rejection_reason = "Negation detected (e.g. 'no evidence of')"
+
+            # Gate 2b: Urology showcase — suppress weak symptoms when etiology present
+            if grounded:
+                try:
+                    from services.urology_demo_pathway import (
+                        has_strong_urology_etiology,
+                        is_symptom_noise_code,
+                        is_urology_showcase_note,
+                    )
+                except ImportError:
+                    from urology_demo_pathway import (
+                        has_strong_urology_etiology,
+                        is_symptom_noise_code,
+                        is_urology_showcase_note,
+                    )
+                if is_urology_showcase_note(note_norm) and is_symptom_noise_code(sc.code):
+                    etiology_pool = [{"code": x.code} for x in pool if x is not sc]
+                    if has_strong_urology_etiology(etiology_pool, note_norm):
+                        grounded = False
+                        rejection_reason = "Symptom downranked — urology etiology present (R11/R52)"
                 
             # Gate 3: High-Risk Condition Hardening (TASK 87)
             if grounded:

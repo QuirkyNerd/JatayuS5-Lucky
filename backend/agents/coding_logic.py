@@ -392,6 +392,14 @@ class CodingLogicAgent:
         from services.rag_engine import truncate_query_safely
         expanded_queries.append(truncate_query_safely(note_text.replace("\n", " "), settings.max_query_chars))
         
+        # Urology showcase: targeted retrieval boosts (demo hotfix only)
+        try:
+            from services.urology_demo_pathway import get_showcase_rag_query_boosts
+            expanded_queries.extend(get_showcase_rag_query_boosts(note_text))
+        except ImportError:
+            from urology_demo_pathway import get_showcase_rag_query_boosts
+            expanded_queries.extend(get_showcase_rag_query_boosts(note_text))
+
         # Deduplicate and limit
         expanded_queries = list(dict.fromkeys(expanded_queries))[:50]
 
