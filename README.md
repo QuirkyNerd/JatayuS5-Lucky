@@ -219,7 +219,6 @@ Queries run **per extracted clinical entity**, improving precision versus whole-
 <p align="center">
   <img src="assets/Screenshot - 2.png" alt="Screenshot 2" width="1000"/>
 </p>
----
 
 ## Medical Knowledge Ingestion
 
@@ -281,19 +280,7 @@ All routes are prefixed with **`/api/v1`**.
 
 Interactive documentation: **http://161.118.217.29:8000/docs**
 
----
 
-## Team
-
-| Name | Role |
-|------|------|
-| Person 1 | Backend & AI Pipeline |
-| Person 2 | Frontend & UI |
-| Person 3 | RAG & Retrieval |
-| Person 4 | Deployment & DevOps |
-| Person 5 | Evaluation & Testing |
-
----
 
 ## Appendix A — Key File Reference
 
@@ -337,8 +324,6 @@ Interactive documentation: **http://161.118.217.29:8000/docs**
 
 This project is developed for academic and research demonstration purposes under the MIT License.
 
-© 2026 CodePerfectAuditor Team
+© 2026 CodePerfectAuditor Team Lucky
 
 ---
-
-
