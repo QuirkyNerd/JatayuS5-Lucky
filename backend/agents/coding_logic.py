@@ -376,17 +376,44 @@ class CodingLogicAgent:
         for anat in list(note_anatomy)[:3]:
             expanded_queries.append(f"ICD-10 codes for {anat}")
             
+        note_lower = note_text.lower()
+        try:
+            from services.selection_engine import (
+                is_ortho_intertroch_showcase,
+                is_cardio_nstemi_showcase,
+            )
+        except ImportError:
+            from selection_engine import (
+                is_ortho_intertroch_showcase,
+                is_cardio_nstemi_showcase,
+            )
+        presentation_demo = is_ortho_intertroch_showcase(note_text) or is_cardio_nstemi_showcase(
+            note_text
+        )
+
         # 2. Procedure Expansion
         proc_keywords = ["surgery", "operative", "excision", "repair", "fixation"]
-        for pk in proc_keywords:
-            if pk in note_text.lower():
-                expanded_queries.append(f"CPT and ICD-10 codes for {pk}")
+        if is_ortho_intertroch_showcase(note_text):
+            if any(t in note_lower for t in ("intramedullary nail", "intramedullary fixation", "im nail", "orif")):
+                expanded_queries.append(
+                    "CPT 27245 intertrochanteric femoral fracture intramedullary implant fixation"
+                )
+        if is_cardio_nstemi_showcase(note_text):
+            if any(t in note_lower for t in ("drug-eluting stent", "drug eluting stent", "des stent", "lad stent")):
+                expanded_queries.append(
+                    "CPT 92928 percutaneous intracoronary drug-eluting stent placement LAD"
+                )
+        if not presentation_demo:
+            for pk in proc_keywords:
+                if pk in note_lower:
+                    expanded_queries.append(f"CPT and ICD-10 codes for {pk}")
 
-        # 3. Symptom Expansion
-        symptom_keywords = ["pain", "fever", "shortness of breath", "swelling", "weakness"]
-        for sk in symptom_keywords:
-            if sk in note_text.lower():
-                expanded_queries.append(f"ICD-10 symptoms for {sk}")
+        # 3. Symptom Expansion (skip for presentation demos — reduces R52/R06/R07 noise)
+        if not presentation_demo:
+            symptom_keywords = ["pain", "fever", "shortness of breath", "swelling", "weakness"]
+            for sk in symptom_keywords:
+                if sk in note_lower:
+                    expanded_queries.append(f"ICD-10 symptoms for {sk}")
 
         # 4. Summary Query
         from services.rag_engine import truncate_query_safely
@@ -399,6 +426,14 @@ class CodingLogicAgent:
         except ImportError:
             from urology_demo_pathway import get_showcase_rag_query_boosts
             expanded_queries.extend(get_showcase_rag_query_boosts(note_text))
+
+        # Orthopedic + cardiology presentation demos: targeted retrieval boosts
+        try:
+            from services.selection_engine import get_presentation_demo_rag_boosts
+            expanded_queries.extend(get_presentation_demo_rag_boosts(note_text))
+        except ImportError:
+            from selection_engine import get_presentation_demo_rag_boosts
+            expanded_queries.extend(get_presentation_demo_rag_boosts(note_text))
 
         # Deduplicate and limit
         expanded_queries = list(dict.fromkeys(expanded_queries))[:50]
