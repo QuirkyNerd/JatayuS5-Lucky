@@ -1,7 +1,8 @@
-# CodePerfectAuditor
+# CodePerfectAuditor - Team(Lucky)
 
-**AI-powered Clinical Coding Audit & Revenue Integrity Platform for ICD-10 and CPT validation.**
+Clinical coding audit platform for ICD-10 and CPT validation using hybrid retrieval, AI-assisted coding intelligence, and evidence-grounded clinical review workflows.
 
+---
 
 ## Deployment
 
@@ -37,35 +38,38 @@ The system is built for **Revenue Integrity**: helping hospitals capture appropr
 
 ---
 
-## 2. Folder Architecture
+# Folder Architecture
 
+```text
 JatayuS5-Lucky/
-├── backend/                 # FastAPI application root (WORKDIR in Docker)
-│   ├── agents/              # Coding, auditor, evidence agents
-│   ├── api/                 # HTTP route modules
-│   ├── constants/           # Case status enum, normalization
-│   ├── data/                # ICD/CPT CSVs, benchmarks, checkpoints
-│   ├── database/            # SQLAlchemy models + async session
-│   ├── prompts/             # LLM prompt templates
-│   ├── scratch/             # Development / forensic scratch
-│   ├── scripts/             # Backend-local eval & smoke scripts
-│   ├── security/            # JWT auth dependencies
-│   ├── services/            # Core pipeline services (RAG, validators, eval)
-│   └── utils/               # PHI, logging, LLM client, normalizers
-├── frontend/                # React + Vite SPA
+├── backend/                              # FastAPI application root (WORKDIR in Docker)
+│   ├── agents/                           # Coding, auditor, evidence agents
+│   ├── api/                              # HTTP route modules
+│   ├── constants/                        # Case status enum, normalization
+│   ├── data/                             # ICD/CPT CSVs, benchmarks, checkpoints
+│   ├── database/                         # SQLAlchemy models + async session
+│   ├── prompts/                          # LLM prompt templates
+│   ├── scratch/                          # Development / forensic scratch
+│   ├── scripts/                          # Backend-local eval & smoke scripts
+│   ├── security/                         # JWT auth dependencies
+│   ├── services/                         # Core pipeline services (RAG, validators, eval)
+│   └── utils/                            # PHI, logging, LLM client, normalizers
+│
+├── frontend/                             # React + Vite SPA
 │   └── src/
-│       ├── components/      # Upload, audit results, sidebar
-│       ├── pages/           # Dashboard, cases, analytics, evaluation
-│       ├── services/        # axios API client
-│       ├── data/            # sampleNotes.js (Load Sample)
-│       └── styles/          # CSS (no Tailwind in package.json)
-├── scripts/                 # Root ingestion (ingest_guidelines.py)
-├── tests/                   # pytest suite
+│       ├── components/                   # Upload, audit results, sidebar
+│       ├── pages/                        # Dashboard, cases, analytics, evaluation
+│       ├── services/                     # Axios API client
+│       ├── data/                         # sampleNotes.js (Load Sample)
+│       └── styles/                       # CSS
+│
+├── scripts/                              # Root ingestion (ingest_guidelines.py)
+├── tests/                                # Pytest suite
 ├── docker-compose.yml
-├── Dockerfile               # Backend image
-├── requirements.txt         # Python deps (repo root)
-├── README.md
-
+├── Dockerfile                            # Backend image
+├── requirements.txt                      # Python dependencies
+└── README.md
+```
 ---
 
 ## Role-Based Access Control
@@ -77,6 +81,41 @@ JatayuS5-Lucky/
 | **Admin** | Manage users and organizations, assign reviewers, monitor analytics, run system evaluation jobs |
 
 ---
+
+## Quick Start
+
+### Clone Repository
+
+```bash
+git clone https://github.com/your-repo/CodePerfectAuditor.git
+cd CodePerfectAuditor
+```
+
+### Start the Platform
+
+```bash
+docker compose up --build
+```
+
+### Access the Application
+
+| Service | URL |
+|---|---|
+| Frontend | http://localhost:3000 |
+| Backend API | http://localhost:8000 |
+| API Docs | http://localhost:8000/docs |
+
+### Default Workflow
+
+1. Login as Coder / Reviewer / Admin
+2. Upload or paste a clinical note
+3. Enter human-coded ICD/CPT codes
+4. Run AI audit
+5. Review discrepancies, evidence, and recommendations
+6. Approve or reject cases through reviewer workflow
+
+---
+   
 
 ## Target Users
 
@@ -222,6 +261,18 @@ Interactive documentation: **http://161.118.217.29:8000/docs**
 
 ---
 
+## Team
+
+| Name | Role |
+|------|------|
+| Person 1 | Backend & AI Pipeline |
+| Person 2 | Frontend & UI |
+| Person 3 | RAG & Retrieval |
+| Person 4 | Deployment & DevOps |
+| Person 5 | Evaluation & Testing |
+
+---
+
 ## Appendix A — Key File Reference
 
 | File | Responsibility |
@@ -260,19 +311,12 @@ Interactive documentation: **http://161.118.217.29:8000/docs**
 
 ---
 
+## License
+
+This project is developed for academic and research demonstration purposes under the MIT License.
+
+© 2026 CodePerfectAuditor Team
 
 ---
 
-## Team Project
 
-**Virtusa Jatayu S5 — CodePerfectAuditor - Team(Lucky)**
-
-| | |
-|---|---|
-| **Program** | Virtusa Jatayu Innovation Challenge |
-| **Domain** | Healthcare AI · Revenue Integrity · Clinical Coding |
-| **Repository** | JatayuS5-Lucky |
-
-*Built as a team capstone demonstrating  clinical AI engineering—from retrieval infrastructure to governed coding workflows.*
-
----
