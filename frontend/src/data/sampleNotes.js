@@ -26,6 +26,28 @@ Cystoscopy with right ureteral stent placement.
 Plan:
 Pain control, IV fluids, urology follow-up, definitive stone management outpatient.`,
 
+  `UROLOGY CONSULT NOTE
+
+Patient: Michael Turner
+DOB: 1968-04-12
+
+Chief Complaint:
+Severe right flank pain, nausea, vomiting.
+
+History of Present Illness:
+The patient presents with acute onset severe right-sided flank pain radiating to the groin for the past 12 hours. CT abdomen/pelvis demonstrates a 6 mm obstructing calculus in the distal right ureter with moderate right hydronephrosis. Mild acute kidney injury noted with creatinine elevation.
+
+Assessment:
+1. Obstructing right distal ureteral stone
+2. Right hydronephrosis
+3. Acute kidney injury secondary to obstruction
+
+Procedure Performed:
+Cystoscopy with right ureteral stent placement.
+
+Plan:
+Admit for IV fluids, pain management, antibiotics, and urology follow-up.`,
+
   `ORTHOPEDIC SURGERY ADMISSION NOTE
 
 Patient: Sarah Mitchell
