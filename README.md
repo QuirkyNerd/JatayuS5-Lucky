@@ -3,8 +3,13 @@
 **AI-powered Clinical Coding Audit & Revenue Integrity Platform for ICD-10 and CPT validation.**
 
 
-**Frontend** | [http://161.118.217.29:3000/login](http://161.118.217.29:3000/login) |
-**API Documentation** | [http://161.118.217.29:8000/docs](http://161.118.217.29:8000/docs) |
+## Deployment
+
+**Frontend**  
+http://161.118.217.29:3000/login
+
+**API Documentation**  
+http://161.118.217.29:8000/docs
 
 ---
 
@@ -32,9 +37,8 @@ The system is built for **Revenue Integrity**: helping hospitals capture appropr
 
 ---
 
-## 2. Complete File & Folder Architecture
+## 2. Folder Architecture
 
-```
 JatayuS5-Lucky/
 ├── backend/                 # FastAPI application root (WORKDIR in Docker)
 │   ├── agents/              # Coding, auditor, evidence agents
