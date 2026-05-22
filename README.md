@@ -22,6 +22,16 @@ The system is built for **Revenue Integrity**: helping hospitals capture appropr
 
 ---
 
+---
+
+# System Architecture Diagram
+
+<p align="center">
+  <img src="assets/System Architecture.png" alt="System Architecture" width="1000"/>
+</p>
+
+---
+
 ## Key Features
 
 | Capability | Description |
@@ -87,7 +97,7 @@ JatayuS5-Lucky/
 ### Clone Repository
 
 ```bash
-git clone https://github.com/your-repo/CodePerfectAuditor.git
+git clone https://github.com/QuirkyNerd/JatayuS5-Lucky.git
 cd CodePerfectAuditor
 ```
 
@@ -197,6 +207,18 @@ On startup, the backend initializes the database and preloads retrieval models s
 
 Queries run **per extracted clinical entity**, improving precision versus whole-note embedding search.
 
+---
+# Screenshots
+
+<p align="center">
+  <img src="assets/Screenshot - 1.png" alt="Screenshot 1" width="1000"/>
+</p>
+
+<br>
+
+<p align="center">
+  <img src="assets/Screenshot - 2.png" alt="Screenshot 2" width="1000"/>
+</p>
 ---
 
 ## Medical Knowledge Ingestion
