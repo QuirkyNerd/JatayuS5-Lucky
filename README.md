@@ -230,6 +230,16 @@ sequenceDiagram
 ```
 
 ---
+## Demo Access
+
+| Role | Email | Password |
+|------|------|------|
+| Coder | coder@gmail.com | coder2481 |
+| Reviewer | reviewer@gmail.com | reviewer2481 |
+| Admin | admin@gmail.com | admin2481 |
+
+Demo access is provided for evaluation and testing purposes.
+---
 
 ## API Architecture
 
