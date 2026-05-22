@@ -2,10 +2,9 @@
 
 **AI-powered Clinical Coding Audit & Revenue Integrity Platform for ICD-10 and CPT validation.**
 
-| | |
-|---|---|
-| **Frontend** | [http://161.118.217.29:3000/login](http://161.118.217.29:3000/login) |
-| **API Documentation** | [http://161.118.217.29:8000/docs](http://161.118.217.29:8000/docs) |
+
+**Frontend** | [http://161.118.217.29:3000/login](http://161.118.217.29:3000/login) |
+**API Documentation** | [http://161.118.217.29:8000/docs](http://161.118.217.29:8000/docs) |
 
 ---
 
@@ -30,6 +29,38 @@ The system is built for **Revenue Integrity**: helping hospitals capture appropr
 | **Hybrid RAG retrieval** | Dense + sparse search over a large medical knowledge index |
 | **Governance validators** | Terminal validation layer before codes reach the client |
 | **Docker-ready deployment** | Containerized frontend and backend for consistent environments |
+
+---
+
+## 2. Complete File & Folder Architecture
+
+```
+JatayuS5-Lucky/
+├── backend/                 # FastAPI application root (WORKDIR in Docker)
+│   ├── agents/              # Coding, auditor, evidence agents
+│   ├── api/                 # HTTP route modules
+│   ├── constants/           # Case status enum, normalization
+│   ├── data/                # ICD/CPT CSVs, benchmarks, checkpoints
+│   ├── database/            # SQLAlchemy models + async session
+│   ├── prompts/             # LLM prompt templates
+│   ├── scratch/             # Development / forensic scratch
+│   ├── scripts/             # Backend-local eval & smoke scripts
+│   ├── security/            # JWT auth dependencies
+│   ├── services/            # Core pipeline services (RAG, validators, eval)
+│   └── utils/               # PHI, logging, LLM client, normalizers
+├── frontend/                # React + Vite SPA
+│   └── src/
+│       ├── components/      # Upload, audit results, sidebar
+│       ├── pages/           # Dashboard, cases, analytics, evaluation
+│       ├── services/        # axios API client
+│       ├── data/            # sampleNotes.js (Load Sample)
+│       └── styles/          # CSS (no Tailwind in package.json)
+├── scripts/                 # Root ingestion (ingest_guidelines.py)
+├── tests/                   # pytest suite
+├── docker-compose.yml
+├── Dockerfile               # Backend image
+├── requirements.txt         # Python deps (repo root)
+├── README.md
 
 ---
 
@@ -72,32 +103,7 @@ The system is built for **Revenue Integrity**: helping hospitals capture appropr
 
 ---
 
-## System Architecture
 
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│                         CodePerfectAuditor Platform                      │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                          │
-│   ┌──────────────┐         HTTPS / SSE          ┌──────────────────┐   │
-│   │   React SPA  │ ◄──────────────────────────► │  FastAPI Backend │   │
-│   │  (Vite)      │         REST + JWT           │  /api/v1         │   │
-│   └──────────────┘                              └────────┬─────────┘   │
-│                                                          │               │
-│                    ┌─────────────────────────────────────┼───────┐       │
-│                    │                                     │       │       │
-│                    ▼                                     ▼       ▼       │
-│            ┌──────────────┐                    ┌────────────┐  ┌────┐  │
-│            │  PostgreSQL  │                    │   Qdrant   │  │Redis│  │
-│            │  Cases/Users │                    │  Vectors   │  │Cache│  │
-│            └──────────────┘                    └────────────┘  └────┘  │
-│                                                                          │
-└─────────────────────────────────────────────────────────────────────────┘
-```
-
-**Data flow (summary):** Clinical note enters the API → PHI-safe processing → AI pipeline → validated codes and discrepancies → persisted case record → rendered in the web client.
-
----
 
 ## Frontend Architecture
 
@@ -134,39 +140,6 @@ On startup, the backend initializes the database and preloads retrieval models s
 
 ---
 
-## AI Pipeline Workflow
-
-```
-Clinical Note
-      │
-      ▼
-Entity Extraction          ← deterministic ontology + section-aware parsing
-      │
-      ▼
-RAG Retrieval              ← per-entity hybrid search (dense + BM25)
-      │
-      ▼
-Coding Logic Agent         ← candidate pool + structured code selection
-      │
-      ▼
-Rule Engine                ← hierarchy upgrades, mandatory groups, injections
-      │
-      ▼
-Selection Engine           ← competitive resolution & specificity scoring
-      │
-      ▼
-Final Validator            ← terminal governance & evidence gates
-      │
-      ▼
-Auditor Agent              ← human vs AI discrepancy analysis
-      │
-      ▼
-Evidence-backed Output     ← rationales, spans, audit trail
-```
-
-The pipeline enforces **retrieval-first coding**: the LLM selects from a bounded candidate set rather than inventing codes from memory.
-
----
 
 ## Retrieval-Augmented Generation (RAG)
 
@@ -187,32 +160,14 @@ Queries run **per extracted clinical entity**, improving precision versus whole-
 
 Knowledge is loaded from structured datasets and guideline corpora into vector collections via `scripts/ingest_guidelines.py`, with safeguards against accidental overwrite of populated indexes.
 
-| Knowledge Asset | Approximate Scale |
-|-----------------|-------------------|
-| ICD-10 codes | 70,000+ code entries |
-| CPT codes | 8,000+ procedure entries |
-| Clinical synonyms & symptoms | 10,000+ mapped terms |
-| Coding guidelines | 500+ narrative chunks |
-| Ontology mappings | Entity-to-prefix clinical rules |
-| Vector embeddings | One embedding per indexed document |
-| **Total retrieval index** | **100,000+ entries** across collections |
+| Knowledge Collection | Records Ingested |
+|---|---:|
+| ICD-10 Clinical Codes | 111,738 |
+| CPT Procedure Codes | 8,958 |
+| Clinical Guidelines | 729 |
+| Symptom & Clinical Evidence Mappings | 116 |
+| **Total Retrieval Knowledge Entries** | **121,541+** |
 
----
-
-## Qdrant Vector Database
-
-Production deployments use **Qdrant** as the primary vector backend for ICD-10, CPT, guidelines, and symptom collections. The backend verifies connectivity and collection population at startup.
-
-| Collection | Content |
-|------------|---------|
-| `icd10_codes` | Diagnosis descriptions and metadata |
-| `cpt_codes` | Procedure descriptions and metadata |
-| `coding_guidelines` | Official-style coding guidance text |
-| `symptoms` | Symptom and synonym concepts |
-
-A local **ChromaDB** persistence layer remains available as a development fallback when Qdrant is not configured.
-
----
 
 ## Complete Request Flow
 
@@ -243,39 +198,6 @@ sequenceDiagram
     API-->>F: Stream step events + result
     F-->>U: Audit results UI
 ```
-
----
-
-## Security & Compliance
-
-| Control | Description |
-|---------|-------------|
-| **JWT authentication** | Short-lived access tokens with refresh flow |
-| **Role-based authorization** | Route guards for coder, reviewer, and admin capabilities |
-| **Protected APIs** | Authenticated endpoints for audit, cases, and administration |
-| **PHI-safe workflows** | Masking before model processing; encryption for stored notes |
-| **Environment isolation** | Demo and production case partitions (`is_demo`) |
-| **Reviewer governance** | Structured approve/reject with feedback and assignment tracking |
-| **Draft-only re-audit** | Submitted cases locked from coder re-runs |
-
----
-
-## Docker Deployment
-
-From the project root:
-
-```bash
-cp .env.prod .env   # configure secrets and DATABASE_URL
-docker compose up --build
-```
-
-| Service | URL |
-|---------|-----|
-| Frontend | http://localhost:3000 |
-| Backend API | http://localhost:8000 |
-| Swagger UI | http://localhost:8000/docs |
-
-Production VPS deployment uses the same compose pattern with environment-specific API URLs.
 
 ---
 
@@ -334,34 +256,12 @@ Interactive documentation: **http://161.118.217.29:8000/docs**
 
 ---
 
-## Challenges Addressed
-
-| Challenge | Approach |
-|-----------|----------|
-| Unstructured clinical text | Section-aware entity extraction with ontology mapping |
-| Coding knowledge at scale | Indexed ICD/CPT/guidelines in Qdrant with hybrid retrieval |
-| Generic or unspecified codes | Selection engine specificity scoring and hierarchy rules |
-| Unsupported diagnoses | Terminal validator evidence gates |
-| Human–AI disagreement | Dedicated Auditor Agent with typed discrepancies |
-| Audit defensibility | Evidence spans, rationales, and governance logs per case |
-| Enterprise workflows | Multi-role case lifecycle with reviewer assignment |
-
----
-
-## Project Highlights
-
-- **Agentic multi-stage design** — extraction, retrieval, coding, selection, validation, and audit as separate concerns  
-- **Revenue integrity focus** — built for pre-claim validation, not post-denial cleanup  
-- **Production-oriented API** — streaming audits, health checks, JWT security, Docker packaging  
-- **Large medical knowledge index** — 100,000+ retrieval entries across coding corpora  
-- **Full-stack delivery** — React client, FastAPI services, PostgreSQL persistence, Qdrant vectors  
-- **Reviewer-ready UX** — case history, evidence tabs, and structured approval flows  
 
 ---
 
 ## Team Project
 
-**Virtusa Jatayu S5 — CodePerfectAuditor**
+**Virtusa Jatayu S5 — CodePerfectAuditor - Team(Lucky)**
 
 | | |
 |---|---|
@@ -369,10 +269,6 @@ Interactive documentation: **http://161.118.217.29:8000/docs**
 | **Domain** | Healthcare AI · Revenue Integrity · Clinical Coding |
 | **Repository** | JatayuS5-Lucky |
 
-*Built as a team capstone demonstrating enterprise-grade clinical AI engineering—from retrieval infrastructure to governed coding workflows.*
+*Built as a team capstone demonstrating  clinical AI engineering—from retrieval infrastructure to governed coding workflows.*
 
 ---
-
-<p align="center">
-  <strong>CodePerfectAuditor</strong> — Validate coding before submission. Defend every claim with evidence.
-</p>
