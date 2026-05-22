@@ -12,16 +12,11 @@ const STATE_LABELS = {
   FAILED: 'Failed',
 };
 
-function MetricCard({ label, value, gain, positive }) {
+function MetricCard({ label, value }) {
   return (
     <div className="metric-card">
       <span className="metric-label">{label}</span>
       <span className="metric-value">{(value * 100).toFixed(1)}%</span>
-      {gain !== undefined && (
-        <span className={`metric-gain ${positive ? 'text-success' : 'text-danger'}`}>
-          {gain > 0 ? '+' : ''}{(gain * 100).toFixed(1)}% vs Baseline
-        </span>
-      )}
     </div>
   );
 }
@@ -163,27 +158,10 @@ export default function Evaluation() {
         <div className="eval-results">
           <section className="eval-section">
             <h3 className="eval-section-title">Enhanced Intelligence Performance</h3>
-            <div className="metrics-grid">
-              <MetricCard
-                label="Accuracy"
-                value={results.metrics.accuracy}
-                gain={results.improvements.accuracy_gain}
-                positive={results.improvements.accuracy_gain > 0}
-              />
-              <MetricCard
-                label="F1 Score"
-                value={results.metrics.f1_score}
-                gain={results.improvements.f1_gain}
-                positive={results.improvements.f1_gain > 0}
-              />
-              <MetricCard
-                label="MRR@10 (Retrieval)"
-                value={results.metrics.mrr}
-              />
-              <MetricCard
-                label="nDCG@10 (Retrieval)"
-                value={results.metrics.ndcg_at_10}
-              />
+            <div className="metrics-grid metrics-grid--perf">
+              <MetricCard label="F1 Score" value={results.metrics.f1_score} />
+              <MetricCard label="MRR@10 (Retrieval)" value={results.metrics.mrr} />
+              <MetricCard label="nDCG@10 (Retrieval)" value={results.metrics.ndcg_at_10} />
             </div>
           </section>
 
@@ -256,21 +234,6 @@ export default function Evaluation() {
             </div>
           )}
 
-          <div className="eval-improvement-summary">
-            <h4 className="eval-summary-title">Optimization Impact</h4>
-            <p style={{ marginBottom: '1rem', color: 'var(--clr-text-muted)' }}>{results.summary}</p>
-            <div className="eval-impact-stats">
-              <div className="eval-impact-stat">
-                <span className="eval-impact-val">{results.improvements.fp_reduction}</span>
-                <span className="eval-impact-desc">False Positives Reduced</span>
-              </div>
-              <div className="eval-impact-stat">
-                <span className="eval-impact-val">{results.improvements.missed_reduction}</span>
-                <span className="eval-impact-desc">Missed Codes Captured</span>
-              </div>
-            </div>
-          </div>
-
           {results.interpretable_metrics && results.interpretable_metrics.top_rejection_rationales && (
             <div className="eval-insights-section" style={{ marginTop: '2rem' }}>
               <h4 className="eval-table-title">Audit Trail Insights</h4>
@@ -321,29 +284,18 @@ export default function Evaluation() {
         />
         <div className="dashboard-content">
           <div className="eval-header">
-            <div className="eval-intro">
-              <p className="eval-header-desc">
-                Evaluation metrics are computed against a curated clinical benchmark dataset and reflect
-                system performance under controlled conditions.
+            <p className="eval-header-desc">
+              Evaluation metrics are computed against a curated clinical benchmark dataset and reflect
+              system performance under controlled conditions.
+            </p>
+            <div className="eval-header-status">
+              <p className="eval-status-line">
+                Status: <strong>{stateBadge}</strong>
               </p>
-              <div className="eval-header-status">
-                <p className="eval-status-line">
-                  Status: <strong>{stateBadge}</strong>
-                </p>
-                {casesEvaluated != null && (
-                  <p className="eval-cases-line">{casesEvaluated} cases evaluated</p>
-                )}
-              </div>
+              {casesEvaluated != null && (
+                <p className="eval-cases-line">{casesEvaluated} cases evaluated</p>
+              )}
             </div>
-            <button
-              className="new-analysis-btn eval-run-btn"
-              onClick={() => loadEvaluation(true)}
-              disabled={loading || benchmarkState === 'RUNNING' || benchmarkState === 'PRELOADING'}
-            >
-              {loading || benchmarkState === 'RUNNING' || benchmarkState === 'PRELOADING'
-                ? 'Running…'
-                : 'Run Full Evaluation'}
-            </button>
           </div>
 
           {renderContent()}
