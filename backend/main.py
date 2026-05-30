@@ -16,6 +16,7 @@ from api.analytics_routes import router as analytics_router
 from api.health import router as health_router
 from api.admin_routes import router as admin_router
 from utils.logging import get_logger
+from utils.qdrant_keepalive import start_keepalive, stop_keepalive
 
 logger = get_logger(__name__)
 
@@ -51,6 +52,12 @@ async def lifespan(app: FastAPI):
                 raise RuntimeError(f"Qdrant connection failed: {qe}")
     else:
         logger.warning("QDRANT_URL not set — using local ChromaDB (not production-ready)")
+
+    # ── Qdrant keep-alive scheduler (prevents free-tier inactivity suspension) ──
+    start_keepalive(
+        qdrant_url=settings.qdrant_url,
+        qdrant_api_key=settings.qdrant_api_key,
+    )
 
     # ── RAG engine init (loads all models: embedding, reranker, SapBERT) ──
     import time as _time
@@ -101,6 +108,7 @@ async def lifespan(app: FastAPI):
     logger.info("═══════════════════════════════════════════════════════")
     yield
 
+    stop_keepalive()
     logger.info("Shutting down Auditor Platform")
 
 app = FastAPI(
